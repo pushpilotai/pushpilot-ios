@@ -1,5 +1,3 @@
-import FirebaseCore
-import FirebaseMessaging
 import PushPilot
 import SwiftUI
 import UserNotifications
@@ -16,33 +14,30 @@ struct ExampleApp: App {
     }
 }
 
-/// Wires PushPilot to the app's own Firebase Messaging setup.
-final class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNUserNotificationCenterDelegate {
-    /// Starts PushPilot, then Firebase if this build has a GoogleService-Info.plist.
+/// Starts PushPilot and hands it the APNs device token. The app, not the SDK, registers for pushes.
+final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    /// Starts PushPilot and, if the user already allowed notifications, registers for the device token.
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         PushPilot.initialize(sdkKey: pushPilotSdkKey)
         UNUserNotificationCenter.current().delegate = self
-        // Without the plist the app still runs; it just never gets an FCM token.
-        if Bundle.main.path(forResource: "GoogleService-Info", ofType: "plist") != nil {
-            FirebaseApp.configure()
-            Messaging.messaging().delegate = self
-            application.registerForRemoteNotifications()
-        } else {
-            print("GoogleService-Info.plist missing: Firebase is not configured, so no push token will arrive.")
+        UNUserNotificationCenter.current().getNotificationSettings { settings in
+            // Registering at each launch keeps the token current; ContentView registers after the first grant.
+            if [.authorized, .provisional, .ephemeral].contains(settings.authorizationStatus) {
+                DispatchQueue.main.async { application.registerForRemoteNotifications() }
+            }
         }
         return true
     }
 
-    /// Hands the APNs token to Firebase, which exchanges it for an FCM token.
+    /// Forwards the APNs device token to PushPilot as is.
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
+        PushPilot.setPushToken(deviceToken)
     }
 
-    /// Forwards every new Firebase Installation ID to PushPilot. Firebase registers at launch on its own
-    /// because Info.plist sets FirebaseMessagingInstallationIdEnabled and auto-init is on.
-    func messaging(_ messaging: Messaging, didReceiveRegistration installationId: String?) {
-        PushPilot.setPushToken(installationId)
+    /// Registration fails without the Push Notifications capability or a matching provisioning profile.
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("APNs registration failed: \(error.localizedDescription)")
     }
 
     /// Shows pushes while the app is open and notes which ones PushPilot sent.

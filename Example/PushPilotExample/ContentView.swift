@@ -11,10 +11,13 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section("Permission") {
-                    // The app asks for permission itself; PushPilot only reports the result.
+                    // The app asks for permission and registers for the token itself; PushPilot only reports the result.
                     Button("Allow notifications") {
                         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
-                            DispatchQueue.main.async { status = granted ? "Notifications allowed" : "Notifications not allowed" }
+                            DispatchQueue.main.async {
+                                if granted { UIApplication.shared.registerForRemoteNotifications() }
+                                status = granted ? "Notifications allowed" : "Notifications not allowed"
+                            }
                         }
                     }
                 }
