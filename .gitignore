@@ -1,0 +1,10 @@
+.DS_Store
+/.build
+/.swiftpm
+/Packages
+xcuserdata/
+DerivedData/
+*.xcuserstate
+Package.resolved
+# Firebase config is per customer and must never be committed.
+GoogleService-Info.plist
