@@ -30,7 +30,8 @@ public enum PushPilot {
             guard !sdkKey.isEmpty else { return log.error("initialize ignored: sdkKey is empty") }
             config = (sdkKey, baseUrl)
             #if canImport(UIKit)
-            NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
+            // didBecomeActive also fires when the permission alert closes, so a new permission is reported at once.
+            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification,
                                                    object: nil, queue: nil) { _ in
                 queue.async { start(); engine?.requestSync() }
             }
