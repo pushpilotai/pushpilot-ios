@@ -39,9 +39,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate, MessagingDelegate, UNU
         Messaging.messaging().apnsToken = deviceToken
     }
 
-    /// Forwards every new FCM token to PushPilot.
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        PushPilot.setPushToken(fcmToken)
+    /// Forwards every new Firebase Installation ID to PushPilot. Firebase registers at launch on its own
+    /// because Info.plist sets FirebaseMessagingInstallationIdEnabled and auto-init is on.
+    func messaging(_ messaging: Messaging, didReceiveRegistration installationId: String?) {
+        PushPilot.setPushToken(installationId)
     }
 
     /// Shows pushes while the app is open and notes which ones PushPilot sent.

@@ -40,7 +40,11 @@ public enum PushPilot {
         }
     }
 
-    /// Passes the FCM registration token. Call it from `messaging(_:didReceiveRegistrationToken:)`; nil clears it.
+    /// Passes the device's Firebase push address; nil clears it. On Firebase 12.16 or later with
+    /// `FirebaseMessagingInstallationIdEnabled` set, pass the Firebase Installation ID from
+    /// `messaging(_:didReceiveRegistration:)`; otherwise pass the FCM token from
+    /// `messaging(_:didReceiveRegistrationToken:)`. Pass only one of them. The Firebase Installation ID
+    /// is not PushPilot's own installation id.
     public static func setPushToken(_ token: String?) { run { $0.setPushToken(token) } }
 
     /// Links this installation to the app's own user id, usually right after login.

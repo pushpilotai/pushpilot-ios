@@ -94,7 +94,8 @@ final class Engine {
 
     // MARK: App calls
 
-    /// Stores the FCM token; nil or empty clears it so the device stops receiving pushes.
+    /// Stores the push address (a Firebase Installation ID or an FCM token, sent as-is in `token`);
+    /// nil or empty clears it so the device stops receiving pushes.
     func setPushToken(_ token: String?) {
         let token = token?.trimmingCharacters(in: .whitespacesAndNewlines)
         guard (token?.count ?? 0) <= 4096 else { return log.error("setPushToken ignored: token is longer than 4096 characters") }

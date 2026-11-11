@@ -34,6 +34,18 @@ final class EngineTests: XCTestCase {
         XCTAssertNotNil(UUID(uuidString: engine.installationId))
     }
 
+    /// A Firebase Installation ID (22 base64url characters) is sent unchanged in `token`, and does not
+    /// replace PushPilot's own installation id.
+    func testFirebaseInstallationIdIsSentUnchangedAsToken() throws {
+        let engine = try makeEngine()
+        let fid = "cR_7xq-5Td2bLm9KpQz0aW"
+        XCTAssertEqual(fid.count, 22)
+        engine.setPushToken(fid)
+        tick()
+        XCTAssertEqual(network.open.first?.body["token"], .string(fid))
+        XCTAssertEqual(network.open.first?.body["installation_id"], .string(engine.installationId))
+    }
+
     /// Later changes go to sync with the full state, including topics and attributes.
     func testLaterChangesSyncTheFullState() throws {
         let engine = try makeEngine()
