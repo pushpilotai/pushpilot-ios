@@ -48,9 +48,17 @@ struct DeviceStorage: Storage {
         return try? JSONDecoder().decode(State.self, from: data)
     }
 
-    /// Writes state atomically, creating the folder on first use.
+    /// Writes state atomically into its own folder, which is excluded from backups so a restore onto
+    /// another phone never carries this phone's push token. The flag is on the folder because an atomic
+    /// write replaces the file and would drop a flag set on the file itself.
     func writeState(_ state: State) throws {
-        try FileManager.default.createDirectory(at: file.deletingLastPathComponent(), withIntermediateDirectories: true)
+        var folder = file.deletingLastPathComponent()
+        try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+        var values = URLResourceValues()
+        values.isExcludedFromBackup = true
+        do { try folder.setResourceValues(values) } catch {
+            log.error("Could not exclude state from backup: \(error.localizedDescription, privacy: .public)")
+        }
         try JSONEncoder().encode(state).write(to: file, options: .atomic)
     }
 }

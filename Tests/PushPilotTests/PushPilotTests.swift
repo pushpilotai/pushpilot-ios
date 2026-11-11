@@ -29,6 +29,21 @@ final class PushPilotTests: XCTestCase {
         XCTAssertEqual(network.all.first?.sdkKey, "pk_test")
     }
 
+    /// The real state file round-trips, and its folder stays excluded from backup across atomic rewrites.
+    func testStateFileIsExcludedFromBackup() throws {
+        let folder = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("PushPilot")
+        try? FileManager.default.removeItem(at: folder)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let storage = DeviceStorage()
+        XCTAssertNil(try storage.readState())
+        try storage.writeState(State(token: "tok-1"))
+        try storage.writeState(State(token: "tok-2"))
+        XCTAssertEqual(try storage.readState()?.token, "tok-2")
+        let values = try folder.resourceValues(forKeys: [.isExcludedFromBackupKey])
+        XCTAssertEqual(values.isExcludedFromBackup, true)
+    }
+
     /// Only pushes the server marked with source = pushpilot are claimed.
     func testHandleMessage() {
         XCTAssertTrue(PushPilot.handleMessage(["source": "pushpilot", "aps": ["alert": "hi"]]))

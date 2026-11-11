@@ -97,6 +97,8 @@ When:
 - **`forget`** sends only `installation_id` to `/forget/`. The new installation id is not registered until the next setter call or launch.
 - **Failures** are retried with exponential backoff from 1 second to 5 minutes with jitter; a `429` waits at least the server's `Retry-After`. Other `4xx` answers are not retried until the data changes or 24 hours pass. Unsent changes and a pending `forget` survive the app being closed.
 
+Nothing the SDK stores moves to another phone: the installation id is in the Keychain with a this-device-only class, and the rest of its state (token, user id, topics, attributes, sync bookkeeping) is a file in `Application Support/PushPilot/`, a folder excluded from iCloud and computer backups. A restored phone therefore registers as a new installation. Firebase delivers a fresh token to your delegate, but a user who is still logged in after the restore is only linked again if you call `setExternalUserId` at launch whenever someone is logged in (repeated calls with the same id send nothing).
+
 The SDK never logs the push token or the SDK key.
 
 ## App Store Connect: App Privacy
