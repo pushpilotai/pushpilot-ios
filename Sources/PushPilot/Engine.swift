@@ -70,6 +70,8 @@ final class Engine {
     private var busy = false
     /// State changed while busy, so another pass is needed afterwards.
     private var again = false
+    /// Set by forget(): the new id is not registered until a setter runs. In memory only, so the next launch registers it.
+    private var holdAfterForget = false
 
     /// Loads saved state and the installation id, creating the id on first run. Throws if storage is unavailable.
     init(sdkKey: String, baseUrl: URL, storage: Storage, network: Network, clock: Clock, device: DeviceInfo,
@@ -132,7 +134,8 @@ final class Engine {
         update { $0.externalUserId = nil }
     }
 
-    /// Queues deletion of this installation on the server and starts over with a new, unregistered id.
+    /// Queues deletion of this installation on the server and starts over with a new id,
+    /// which is registered only after the next setter call or launch.
     func forget() {
         let old = installationId
         installationId = UUID().uuidString.lowercased()
@@ -140,6 +143,7 @@ final class Engine {
             log.error("forget could not store the new installation id: \(error.localizedDescription, privacy: .public)")
         }
         update { $0 = State(pendingForgets: $0.pendingForgets + [old]) }
+        holdAfterForget = true
     }
 
     /// Asks for a sync soon; changes made in the next second ride along in the same request.
@@ -153,6 +157,7 @@ final class Engine {
 
     /// Applies a change, saves it, and asks for a sync.
     private func update(_ change: (inout State) -> Void) {
+        holdAfterForget = false
         change(&state)
         save()
         requestSync()
@@ -178,8 +183,7 @@ final class Engine {
         device.collect { [self] fields in
             let payload = payload(fields)
             let fresh = state.lastSentAt.map { clock.now.timeIntervalSince($0) < Self.staleAfter } ?? false
-            // An installation that never had a token is not registered: it cannot receive pushes.
-            if (payload == state.lastSent && fresh) || (state.token == nil && state.lastSent == nil) {
+            if (payload == state.lastSent && fresh) || holdAfterForget {
                 return finish()
             }
             let path = state.lastSent?["installation_id"] == payload["installation_id"] ? "sync" : "register"

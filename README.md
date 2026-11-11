@@ -63,7 +63,7 @@ All methods are static on `PushPilot`, callable from any thread, and return at o
 | `setAttributes(_:)` | Sets custom attributes, e.g. `["plan": "pro", "trial_ends": date]`. Values are `String`, `Bool`, a number, `Date` (sent as ISO 8601) or `nil` to remove. Only attributes declared for the app in the dashboard are stored; others are dropped by the server with a logged warning. |
 | `setTopics(_:)` | Replaces the installation's topics (at most 100; letters, digits and `-_.~%`). |
 | `logout()` | Clears the external user id. The installation stays registered and keeps receiving pushes. |
-| `forget()` | Deletes this installation from PushPilot and clears everything the SDK stored. The SDK starts over with a new installation id, which is registered only once the app passes a push token again. To stop pushes as well, also delete the FCM token with `Messaging.messaging().deleteToken`. |
+| `forget()` | Deletes this installation from PushPilot and clears everything the SDK stored. The SDK starts over with a new installation id, which is registered only after your next PushPilot call (any setter) or the next app launch. To stop pushes as well, also delete the FCM token with `Messaging.messaging().deleteToken`. |
 | `handleMessage(_:) -> Bool` | Returns whether a received push's `userInfo` came from PushPilot (it carries `source` = `pushpilot`). No network call, works without `initialize`. |
 
 Invalid values (an empty user id, a bad topic name) are ignored with a log message instead of being sent, so they cannot block later syncs.
@@ -93,8 +93,8 @@ When:
 
 - **On change.** Any call above triggers a sync, and so does a change in permission, OS or app version, locale or timezone, which the SDK checks at launch and whenever the app becomes active. Changes within about a second go out together in one request.
 - **Daily freshness.** At launch and whenever the app becomes active, the SDK syncs if the last sync is more than 24 hours old; otherwise nothing is sent.
-- **First request** for an installation is `register`; later ones are `sync`. Nothing is registered before the app passes a push token.
-- **`forget`** sends only `installation_id` to `/forget/`.
+- **First request** for an installation is `register`, sent as soon as `initialize` runs, with `token` null if the app has not passed one yet; the dashboard then shows the device as "No token", which confirms the SDK is working. Later requests are `sync`.
+- **`forget`** sends only `installation_id` to `/forget/`. The new installation id is not registered until the next setter call or launch.
 - **Failures** are retried with exponential backoff from 1 second to 5 minutes with jitter; a `429` waits at least the server's `Retry-After`. Other `4xx` answers are not retried until the data changes or 24 hours pass. Unsent changes and a pending `forget` survive the app being closed.
 
 The SDK never logs the push token or the SDK key.

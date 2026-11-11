@@ -55,7 +55,8 @@ public enum PushPilot {
     /// Clears the external user id; the installation stays registered and keeps receiving pushes.
     public static func logout() { run { $0.logout() } }
 
-    /// Deletes this installation from PushPilot and clears local state. A later token starts a new installation.
+    /// Deletes this installation from PushPilot and clears local state. A new installation is registered
+    /// after the next setter call or the next launch.
     public static func forget() { run { $0.forget() } }
 
     /// Returns whether a received push came from PushPilot. Makes no network call and needs no `initialize`.

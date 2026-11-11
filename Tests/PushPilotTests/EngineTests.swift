@@ -52,15 +52,18 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(call.body["attributes"], .object(["plan": .string("pro")]))
     }
 
-    /// Without a token nothing is registered, but values set meanwhile go out with the token.
-    func testNothingIsRegisteredBeforeAToken() throws {
+    /// Initialisation registers the installation at once with a null token; the token follows in a sync.
+    func testRegistersAtInitWithoutAToken() throws {
         let engine = try makeEngine()
-        engine.setExternalUserId("user-9")
+        engine.requestSync()
         tick()
-        XCTAssertTrue(network.all.isEmpty)
+        XCTAssertEqual(network.open.first?.url, "\(base)/register/")
+        XCTAssertEqual(network.open.first?.body["token"], .null)
+        network.reply()
         engine.setPushToken("tok-1")
         tick()
-        XCTAssertEqual(network.open.first?.body["external_user_id"], .string("user-9"))
+        XCTAssertEqual(network.open.first?.url, "\(base)/sync/")
+        XCTAssertEqual(network.open.first?.body["token"], .string("tok-1"))
     }
 
     /// An unchanged state is not resent within 24 hours, and is resent at launch or foreground after that.
@@ -203,7 +206,8 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(call.body["installation_id"], .string(id))
     }
 
-    /// Forget deletes the old installation (retrying until answered), clears state and registers nothing new.
+    /// Forget deletes the old installation (retrying until answered), clears state, and registers the
+    /// new id only after a setter call.
     func testForgetDeletesTheInstallationAndClearsState() throws {
         let engine = try makeEngine()
         engine.setPushToken("tok-1")
@@ -223,11 +227,30 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(network.open.first?.url, "\(base)/forget/")
         network.reply(204)
         XCTAssertEqual(engine.state, State())
-        XCTAssertTrue(network.open.isEmpty, "a forgotten device is not re-registered without a new token")
+        XCTAssertTrue(network.open.isEmpty, "the new id waits for a setter or the next launch")
+        engine.requestSync()
+        tick()
+        XCTAssertTrue(network.open.isEmpty, "becoming active is not a setter")
         engine.setPushToken("tok-2")
         tick()
         XCTAssertEqual(network.open.first?.url, "\(base)/register/")
         XCTAssertEqual(network.open.first?.body["installation_id"], .string(engine.installationId))
+    }
+
+    /// After forget, the next launch registers the new id even without a setter call.
+    func testNextLaunchAfterForgetRegistersTheNewId() throws {
+        let engine = try makeEngine()
+        engine.forget()
+        let later = FakeClock()
+        let relaunched = try Engine(sdkKey: "pk_test", baseUrl: PushPilot.defaultBaseUrl, storage: storage,
+                                    network: network, clock: later, device: device)
+        relaunched.requestSync()
+        later.advance(Engine.coalesceDelay)
+        XCTAssertEqual(network.open.first?.url, "\(base)/forget/")
+        network.reply(204)
+        XCTAssertEqual(network.open.first?.url, "\(base)/register/")
+        XCTAssertEqual(network.open.first?.body["installation_id"], .string(engine.installationId))
+        XCTAssertEqual(network.open.first?.body["token"], .null)
     }
 
     /// State and the pending forget survive app termination, so the next launch sends them.
