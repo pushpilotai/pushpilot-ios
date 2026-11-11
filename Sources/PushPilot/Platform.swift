@@ -111,9 +111,33 @@ struct SystemDeviceInfo: DeviceInfo {
     /// Reads the permission state, then returns all automatic fields on the SDK queue.
     func collect(_ completion: @escaping ([String: JSONValue]) -> Void) {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
-            let fields = Self.fields(permission: Self.permission(settings.authorizationStatus))
+            var fields = Self.fields(permission: Self.permission(settings.authorizationStatus))
+            fields["apns_environment"] = .string(Self.apnsEnvironment)
             queue.async { completion(fields) }
         }
+    }
+
+    /// The APNs host this build's tokens belong to, read from how the running build was signed.
+    static let apnsEnvironment: String = {
+        #if targetEnvironment(simulator)
+        return "sandbox"
+        #else
+        // App Store and TestFlight builds carry no embedded profile and always use production.
+        guard let url = Bundle.main.url(forResource: "embedded", withExtension: "mobileprovision"),
+              let profile = try? Data(contentsOf: url) else { return "production" }
+        return apnsEnvironment(profile: profile)
+        #endif
+    }()
+
+    /// `sandbox` when the profile's `aps-environment` entitlement is `development`, otherwise `production`.
+    static func apnsEnvironment(profile: Data) -> String {
+        // The profile is a signed CMS envelope around an XML plist; the plist can be cut out as text.
+        guard let text = String(data: profile, encoding: .isoLatin1),
+              let start = text.range(of: "<?xml"), let end = text.range(of: "</plist>", range: start.lowerBound..<text.endIndex),
+              let plist = try? PropertyListSerialization.propertyList(from: Data(text[start.lowerBound..<end.upperBound].utf8), format: nil),
+              let entitlements = (plist as? [String: Any])?["Entitlements"] as? [String: Any]
+        else { return "production" }
+        return entitlements["aps-environment"] as? String == "development" ? "sandbox" : "production"
     }
 
     /// Maps the OS authorisation status to the server's four values.

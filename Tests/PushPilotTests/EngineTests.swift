@@ -20,36 +20,86 @@ final class EngineTests: XCTestCase {
     /// The first sync registers with the token, the automatic fields and the SDK key; the id is stored.
     func testFirstSyncRegistersWithEveryField() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         let call = try XCTUnwrap(network.open.first)
         XCTAssertEqual(call.url, "\(base)/register/")
         XCTAssertEqual(call.sdkKey, "pk_test")
         var expected = FakeDevice.fields("granted")
         expected["installation_id"] = .string(engine.installationId)
-        expected["token"] = .string("tok-1")
+        expected["token"] = .string(hex1)
+        expected["token_kind"] = .string("apns")
+        expected["apns_environment"] = .string("sandbox")
         expected["external_user_id"] = .null
         XCTAssertEqual(call.body, expected)
         XCTAssertEqual(storage.id, engine.installationId)
         XCTAssertNotNil(UUID(uuidString: engine.installationId))
     }
 
-    /// A Firebase Installation ID (22 base64url characters) is sent unchanged in `token`, and does not
-    /// replace PushPilot's own installation id.
-    func testFirebaseInstallationIdIsSentUnchangedAsToken() throws {
+    /// Device tokens become lowercase hex, two digits per byte, leading zeros kept.
+    func testDeviceTokenIsLowercaseHex() {
+        XCTAssertEqual(Engine.hex(Data([0x00, 0x0f, 0xab, 0xff])), "000fabff")
+        XCTAssertEqual(Engine.hex(Data(repeating: 0xc3, count: 32)).count, 64)
+        XCTAssertEqual(Engine.hex(Data()), "")
+    }
+
+    /// Without a token, `token` is null and `token_kind` and `apns_environment` are left out;
+    /// clearing the token removes them again.
+    func testApnsFieldsTravelOnlyWithAToken() throws {
         let engine = try makeEngine()
-        let fid = "cR_7xq-5Td2bLm9KpQz0aW"
-        XCTAssertEqual(fid.count, 22)
-        engine.setPushToken(fid)
+        engine.requestSync()
         tick()
-        XCTAssertEqual(network.open.first?.body["token"], .string(fid))
-        XCTAssertEqual(network.open.first?.body["installation_id"], .string(engine.installationId))
+        let bare = try XCTUnwrap(network.open.first?.body)
+        XCTAssertEqual(bare["token"], .null)
+        XCTAssertNil(bare["token_kind"])
+        XCTAssertNil(bare["apns_environment"])
+        network.reply()
+        engine.setPushToken(tok1)
+        tick()
+        XCTAssertEqual(network.open.first?.body["token_kind"], .string("apns"))
+        XCTAssertEqual(network.open.first?.body["apns_environment"], .string("sandbox"))
+        network.reply()
+        engine.setPushToken(nil)
+        tick()
+        let cleared = try XCTUnwrap(network.open.first?.body)
+        XCTAssertEqual(cleared["token"], .null)
+        XCTAssertNil(cleared["token_kind"])
+        XCTAssertNil(cleared["apns_environment"])
+    }
+
+    /// A build moving between sandbox and production signing is a change and is synced at once.
+    func testApnsEnvironmentChangeTriggersASync() throws {
+        let engine = try makeEngine()
+        engine.setPushToken(tok1)
+        tick()
+        network.reply()
+        engine.requestSync()
+        tick()
+        XCTAssertEqual(network.all.count, 1, "same environment, nothing to send")
+        device.environment = "production"
+        engine.requestSync()
+        tick()
+        XCTAssertEqual(network.open.first?.url, "\(base)/sync/")
+        XCTAssertEqual(network.open.first?.body["apns_environment"], .string("production"))
+    }
+
+    /// The environment comes from the profile's aps-environment entitlement; anything else is production.
+    func testApnsEnvironmentFromProvisioningProfile() {
+        func profile(_ entitlements: String) -> Data {
+            let plist = #"<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>Entitlements</key><dict>\#(entitlements)</dict></dict></plist>"#
+            return Data([0x30, 0x82, 0xff, 0x00]) + Data(plist.utf8) + Data([0x00, 0xa0, 0x82])
+        }
+        XCTAssertEqual(SystemDeviceInfo.apnsEnvironment(profile: profile("<key>aps-environment</key><string>development</string>")), "sandbox")
+        XCTAssertEqual(SystemDeviceInfo.apnsEnvironment(profile: profile("<key>aps-environment</key><string>production</string>")), "production")
+        XCTAssertEqual(SystemDeviceInfo.apnsEnvironment(profile: profile("")), "production")
+        XCTAssertEqual(SystemDeviceInfo.apnsEnvironment(profile: Data([0x01, 0x02])), "production")
+        XCTAssertEqual(SystemDeviceInfo.apnsEnvironment, "sandbox", "tests run on the simulator")
     }
 
     /// Later changes go to sync with the full state, including topics and attributes.
     func testLaterChangesSyncTheFullState() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply()
         engine.setExternalUserId(" user-9 ")
@@ -58,7 +108,7 @@ final class EngineTests: XCTestCase {
         tick()
         let call = try XCTUnwrap(network.open.first)
         XCTAssertEqual(call.url, "\(base)/sync/")
-        XCTAssertEqual(call.body["token"], .string("tok-1"))
+        XCTAssertEqual(call.body["token"], .string(hex1))
         XCTAssertEqual(call.body["external_user_id"], .string("user-9"))
         XCTAssertEqual(call.body["topics"], .array([.string("news"), .string("sale")]))
         XCTAssertEqual(call.body["attributes"], .object(["plan": .string("pro")]))
@@ -72,16 +122,16 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(network.open.first?.url, "\(base)/register/")
         XCTAssertEqual(network.open.first?.body["token"], .null)
         network.reply()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         XCTAssertEqual(network.open.first?.url, "\(base)/sync/")
-        XCTAssertEqual(network.open.first?.body["token"], .string("tok-1"))
+        XCTAssertEqual(network.open.first?.body["token"], .string(hex1))
     }
 
     /// An unchanged state is not resent within 24 hours, and is resent at launch or foreground after that.
     func testUnchangedStateIsResentOnlyAfter24Hours() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply()
         clock.advance(Engine.staleAfter - 10)
@@ -98,7 +148,7 @@ final class EngineTests: XCTestCase {
     /// A permission change found at foreground is a state change and is sent at once.
     func testPermissionChangeIsSent() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply()
         device.permission = "denied"
@@ -110,7 +160,7 @@ final class EngineTests: XCTestCase {
     /// Rapid changes become one request; a change during a request is sent after it finishes.
     func testRapidChangesAreCoalesced() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         engine.setExternalUserId("user-9")
         engine.setTopics(["news"])
         tick()
@@ -127,7 +177,7 @@ final class EngineTests: XCTestCase {
     /// Failures back off 1, 2, 4 … seconds up to 5 minutes, and a success resets the backoff.
     func testFailuresBackOffExponentiallyToFiveMinutes() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         var delays: [TimeInterval] = []
         for _ in 0..<10 {
@@ -151,7 +201,7 @@ final class EngineTests: XCTestCase {
     func testJitterIsCappedAtFiveMinutes() throws {
         let engine = try Engine(sdkKey: "k", baseUrl: PushPilot.defaultBaseUrl, storage: storage, network: network,
                                 clock: clock, device: device, jitter: { 1.25 })
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply(500)
         XCTAssertEqual(clock.nextDelay, 1.25)
@@ -162,7 +212,7 @@ final class EngineTests: XCTestCase {
     /// A 429 waits at least Retry-After, even when backoff would be shorter.
     func testTooManyRequestsWaitsForRetryAfter() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply(429, retryAfter: 30)
         clock.advance(29)
@@ -174,7 +224,7 @@ final class EngineTests: XCTestCase {
     /// Other 4xx answers are not retried, and the same state is not resent until it changes.
     func testOtherClientErrorsAreNotRetried() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         network.reply(401)
         XCTAssertNil(clock.nextDelay)
@@ -189,7 +239,7 @@ final class EngineTests: XCTestCase {
     /// A different installation id in the reply replaces the stored one and is used from then on.
     func testReplacementInstallationIdIsAdopted() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         let replacement = "0c8a4c56-2d1e-4b7e-9d1a-3f4b5c6d7e8f"
         network.reply(json: #"{"installation_id":"\#(replacement.uppercased())","throttled":false,"warnings":["x"]}"#)
@@ -204,7 +254,7 @@ final class EngineTests: XCTestCase {
     /// Logout sends a null external user id to sync and keeps the token and installation.
     func testLogoutClearsOnlyTheExternalUserId() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         engine.setExternalUserId("user-9")
         tick()
         network.reply()
@@ -214,7 +264,7 @@ final class EngineTests: XCTestCase {
         let call = try XCTUnwrap(network.open.first)
         XCTAssertEqual(call.url, "\(base)/sync/")
         XCTAssertEqual(call.body["external_user_id"], .null)
-        XCTAssertEqual(call.body["token"], .string("tok-1"))
+        XCTAssertEqual(call.body["token"], .string(hex1))
         XCTAssertEqual(call.body["installation_id"], .string(id))
     }
 
@@ -222,7 +272,7 @@ final class EngineTests: XCTestCase {
     /// new id only after a setter call.
     func testForgetDeletesTheInstallationAndClearsState() throws {
         let engine = try makeEngine()
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         engine.setExternalUserId("user-9")
         tick()
         network.reply()
@@ -243,7 +293,7 @@ final class EngineTests: XCTestCase {
         engine.requestSync()
         tick()
         XCTAssertTrue(network.open.isEmpty, "becoming active is not a setter")
-        engine.setPushToken("tok-2")
+        engine.setPushToken(tok2)
         tick()
         XCTAssertEqual(network.open.first?.url, "\(base)/register/")
         XCTAssertEqual(network.open.first?.body["installation_id"], .string(engine.installationId))
@@ -268,9 +318,9 @@ final class EngineTests: XCTestCase {
     /// State and the pending forget survive app termination, so the next launch sends them.
     func testPendingWorkSurvivesRestart() throws {
         let first = try makeEngine()
-        first.setPushToken("tok-1")
+        first.setPushToken(tok1)
         first.forget()
-        first.setPushToken("tok-2")
+        first.setPushToken(tok2)
         // The app is killed before anything is sent; the next launch reads the same storage.
         let later = FakeClock()
         let second = try Engine(sdkKey: "pk_test", baseUrl: PushPilot.defaultBaseUrl, storage: storage,
@@ -281,7 +331,7 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(network.all.map(\.url), ["\(base)/forget/"])
         network.reply(204)
         XCTAssertEqual(network.open.first?.url, "\(base)/register/")
-        XCTAssertEqual(network.open.first?.body["token"], .string("tok-2"))
+        XCTAssertEqual(network.open.first?.body["token"], .string(hex2))
     }
 
     /// Attribute values are converted by type; nil removes, unsupported types are skipped.
@@ -305,8 +355,8 @@ final class EngineTests: XCTestCase {
         engine.setExternalUserId("  ")
         engine.setExternalUserId(String(repeating: "x", count: 256))
         XCTAssertEqual(engine.state.externalUserId, "user-9")
-        engine.setPushToken("tok")
-        engine.setPushToken("")
+        engine.setPushToken(tok1)
+        engine.setPushToken(Data())
         XCTAssertNil(engine.state.token)
     }
 
@@ -326,7 +376,7 @@ final class EngineTests: XCTestCase {
     func testBaseUrlWithPath() throws {
         let engine = try Engine(sdkKey: "k", baseUrl: URL(string: "https://push.example.com/pp")!, storage: storage,
                                 network: network, clock: clock, device: device)
-        engine.setPushToken("tok-1")
+        engine.setPushToken(tok1)
         tick()
         XCTAssertEqual(network.open.first?.url, "https://push.example.com/pp/api/sdk/v1/register/")
     }

@@ -30,7 +30,8 @@ protocol Clock {
     func schedule(after seconds: TimeInterval, _ work: @escaping () -> Void)
 }
 
-/// Reads the automatic fields (OS, app and SDK versions, model, locale, timezone, permission); calls back on the SDK queue.
+/// Reads the automatic fields (OS, app and SDK versions, model, locale, timezone, permission) and the
+/// build's APNs environment as `apns_environment`; calls back on the SDK queue.
 protocol DeviceInfo {
     func collect(_ completion: @escaping ([String: JSONValue]) -> Void)
 }
@@ -94,12 +95,16 @@ final class Engine {
 
     // MARK: App calls
 
-    /// Stores the push address (a Firebase Installation ID or an FCM token, sent as-is in `token`);
-    /// nil or empty clears it so the device stops receiving pushes.
-    func setPushToken(_ token: String?) {
-        let token = token?.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard (token?.count ?? 0) <= 4096 else { return log.error("setPushToken ignored: token is longer than 4096 characters") }
-        update { $0.token = token?.isEmpty == false ? token : nil }
+    /// Stores the APNs device token as lowercase hex; nil or empty clears it so the device stops receiving pushes.
+    func setPushToken(_ deviceToken: Data?) {
+        guard (deviceToken?.count ?? 0) <= 2048 else { return log.error("setPushToken ignored: token is longer than 2048 bytes") }
+        let hex = deviceToken.map(Self.hex)
+        update { $0.token = hex?.isEmpty == false ? hex : nil }
+    }
+
+    /// Lowercase hex, the form APNs expects in its request path.
+    static func hex(_ data: Data) -> String {
+        data.map { String(format: "%02x", $0) }.joined()
     }
 
     /// Stores the app's own user id, 1 to 255 characters.
@@ -200,8 +205,16 @@ final class Engine {
     /// The full state the server should hold for this installation.
     private func payload(_ fields: [String: JSONValue]) -> [String: JSONValue] {
         var p = fields
+        // The environment only means something with a token, so both travel with it.
+        let environment = p.removeValue(forKey: "apns_environment")
+        if let token = state.token {
+            p["token"] = .string(token)
+            p["token_kind"] = .string("apns")
+            p["apns_environment"] = environment
+        } else {
+            p["token"] = .null
+        }
         p["installation_id"] = .string(installationId)
-        p["token"] = state.token.map(JSONValue.string) ?? .null
         p["external_user_id"] = state.externalUserId.map(JSONValue.string) ?? .null
         if let topics = state.topics { p["topics"] = .array(topics.map(JSONValue.string)) }
         if !state.attributes.isEmpty { p["attributes"] = .object(state.attributes) }

@@ -40,12 +40,9 @@ public enum PushPilot {
         }
     }
 
-    /// Passes the device's Firebase push address; nil clears it. On Firebase 12.16 or later with
-    /// `FirebaseMessagingInstallationIdEnabled` set, pass the Firebase Installation ID from
-    /// `messaging(_:didReceiveRegistration:)`; otherwise pass the FCM token from
-    /// `messaging(_:didReceiveRegistrationToken:)`. Pass only one of them. The Firebase Installation ID
-    /// is not PushPilot's own installation id.
-    public static func setPushToken(_ token: String?) { run { $0.setPushToken(token) } }
+    /// Passes the APNs device token from `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`
+    /// as is; nil clears it. The app calls `registerForRemoteNotifications()` itself; the SDK never does.
+    public static func setPushToken(_ deviceToken: Data?) { run { $0.setPushToken(deviceToken) } }
 
     /// Links this installation to the app's own user id, usually right after login.
     public static func setExternalUserId(_ id: String) { run { $0.setExternalUserId(id) } }

@@ -77,12 +77,19 @@ final class FakeNetwork: Network {
     }
 }
 
-/// Fixed automatic fields with a permission the test can change.
+/// Device tokens and their hex form used across the tests.
+let tok1 = Data([0x0a, 0x1b, 0xff]), hex1 = "0a1bff"
+let tok2 = Data([0xde, 0xad, 0x00]), hex2 = "dead00"
+
+/// Fixed automatic fields with a permission and APNs environment the test can change.
 final class FakeDevice: DeviceInfo {
     var permission = "granted"
-    /// Returns the fields synchronously.
+    var environment = "sandbox"
+    /// Returns the fields and the environment synchronously.
     func collect(_ completion: @escaping ([String: JSONValue]) -> Void) {
-        completion(Self.fields(permission))
+        var fields = Self.fields(permission)
+        fields["apns_environment"] = .string(environment)
+        completion(fields)
     }
     /// The fields every sync carries in these tests.
     static func fields(_ permission: String) -> [String: JSONValue] {

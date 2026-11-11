@@ -14,7 +14,7 @@ final class PushPilotTests: XCTestCase {
             engine = made
             return made
         }
-        PushPilot.setPushToken("tok-1")
+        PushPilot.setPushToken(tok1)
         PushPilot.setExternalUserId("user-9")
         PushPilot.queue.sync {}
         XCTAssertNil(engine)
@@ -22,7 +22,7 @@ final class PushPilotTests: XCTestCase {
         PushPilot.initialize(sdkKey: "other")
         PushPilot.queue.sync {}
         XCTAssertEqual(created, 1)
-        XCTAssertEqual(engine?.state.token, "tok-1")
+        XCTAssertEqual(engine?.state.token, hex1)
         XCTAssertEqual(engine?.state.externalUserId, "user-9")
         PushPilot.queue.sync { clock.advance(Engine.coalesceDelay) }
         XCTAssertEqual(network.all.count, 1)
