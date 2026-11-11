@@ -8,7 +8,7 @@ let package = Package(
         .library(name: "PushPilot", targets: ["PushPilot"]),
     ],
     targets: [
-        .target(name: "PushPilot"),
+        .target(name: "PushPilot", resources: [.copy("PrivacyInfo.xcprivacy")]),
         .testTarget(name: "PushPilotTests", dependencies: ["PushPilot"]),
     ]
 )
