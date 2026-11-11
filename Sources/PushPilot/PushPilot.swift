@@ -23,7 +23,6 @@ public enum PushPilot {
     private static var waiting: [(Engine) -> Void] = []
 
     /// Starts the SDK with the app's public SDK key. Call once at launch; later calls are ignored.
-    /// Does not touch Firebase, so it can run before or after `FirebaseApp.configure()`.
     public static func initialize(sdkKey: String, baseUrl: URL = defaultBaseUrl) {
         queue.async {
             guard config == nil else { return }
