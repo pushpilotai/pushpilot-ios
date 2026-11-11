@@ -61,12 +61,12 @@ All methods are static on `PushPilot`, callable from any thread, and return at o
 | `setPushToken(_:)` | Stores the FCM token and syncs it. Pass `nil` to clear it; the device then stops receiving pushes. |
 | `setExternalUserId(_:)` | Links the installation to your own user id (1–255 characters). A push to that id reaches all of the user's installations. |
 | `setAttributes(_:)` | Sets custom attributes, e.g. `["plan": "pro", "trial_ends": date]`. Values are `String`, `Bool`, a number, `Date` (sent as ISO 8601) or `nil` to remove. Only attributes declared for the app in the dashboard are stored; others are dropped by the server with a logged warning. |
-| `setTopics(_:)` | Replaces the installation's topics (at most 100; letters, digits and `-_.~%`). |
+| `setTopics(_:)` | Replaces the installation's topics. Names are 1–255 letters, digits or `-_.~%`; invalid names are dropped with a log message, the rest are de-duplicated and sorted, and only the first 100 are kept. |
 | `logout()` | Clears the external user id. The installation stays registered and keeps receiving pushes. |
 | `forget()` | Deletes this installation from PushPilot and clears everything the SDK stored. The SDK starts over with a new installation id, which is registered only after your next PushPilot call (any setter) or the next app launch. To stop pushes as well, also delete the FCM token with `Messaging.messaging().deleteToken`. |
 | `handleMessage(_:) -> Bool` | Returns whether a received push's `userInfo` came from PushPilot (it carries `source` = `pushpilot`). No network call, works without `initialize`. |
 
-Invalid values (an empty user id, a bad topic name) are ignored with a log message instead of being sent, so they cannot block later syncs.
+Invalid values (an empty user id, an unsupported attribute type, a bad topic name) are dropped with a log message instead of being sent, so they cannot block later syncs.
 
 ## What the SDK sends, and when
 
@@ -77,7 +77,7 @@ Every request goes to `POST {baseUrl}/api/sdk/v1/register/`, `/sync/` or `/forge
 | `installation_id` | Random UUID created on first run | SDK; Keychain, this device only |
 | `token` | FCM registration token, or null | `setPushToken` |
 | `external_user_id` | Your user id, or null | `setExternalUserId`, cleared by `logout` |
-| `topics` | Topic names (sent only once you have called `setTopics`) | `setTopics` |
+| `topics` | Valid topic names, sorted, at most 100 (sent only once you have called `setTopics`) | `setTopics` |
 | `attributes` | Declared custom attributes (sent only once set) | `setAttributes` |
 | `notification_permission` | `granted`, `denied`, `provisional` or `unknown` | Read from `UNUserNotificationCenter`, never requested |
 | `os_version` | e.g. `17.2` | Automatic |

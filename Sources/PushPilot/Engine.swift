@@ -121,12 +121,17 @@ final class Engine {
         update { $0.attributes.merge(converted) { $1 } }
     }
 
-    /// Replaces the device's topics. The whole call is ignored if any name is invalid, as the server would reject it.
+    /// Replaces the device's topics. Invalid names are dropped (the server would reject the whole sync),
+    /// the rest are de-duplicated and sorted, and only the first 100 are kept.
     func setTopics(_ topics: [String]) {
         let allowed = Set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~%")
-        let valid = topics.count <= 100 && topics.allSatisfy { (1...255).contains($0.count) && $0.allSatisfy(allowed.contains) }
-        guard valid else { return log.error("setTopics ignored: at most 100 names of letters, digits and -_.~%") }
-        update { $0.topics = Array(Set(topics)).sorted() }
+        let valid = topics.filter { (1...255).contains($0.count) && $0.allSatisfy(allowed.contains) }
+        let unique = Set(valid).sorted()
+        if valid.count < topics.count {
+            log.error("setTopics dropped \(topics.count - valid.count) invalid names: use 1 to 255 letters, digits or -_.~%")
+        }
+        if unique.count > 100 { log.error("setTopics kept the first 100 of \(unique.count) topics") }
+        update { $0.topics = Array(unique.prefix(100)) }
     }
 
     /// Clears the external user id; the device stays registered.

@@ -289,10 +289,6 @@ final class EngineTests: XCTestCase {
     /// Values the server would reject are ignored locally so they cannot block every later sync.
     func testInvalidValuesAreIgnored() throws {
         let engine = try makeEngine()
-        engine.setTopics(["news"])
-        engine.setTopics(["bad topic"])
-        engine.setTopics(Array(repeating: "a", count: 101))
-        XCTAssertEqual(engine.state.topics, ["news"])
         engine.setExternalUserId("user-9")
         engine.setExternalUserId("  ")
         engine.setExternalUserId(String(repeating: "x", count: 256))
@@ -300,6 +296,18 @@ final class EngineTests: XCTestCase {
         engine.setPushToken("tok")
         engine.setPushToken("")
         XCTAssertNil(engine.state.token)
+    }
+
+    /// Invalid topic names are dropped and the valid ones kept, de-duplicated, sorted and capped at 100.
+    func testInvalidTopicNamesAreDropped() throws {
+        let engine = try makeEngine()
+        engine.setTopics(["sale", "bad topic", "", "news", "sale", String(repeating: "x", count: 256), "café"])
+        XCTAssertEqual(engine.state.topics, ["news", "sale"])
+        engine.setTopics(["bad topic"])
+        XCTAssertEqual(engine.state.topics, [], "all invalid means no topics")
+        let many = (0..<150).map { String(format: "t%03d", $0) }
+        engine.setTopics(many.reversed())
+        XCTAssertEqual(engine.state.topics, Array(many.prefix(100)))
     }
 
     /// A base URL with a path keeps it; endpoints always end with a slash.
