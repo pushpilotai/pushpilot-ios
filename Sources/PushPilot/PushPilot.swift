@@ -10,7 +10,7 @@ public enum PushPilot {
     /// The server used when `initialize` gets no `baseUrl`.
     public static let defaultBaseUrl = URL(string: "https://pushpilot.ai")!
     /// The version reported to the server as `sdk_version`.
-    public static let sdkVersion = "1.0.0"
+    public static let sdkVersion = "2.0.0"
 
     static let queue = DispatchQueue(label: "ai.pushpilot.sdk")
     /// Builds the engine; tests replace it to inject fakes.
