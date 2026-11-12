@@ -1,4 +1,5 @@
 import Foundation
+import UserNotifications
 #if canImport(UIKit)
 import UIKit
 #endif
@@ -21,6 +22,14 @@ public enum PushPilot {
     private static var engine: Engine?
     /// Calls made before the engine exists, run in order once it does.
     private static var waiting: [(Engine) -> Void] = []
+    /// The app's own link handler; nil lets the system open links. Used only on the SDK queue.
+    private static var linkHandler: ((URL) -> Void)?
+    /// Opens a link when the app set no handler; tests replace it.
+    static var systemOpen: (URL) -> Void = { url in
+        #if canImport(UIKit)
+        UIApplication.shared.open(url)
+        #endif
+    }
 
     /// Starts the SDK with the app's public SDK key. Call once at launch; later calls are ignored.
     public static func initialize(sdkKey: String, baseUrl: URL = defaultBaseUrl) {
@@ -64,6 +73,34 @@ public enum PushPilot {
         userInfo["source"] as? String == "pushpilot"
     }
 
+    /// Forward `userNotificationCenter(_:didReceive:withCompletionHandler:)` here. For a PushPilot push it
+    /// records the click (with the button id when a button was tapped) and opens the button's `url` or the
+    /// push's `url`. Returns false for any other push so your code can handle it. Your own values are in
+    /// `response.notification.request.content.userInfo["data"]` as `[String: String]`.
+    public static func handleNotificationResponse(_ response: UNNotificationResponse) -> Bool {
+        handleTap(userInfo: response.notification.request.content.userInfo, action: response.actionIdentifier)
+    }
+
+    /// Sends the links of tapped PushPilot pushes to `handler`, on the main thread, instead of letting the
+    /// system open them; nil restores the default.
+    public static func setLinkHandler(_ handler: ((URL) -> Void)?) {
+        queue.async { linkHandler = handler }
+    }
+
+    /// Records the click and opens its link; false when the push is not from PushPilot.
+    static func handleTap(userInfo: [AnyHashable: Any], action: String) -> Bool {
+        guard handleMessage(userInfo) else { return false }
+        guard let tap = Tap(userInfo: userInfo, action: action) else { return true }
+        if let id = tap.notificationId { run { $0.trackClick(notificationId: id, buttonId: tap.buttonId) } }
+        if let url = tap.url {
+            queue.async {
+                let open = linkHandler ?? systemOpen
+                DispatchQueue.main.async { open(url) }
+            }
+        }
+        return true
+    }
+
     /// Creates the engine once storage is readable and replays waiting calls; retries every 30 s if it is not.
     private static func start() {
         guard engine == nil, let config else { return }
@@ -84,5 +121,32 @@ public enum PushPilot {
         queue.async {
             if let engine { work(engine) } else { waiting.append(work) }
         }
+    }
+}
+
+/// What a tap on a PushPilot push means: which notification, which button, and which link to open.
+struct Tap: Equatable {
+    let notificationId: String?
+    let buttonId: String?
+    let url: URL?
+
+    /// Reads a tap from the push and the action iOS reports; nil for a dismissal, which is not an event.
+    init?(userInfo: [AnyHashable: Any], action: String) {
+        guard action != UNNotificationDismissActionIdentifier else { return nil }
+        notificationId = Self.text(userInfo["notification_id"])
+        if action == UNNotificationDefaultActionIdentifier {
+            buttonId = nil
+            url = Self.text(userInfo["url"]).flatMap(URL.init(string:))
+        } else {
+            // Button ids are the category's action identifiers (see PushPilotServiceExtension).
+            buttonId = action
+            let button = (userInfo["buttons"] as? [[String: Any]])?.first { $0["id"] as? String == action }
+            url = Self.text(button?["url"]).flatMap(URL.init(string:))
+        }
+    }
+
+    /// A non-empty string, or nil.
+    private static func text(_ value: Any?) -> String? {
+        (value as? String).flatMap { $0.isEmpty ? nil : $0 }
     }
 }

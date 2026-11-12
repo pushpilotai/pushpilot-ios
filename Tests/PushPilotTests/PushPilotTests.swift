@@ -51,6 +51,63 @@ final class PushPilotTests: XCTestCase {
         XCTAssertFalse(PushPilot.handleMessage(["aps": ["alert": "hi"]]))
     }
 
+    /// A payload v2 push as iOS hands it to the app.
+    let push: [AnyHashable: Any] = [
+        "aps": ["alert": ["title": "नमस्ते", "body": "مرحبا"], "mutable-content": 1],
+        "source": "pushpilot",
+        "notification_id": "n-1",
+        "url": "myapp://orders/42",
+        "buttons": [
+            ["id": "track", "label": "Track", "url": "https://example.com/track"],
+            ["id": "later", "label": "Later"],
+        ],
+        "data": ["order_id": "42"],
+    ]
+
+    /// Body tap: no button, the push's url. Button with url: its id and url. Button without: its id, no link.
+    func testTapDecision() throws {
+        let body = try XCTUnwrap(Tap(userInfo: push, action: UNNotificationDefaultActionIdentifier))
+        XCTAssertEqual([body.notificationId, body.buttonId, body.url?.absoluteString], ["n-1", nil, "myapp://orders/42"])
+        let track = try XCTUnwrap(Tap(userInfo: push, action: "track"))
+        XCTAssertEqual([track.notificationId, track.buttonId, track.url?.absoluteString], ["n-1", "track", "https://example.com/track"])
+        let later = try XCTUnwrap(Tap(userInfo: push, action: "later"))
+        XCTAssertEqual([later.notificationId, later.buttonId, later.url?.absoluteString], ["n-1", "later", nil])
+        XCTAssertNil(Tap(userInfo: push, action: UNNotificationDismissActionIdentifier), "a dismissal is not an event")
+        let bare = try XCTUnwrap(Tap(userInfo: ["source": "pushpilot", "url": ""], action: UNNotificationDefaultActionIdentifier))
+        XCTAssertNil(bare.notificationId)
+        XCTAssertNil(bare.url)
+    }
+
+    /// Links go to the app's handler when one is set, otherwise to the system; other pushes are left alone.
+    func testLinkHandlerOverridesTheSystem() {
+        var systemOpened: [URL] = []
+        let original = PushPilot.systemOpen
+        defer { PushPilot.systemOpen = original; PushPilot.setLinkHandler(nil) }
+        PushPilot.systemOpen = { systemOpened.append($0) }
+
+        func tapAndWait(_ userInfo: [AnyHashable: Any], _ action: String) -> Bool {
+            let handled = PushPilot.handleTap(userInfo: userInfo, action: action)
+            PushPilot.queue.sync {}
+            let mainDone = expectation(description: "main queue drained")
+            DispatchQueue.main.async { mainDone.fulfill() }
+            wait(for: [mainDone], timeout: 2)
+            return handled
+        }
+
+        XCTAssertTrue(tapAndWait(push, UNNotificationDefaultActionIdentifier))
+        XCTAssertEqual(systemOpened, [URL(string: "myapp://orders/42")!])
+
+        var handled: [URL] = []
+        PushPilot.setLinkHandler { handled.append($0) }
+        XCTAssertTrue(tapAndWait(push, "track"))
+        XCTAssertEqual(handled, [URL(string: "https://example.com/track")!])
+        XCTAssertEqual(systemOpened.count, 1, "the handler replaces the system")
+
+        XCTAssertTrue(tapAndWait(push, "later"), "a button without a link opens nothing")
+        XCTAssertFalse(tapAndWait(["source": "other", "url": "https://x.io"], UNNotificationDefaultActionIdentifier))
+        XCTAssertEqual(handled.count, 1)
+    }
+
     /// OS authorisation states map to the server's four values.
     func testPermissionMapping() {
         XCTAssertEqual(SystemDeviceInfo.permission(.authorized), "granted")
