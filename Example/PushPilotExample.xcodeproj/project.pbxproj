@@ -12,6 +12,7 @@
 		AA0000000000000000000003 /* PushPilot in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000001 /* PushPilot */; };
 		AA0000000000000000000005 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000006 /* NotificationService.swift */; };
 		AA0000000000000000000006 /* PushPilotNotificationService in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000003 /* PushPilotNotificationService */; };
+		AA0000000000000000000008 /* PushPilotNotificationService in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000004 /* PushPilotNotificationService */; };
 		AA0000000000000000000007 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000008 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -55,6 +56,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA0000000000000000000003 /* PushPilot in Frameworks */,
+				AA0000000000000000000008 /* PushPilotNotificationService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,6 +128,7 @@
 			name = PushPilotExample;
 			packageProductDependencies = (
 				AD0000000000000000000001 /* PushPilot */,
+				AD0000000000000000000004 /* PushPilotNotificationService */,
 			);
 			productName = PushPilotExample;
 			productReference = AF0000000000000000000004 /* PushPilotExample.app */;
@@ -377,6 +380,10 @@
 			productName = PushPilot;
 		};
 		AD0000000000000000000003 /* PushPilotNotificationService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PushPilotNotificationService;
+		};
+		AD0000000000000000000004 /* PushPilotNotificationService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PushPilotNotificationService;
 		};

@@ -1,4 +1,5 @@
 import PushPilot
+import PushPilotNotificationService
 import SwiftUI
 import UserNotifications
 
@@ -46,11 +47,46 @@ struct ContentView: View {
                         status = "Device forgotten"
                     }
                 }
+                Section("Debug") {
+                    // Checks buttons and taps on the simulator without a server.
+                    Button("Show a test push in 3 seconds") {
+                        scheduleTestPush()
+                        status = "Test push scheduled; lock the screen or wait for the banner"
+                    }
+                }
                 if !status.isEmpty {
                     Text(status).foregroundColor(.secondary)
                 }
             }
             .navigationTitle("PushPilot Example")
         }
+    }
+}
+
+/// Shows a local notification carrying a canned payload v2 push (two buttons, non-Latin text). A local
+/// notification skips the Notification Service Extension, so the app runs the same helper on it first to
+/// register the buttons. Needs notification permission.
+private func scheduleTestPush() {
+    let content = UNMutableNotificationContent()
+    content.title = "नमस्ते 👋"
+    content.body = "طلبك في الطريق — your order has shipped"
+    content.sound = .default
+    content.userInfo = [
+        "source": "pushpilot",
+        "notification_id": UUID().uuidString.lowercased(),
+        "url": "https://example.com/orders/42",
+        "buttons": [
+            ["id": "track", "label": "ट्रैक करें", "url": "https://example.com/orders/42/track"],
+            ["id": "later", "label": "لاحقاً"],
+        ],
+        "data": ["order_id": "42"],
+    ]
+    let helper = PushPilotServiceExtension()
+    let request = UNNotificationRequest(identifier: "test", content: content, trigger: nil)
+    _ = helper.didReceive(request) { enriched in
+        guard let ready = enriched.mutableCopy() as? UNMutableNotificationContent else { return }
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 3, repeats: false)
+        UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: UUID().uuidString, content: ready, trigger: trigger))
+        withExtendedLifetime(helper) {}
     }
 }

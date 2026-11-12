@@ -20,6 +20,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         PushPilot.initialize(sdkKey: pushPilotSdkKey)
+        // Optional: route PushPilot links yourself. Without a handler the system opens them.
+        PushPilot.setLinkHandler { url in
+            print("PushPilot link: \(url)")
+            UIApplication.shared.open(url)
+        }
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             // Registering at each launch keeps the token current; ContentView registers after the first grant.
@@ -47,5 +52,15 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
             print("Received a PushPilot push")
         }
         completionHandler([.banner, .sound])
+    }
+
+    /// Forwards taps to PushPilot, which records the click and opens the link; other pushes are yours.
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        if PushPilot.handleNotificationResponse(response) {
+            print("PushPilot tap: \(response.actionIdentifier), data: \(userInfo["data"] as? [String: String] ?? [:])")
+        }
+        completionHandler()
     }
 }
