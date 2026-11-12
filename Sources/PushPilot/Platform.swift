@@ -10,9 +10,9 @@ struct DeviceStorage: Storage {
         kSecAttrService as String: "ai.pushpilot.sdk",
         kSecAttrAccount as String: "installation_id",
     ]
-    private var file: URL {
+    private var folder: URL {
         FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("PushPilot/state.json")
+            .appendingPathComponent("PushPilot")
     }
 
     /// Reads the id; nil if none is stored, throws if the Keychain is locked or failing.
@@ -42,24 +42,37 @@ struct DeviceStorage: Storage {
     }
 
     /// Reads saved state; nil if there is none or it is unreadable as JSON, throws if the file cannot be read.
-    func readState() throws -> State? {
+    func readState() throws -> State? { try read(State.self, "state.json") }
+
+    /// Writes state; see `write`.
+    func writeState(_ state: State) throws { try write(state, "state.json") }
+
+    /// Reads the saved SDK key and server; nil if there are none or they are unreadable.
+    func readConfig() throws -> SavedConfig? { try read(SavedConfig.self, "config.json") }
+
+    /// Saves the SDK key and server next to the state.
+    func writeConfig(_ config: SavedConfig) throws { try write(config, "config.json") }
+
+    /// Decodes a file in the SDK's folder; nil if it is missing or not valid JSON, throws if it cannot be read.
+    private func read<T: Decodable>(_ type: T.Type, _ name: String) throws -> T? {
+        let file = folder.appendingPathComponent(name)
         guard FileManager.default.fileExists(atPath: file.path) else { return nil }
         let data = try Data(contentsOf: file)
-        return try? JSONDecoder().decode(State.self, from: data)
+        return try? JSONDecoder().decode(type, from: data)
     }
 
-    /// Writes state atomically into its own folder, which is excluded from backups so a restore onto
+    /// Writes a file atomically into the SDK's folder, which is excluded from backups so a restore onto
     /// another phone never carries this phone's push token. The flag is on the folder because an atomic
     /// write replaces the file and would drop a flag set on the file itself.
-    func writeState(_ state: State) throws {
-        var folder = file.deletingLastPathComponent()
+    private func write<T: Encodable>(_ value: T, _ name: String) throws {
+        var folder = folder
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         var values = URLResourceValues()
         values.isExcludedFromBackup = true
         do { try folder.setResourceValues(values) } catch {
             log.error("Could not exclude state from backup: \(error.localizedDescription, privacy: .public)")
         }
-        try JSONEncoder().encode(state).write(to: file, options: .atomic)
+        try JSONEncoder().encode(value).write(to: folder.appendingPathComponent(name), options: .atomic)
     }
 }
 

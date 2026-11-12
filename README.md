@@ -70,7 +70,7 @@ UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound
 6. **Identify the user** after login with `PushPilot.setExternalUserId(user.id)` and call `PushPilot.logout()` at logout.
 7. **Optional: show images and buttons** with a Notification Service Extension (below).
 
-Calls made before `initialize` are queued and applied once it runs. In a SwiftUI app, attach the delegate with `@UIApplicationDelegateAdaptor(AppDelegate.self)`.
+Calls made before `initialize` are applied at once if an earlier launch saved the SDK key, and are otherwise queued until it runs. In a SwiftUI app, attach the delegate with `@UIApplicationDelegateAdaptor(AppDelegate.self)`.
 
 ### Taps and links
 
@@ -143,7 +143,7 @@ All `PushPilot` methods are static, callable from any thread, and return at once
 
 | Method | What it does |
 |---|---|
-| `initialize(sdkKey:baseUrl:)` | Starts the SDK. Call once at launch; later calls are ignored. `baseUrl` defaults to `PushPilot.defaultBaseUrl` (`https://pushpilot.ai`) and only needs setting for a self-hosted server. Other platforms call this `init`; Swift reserves `init` for initialisers, so it is `initialize` here. |
+| `initialize(sdkKey:baseUrl:)` | Starts the SDK. Call once at launch; later calls are ignored. The key and `baseUrl` are saved on the device, so in a process where the app has not called `initialize` yet (for example one launched by a tap on a push) the first SDK call starts the SDK from them; `initialize` then replaces them. `baseUrl` defaults to `PushPilot.defaultBaseUrl` (`https://pushpilot.ai`) and only needs setting for a self-hosted server. Other platforms call this `init`; Swift reserves `init` for initialisers, so it is `initialize` here. |
 | `setPushToken(_:)` | Takes the `Data` from `didRegisterForRemoteNotificationsWithDeviceToken` as is and syncs it. Pass `nil` to clear it; the device then stops receiving pushes. |
 | `setExternalUserId(_:)` | Links the installation to your own user id (1–255 characters). A push to that id reaches all of the user's installations. |
 | `setAttributes(_:)` | Sets custom attributes, e.g. `["plan": "pro", "trial_ends": date]`. Values are `String`, `Bool`, a number, `Date` (sent as ISO 8601) or `nil` to remove. Only attributes declared for the app in the dashboard are stored; others are dropped by the server with a logged warning. |
@@ -200,7 +200,7 @@ When:
 - **Events** are saved to disk when they happen and sent shortly after, in batches of up to 100; if the app is closed first, they are sent at the next launch. Failures are retried as below, except that a `4xx` other than `429` drops that batch. At most 500 events wait; beyond that the oldest are dropped.
 - **Failures** are retried with exponential backoff from 1 second to 5 minutes with jitter; a `429` waits at least the server's `Retry-After`. Other `4xx` answers are not retried until the data changes or 24 hours pass. Unsent changes, events and a pending `forget` survive the app being closed.
 
-Nothing the SDK stores moves to another phone: the installation id is in the Keychain with a this-device-only class, and the rest of its state (token, user id, topics, attributes, sync bookkeeping) is a file in `Application Support/PushPilot/`, a folder excluded from iCloud and computer backups. A restored phone therefore registers as a new installation. Apple issues it a new device token when the app registers again, but a user who is still logged in after the restore is only linked again if you call `setExternalUserId` at launch whenever someone is logged in (repeated calls with the same id send nothing).
+Nothing the SDK stores moves to another phone: the installation id is in the Keychain with a this-device-only class, and the rest of its state (token, user id, topics, attributes, queued events, sync bookkeeping) is a file in `Application Support/PushPilot/`, a folder excluded from iCloud and computer backups. The SDK key and `baseUrl` from the last `initialize` are saved in `config.json` in that same folder: it is readable after the first unlock, so a tap or background launch can start the SDK, and it needs no `UserDefaults`, a required-reason API. The key is public, so it is not kept in the Keychain. `forget()` keeps it, as it is the app's setting rather than data about the user. A restored phone therefore registers as a new installation. Apple issues it a new device token when the app registers again, but a user who is still logged in after the restore is only linked again if you call `setExternalUserId` at launch whenever someone is logged in (repeated calls with the same id send nothing).
 
 The SDK never logs the push token or the SDK key.
 

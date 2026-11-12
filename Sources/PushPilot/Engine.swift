@@ -10,6 +10,15 @@ protocol Storage {
     func writeInstallationId(_ id: String) throws
     func readState() throws -> State?
     func writeState(_ state: State) throws
+    func readConfig() throws -> SavedConfig?
+    func writeConfig(_ config: SavedConfig) throws
+}
+
+/// The SDK key and server from the last `initialize`, so a process the app has not initialised yet
+/// (a tap that launched a killed app, an early token) can start the SDK itself.
+struct SavedConfig: Codable, Equatable {
+    let sdkKey: String
+    let baseUrl: URL
 }
 
 /// One HTTP answer: status, `Retry-After` in seconds when present, and body.
@@ -63,8 +72,9 @@ final class Engine {
     /// Events per request, the server's limit.
     static let eventsPerRequest = 100
 
-    private let sdkKey: String
-    private let baseUrl: URL
+    /// Replaced when an explicit `initialize` follows a start from the saved configuration.
+    var sdkKey: String
+    var baseUrl: URL
     private let storage: Storage
     private let network: Network
     private let clock: Clock

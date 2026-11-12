@@ -18,7 +18,12 @@ public enum PushPilot {
         try Engine(sdkKey: key, baseUrl: url, storage: DeviceStorage(), network: URLSessionNetwork(queue: queue),
                    clock: SystemClock(queue: queue), device: SystemDeviceInfo(queue: queue))
     }
-    private static var config: (sdkKey: String, baseUrl: URL)?
+    /// Where the configuration from the last `initialize` is saved; tests replace it.
+    static var configStorage: Storage = DeviceStorage()
+    private static var config: SavedConfig?
+    /// The app called `initialize` in this process; a start from the saved configuration does not count.
+    private static var initialized = false
+    private static var observingActive = false
     private static var engine: Engine?
     /// Calls made before the engine exists, run in order once it does.
     private static var waiting: [(Engine) -> Void] = []
@@ -32,19 +37,23 @@ public enum PushPilot {
     }
 
     /// Starts the SDK with the app's public SDK key. Call once at launch; later calls are ignored.
+    ///
+    /// The key and `baseUrl` are saved on the device. In a later process where the app has not called
+    /// `initialize` yet, such as one launched by a tap on a push, the first SDK call starts the SDK from
+    /// them, so a click or a token is sent instead of waiting in memory. When `initialize` then runs, its
+    /// values replace the saved ones.
     public static func initialize(sdkKey: String, baseUrl: URL = defaultBaseUrl) {
         queue.async {
-            guard config == nil else { return }
+            guard !initialized else { return }
             guard !sdkKey.isEmpty else { return log.error("initialize ignored: sdkKey is empty") }
-            config = (sdkKey, baseUrl)
-            #if canImport(UIKit)
-            // didBecomeActive also fires when the permission alert closes, so a new permission is reported at once.
-            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification,
-                                                   object: nil, queue: nil) { _ in
-                queue.async { start(); engine?.requestSync() }
+            initialized = true
+            let given = SavedConfig(sdkKey: sdkKey, baseUrl: baseUrl)
+            if (try? configStorage.readConfig()) != given {
+                do { try configStorage.writeConfig(given) } catch {
+                    log.error("Could not save the configuration: \(error.localizedDescription, privacy: .public)")
+                }
             }
-            #endif
-            start()
+            configure(given)
         }
     }
 
@@ -65,7 +74,8 @@ public enum PushPilot {
     public static func logout() { run { $0.logout() } }
 
     /// Deletes this installation from PushPilot and clears local state. A new installation is registered
-    /// after the next setter call or the next launch.
+    /// after the next setter call or the next launch. The saved SDK key and server are kept: they are the
+    /// app's settings, not data about the user.
     public static func forget() { run { $0.forget() } }
 
     /// Returns whether a received push came from PushPilot. Makes no network call and needs no `initialize`.
@@ -101,6 +111,26 @@ public enum PushPilot {
         return true
     }
 
+    /// Uses `given` from now on: starts the engine, or points an engine started from the saved values at it.
+    private static func configure(_ given: SavedConfig) {
+        config = given
+        if let engine {
+            engine.sdkKey = given.sdkKey
+            engine.baseUrl = given.baseUrl
+        }
+        #if canImport(UIKit)
+        if !observingActive {
+            observingActive = true
+            // didBecomeActive also fires when the permission alert closes, so a new permission is reported at once.
+            NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification,
+                                                   object: nil, queue: nil) { _ in
+                queue.async { start(); engine?.requestSync() }
+            }
+        }
+        #endif
+        start()
+    }
+
     /// Creates the engine once storage is readable and replays waiting calls; retries every 30 s if it is not.
     private static func start() {
         guard engine == nil, let config else { return }
@@ -116,10 +146,22 @@ public enum PushPilot {
         }
     }
 
-    /// Runs `work` on the SDK queue now, or after `initialize` if the engine does not exist yet.
+    /// Runs `work` on the SDK queue now, or once the engine exists. Before `initialize` it first tries
+    /// to start the SDK from the saved configuration.
     private static func run(_ work: @escaping (Engine) -> Void) {
-        queue.async {
-            if let engine { work(engine) } else { waiting.append(work) }
+        queue.async { runNow(work) }
+    }
+
+    /// `run` for code already on the SDK queue.
+    private static func runNow(_ work: @escaping (Engine) -> Void) {
+        if config == nil, let saved = try? configStorage.readConfig() { configure(saved) }
+        if let engine { work(engine) } else { waiting.append(work) }
+    }
+
+    /// Forgets everything held in memory, as in a new process; for tests.
+    static func resetForTesting() {
+        queue.sync {
+            config = nil; initialized = false; engine = nil; waiting = []; linkHandler = nil
         }
     }
 }

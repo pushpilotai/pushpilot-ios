@@ -3,17 +3,44 @@ import XCTest
 @testable import PushPilot
 
 final class PushPilotTests: XCTestCase {
-    /// Calls before initialize are queued and applied in order once it runs; a second initialize is ignored.
-    func testCallsBeforeInitializeAreQueuedAndInitIsIdempotent() throws {
-        let storage = FakeStorage(), network = FakeNetwork(), clock = FakeClock()
-        var created = 0
-        var engine: Engine?
-        PushPilot.makeEngine = { key, url in
+    let storage = FakeStorage(), network = FakeNetwork(), clock = FakeClock()
+    /// Holds the saved configuration, as config.json does on a device.
+    let saved = FakeStorage()
+    var created = 0
+    var engine: Engine?
+    var systemOpened: [URL] = []
+    let originalOpen = PushPilot.systemOpen
+
+    /// Each test starts as a fresh process with fake storage, network and link opening.
+    override func setUp() {
+        PushPilot.resetForTesting()
+        PushPilot.configStorage = saved
+        PushPilot.systemOpen = { [unowned self] in systemOpened.append($0) }
+        PushPilot.makeEngine = { [unowned self] key, url in
             created += 1
             let made = try Engine(sdkKey: key, baseUrl: url, storage: storage, network: network, clock: clock, device: FakeDevice())
             engine = made
             return made
         }
+    }
+
+    /// Puts back the real link opener and storage for other test classes.
+    override func tearDown() {
+        PushPilot.resetForTesting()
+        PushPilot.systemOpen = originalOpen
+        PushPilot.configStorage = DeviceStorage()
+    }
+
+    /// Waits until the SDK queue and then the main queue have run everything queued so far.
+    func drain() {
+        PushPilot.queue.sync {}
+        let mainDone = expectation(description: "main queue drained")
+        DispatchQueue.main.async { mainDone.fulfill() }
+        wait(for: [mainDone], timeout: 2)
+    }
+
+    /// Calls before initialize are queued and applied in order once it runs; a second initialize is ignored.
+    func testCallsBeforeInitializeAreQueuedAndInitIsIdempotent() throws {
         PushPilot.setPushToken(tok1)
         PushPilot.setExternalUserId("user-9")
         PushPilot.queue.sync {}
@@ -27,6 +54,39 @@ final class PushPilotTests: XCTestCase {
         PushPilot.queue.sync { clock.advance(Engine.coalesceDelay) }
         XCTAssertEqual(network.all.count, 1)
         XCTAssertEqual(network.all.first?.sdkKey, "pk_test")
+        XCTAssertEqual(saved.config, SavedConfig(sdkKey: "pk_test", baseUrl: PushPilot.defaultBaseUrl))
+    }
+
+    /// Without initialize, the first SDK call starts from the saved values; a later initialize wins and is saved.
+    func testStartsFromSavedConfigUntilInitialize() throws {
+        let selfHosted = URL(string: "https://push.example.com")!
+        saved.config = SavedConfig(sdkKey: "pk_saved", baseUrl: selfHosted)
+        PushPilot.setPushToken(tok1)
+        PushPilot.queue.sync { clock.advance(Engine.coalesceDelay) }
+        XCTAssertEqual(created, 1)
+        XCTAssertEqual(network.all.last?.sdkKey, "pk_saved")
+        XCTAssertEqual(network.all.last?.url.hasPrefix("https://push.example.com/api/sdk/v1/"), true)
+        PushPilot.queue.sync { network.reply() }
+
+        PushPilot.initialize(sdkKey: "pk_new")
+        PushPilot.setExternalUserId("user-1")
+        PushPilot.queue.sync { clock.advance(Engine.coalesceDelay) }
+        XCTAssertEqual(created, 1, "the running engine is kept, with the new values")
+        XCTAssertEqual(network.all.last?.sdkKey, "pk_new")
+        XCTAssertEqual(network.all.last?.url.hasPrefix("https://pushpilot.ai/api/sdk/v1/"), true)
+        XCTAssertEqual(saved.config, SavedConfig(sdkKey: "pk_new", baseUrl: PushPilot.defaultBaseUrl))
+
+        PushPilot.initialize(sdkKey: "pk_ignored")
+        PushPilot.queue.sync {}
+        XCTAssertEqual(saved.config?.sdkKey, "pk_new", "a second initialize is still ignored")
+    }
+
+    /// forget keeps the saved key: it is the app's setting, and a later tap must still be able to start the SDK.
+    func testForgetKeepsSavedConfig() {
+        PushPilot.initialize(sdkKey: "pk_test")
+        PushPilot.forget()
+        PushPilot.queue.sync {}
+        XCTAssertEqual(saved.config?.sdkKey, "pk_test")
     }
 
     /// The real state file round-trips, and its folder stays excluded from backup across atomic rewrites.

@@ -13,6 +13,11 @@ final class FakeStorage: Storage {
     func readState() throws -> State? { state }
     /// Stores the state.
     func writeState(_ state: State) throws { self.state = state }
+    var config: SavedConfig?
+    /// Reads the saved configuration.
+    func readConfig() throws -> SavedConfig? { config }
+    /// Stores the configuration.
+    func writeConfig(_ config: SavedConfig) throws { self.config = config }
 }
 
 /// A clock that only moves when the test says so.
