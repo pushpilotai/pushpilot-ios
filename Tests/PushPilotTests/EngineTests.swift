@@ -372,6 +372,90 @@ final class EngineTests: XCTestCase {
         XCTAssertEqual(engine.state.topics, Array(many.prefix(100)))
     }
 
+    /// A registered engine with no open requests, ready for events.
+    func registeredEngine() throws -> Engine {
+        let engine = try makeEngine()
+        engine.setPushToken(tok1)
+        tick()
+        network.reply()
+        return engine
+    }
+
+    /// A click becomes one event with the notification, installation, button and an RFC 3339 time.
+    func testClickIsSentAsAnEvent() throws {
+        let engine = try registeredEngine()
+        engine.trackClick(notificationId: "n-1", buttonId: "track")
+        engine.trackClick(notificationId: "n-2", buttonId: nil)
+        tick()
+        let call = try XCTUnwrap(network.open.first)
+        XCTAssertEqual(call.url, "\(base)/events/")
+        XCTAssertEqual(call.sdkKey, "pk_test")
+        let at = JSONValue.string(ISO8601DateFormatter().string(from: clock.now - Engine.coalesceDelay))
+        XCTAssertEqual(call.body, ["events": .array([
+            .object(["notification_id": .string("n-1"), "installation_id": .string(engine.installationId),
+                     "type": .string("clicked"), "button_id": .string("track"), "at": at]),
+            .object(["notification_id": .string("n-2"), "installation_id": .string(engine.installationId),
+                     "type": .string("clicked"), "at": at]),
+        ])])
+        XCTAssertNotNil(ISO8601DateFormatter().date(from: "\(at)".components(separatedBy: "\"")[1]))
+        network.reply()
+        XCTAssertEqual(engine.state.events, [])
+        XCTAssertTrue(network.open.isEmpty, "unchanged state after the events: no sync")
+    }
+
+    /// 250 events go out as 100, 100 and 50.
+    func testEventsAreSentInBatchesOfAHundred() throws {
+        let engine = try registeredEngine()
+        for n in 0..<250 { engine.trackClick(notificationId: "n-\(n)", buttonId: nil) }
+        tick()
+        var sizes: [Int] = []
+        while let call = network.open.first, call.url == "\(base)/events/" {
+            guard case .array(let batch)? = call.body["events"] else { return XCTFail("no events array") }
+            sizes.append(batch.count)
+            network.reply()
+        }
+        XCTAssertEqual(sizes, [100, 100, 50])
+        XCTAssertEqual(engine.state.events, [])
+    }
+
+    /// 5xx and 429 keep the batch and retry it with backoff; other 4xx drop only that batch.
+    func testEventBatchesRetryOrDrop() throws {
+        let engine = try registeredEngine()
+        for n in 0..<150 { engine.trackClick(notificationId: "n-\(n)", buttonId: nil) }
+        tick()
+        network.reply(503)
+        XCTAssertEqual(clock.nextDelay, 1)
+        clock.advance(1)
+        network.reply(429, retryAfter: 20)
+        XCTAssertEqual(clock.nextDelay, 20)
+        clock.advance(20)
+        XCTAssertEqual(engine.state.events?.count, 150, "nothing lost while retrying")
+        network.reply(400)
+        XCTAssertEqual(engine.state.events?.count, 50, "the rejected batch is dropped")
+        guard case .array(let rest)? = network.open.first?.body["events"] else { return XCTFail("no second batch") }
+        XCTAssertEqual(rest.count, 50)
+        guard case .object(let next)? = rest.first else { return XCTFail("no event") }
+        XCTAssertEqual(next["notification_id"], .string("n-100"))
+    }
+
+    /// The queue keeps the newest 500 events and survives a restart.
+    func testEventQueueIsCappedAndPersisted() throws {
+        let engine = try registeredEngine()
+        for n in 0..<(Engine.maxQueuedEvents + 20) { engine.trackClick(notificationId: "n-\(n)", buttonId: nil) }
+        XCTAssertEqual(engine.state.events?.count, Engine.maxQueuedEvents)
+        XCTAssertEqual(engine.state.events?.first?["notification_id"], .string("n-20"))
+        let relaunched = try makeEngine()
+        XCTAssertEqual(relaunched.state.events?.count, Engine.maxQueuedEvents)
+    }
+
+    /// State saved before events existed still loads.
+    func testStateWithoutEventsStillDecodes() throws {
+        let old = #"{"token":"0a1bff","attributes":{},"pendingForgets":[]}"#
+        let state = try JSONDecoder().decode(State.self, from: Data(old.utf8))
+        XCTAssertEqual(state.token, "0a1bff")
+        XCTAssertNil(state.events)
+    }
+
     /// A base URL with a path keeps it; endpoints always end with a slash.
     func testBaseUrlWithPath() throws {
         let engine = try Engine(sdkKey: "k", baseUrl: URL(string: "https://push.example.com/pp")!, storage: storage,

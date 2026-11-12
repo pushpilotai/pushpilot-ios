@@ -49,6 +49,8 @@ struct State: Codable, Equatable {
     var lastSentAt: Date?
     /// Installation ids whose server record still has to be deleted.
     var pendingForgets: [String] = []
+    /// Tracking events not yet accepted by the server, oldest first. Optional so state saved before v2 still loads.
+    var events: [[String: JSONValue]]?
 }
 
 /// The sync engine. Not thread-safe: every method runs on the SDK's serial queue.
@@ -56,6 +58,10 @@ final class Engine {
     static let coalesceDelay: TimeInterval = 1
     static let staleAfter: TimeInterval = 24 * 60 * 60
     static let maxBackoff: TimeInterval = 5 * 60
+    /// Events kept on disk at most; the oldest are dropped beyond this.
+    static let maxQueuedEvents = 500
+    /// Events per request, the server's limit.
+    static let eventsPerRequest = 100
 
     private let sdkKey: String
     private let baseUrl: URL
@@ -145,6 +151,21 @@ final class Engine {
         update { $0.externalUserId = nil }
     }
 
+    /// Queues a `clicked` event for a notification, with the button id when a button was tapped.
+    /// Not a setter: it does not end the hold after `forget()`.
+    func trackClick(notificationId: String, buttonId: String?) {
+        var event: [String: JSONValue] = [
+            "notification_id": .string(notificationId),
+            "installation_id": .string(installationId),
+            "type": .string("clicked"),
+            "at": .string(ISO8601DateFormatter().string(from: clock.now)),
+        ]
+        if let buttonId { event["button_id"] = .string(buttonId) }
+        state.events = Array(((state.events ?? []) + [event]).suffix(Self.maxQueuedEvents))
+        save()
+        requestSync()
+    }
+
     /// Queues deletion of this installation on the server and starts over with a new id,
     /// which is registered only after the next setter call or launch.
     func forget() {
@@ -181,12 +202,22 @@ final class Engine {
         }
     }
 
-    /// Sends pending forgets first, then the current state if it changed or the last sync is over 24 hours old.
+    /// Sends pending forgets first, then queued events in batches, then the current state if it changed
+    /// or the last sync is over 24 hours old.
     private func flush() {
         again = false
         if let forgotten = state.pendingForgets.first {
             return post("forget", ["installation_id": .string(forgotten)]) { [self] _ in
                 state.pendingForgets.removeAll { $0 == forgotten }
+                save()
+                flush()
+            }
+        }
+        if let events = state.events, !events.isEmpty {
+            let batch = Array(events.prefix(Self.eventsPerRequest))
+            // Accepted or rejected (4xx), the batch is done; 429, 5xx and network errors retry it.
+            return post("events", ["events": .array(batch.map(JSONValue.object))]) { [self] _ in
+                state.events?.removeAll { batch.contains($0) }
                 save()
                 flush()
             }
