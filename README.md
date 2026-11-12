@@ -76,13 +76,17 @@ Calls made before `initialize` are applied at once if an earlier launch saved th
 
 Forward `userNotificationCenter(_:didReceive:withCompletionHandler:)` to `PushPilot.handleNotificationResponse(_:)` as above; the SDK swizzles nothing. For a PushPilot push it records the click (with the button's id if a button was tapped) and opens the link: the button's `url` for a button, the push's `url` for a tap on the push itself. A button without a `url` records the click and opens nothing. Swiping a push away is not recorded. The call returns `false` for pushes that are not from PushPilot and does nothing with them.
 
-Without a link handler the system opens the link (`UIApplication.open`): a web page in Safari, a universal link or your own URL scheme in your app. To route links yourself, set a handler once at launch; it then receives every PushPilot link instead of the system, on the main thread:
+If you get the tap as plain values instead of a `UNNotificationResponse` (some wrappers and notification libraries hand over only those), call `PushPilot.handleNotificationTap(userInfo:actionIdentifier:)` with the notification's `userInfo` and the action identifier iOS reported. It does the same and returns the same. Each notification is handled once per app process, so if both your code and a library forward the same tap, it is still counted and opened once.
+
+Without a link handler the system opens the link (`UIApplication.open`): a web page in Safari, a universal link or your own URL scheme in your app. To route links yourself, set a handler in `application(_:didFinishLaunchingWithOptions:)`. From then on it receives every PushPilot link instead of the system, on the main thread, once per tap; it returns nothing, and the SDK never opens the link as well:
 
 ```swift
 PushPilot.setLinkHandler { url in
     router.open(url) // or UIApplication.shared.open(url) for links you don't handle
 }
 ```
+
+The handler set at the moment a tap is handled decides who opens its link. iOS delivers the tap that launched a killed app after `didFinishLaunchingWithOptions` returns, so a handler set there also gets that tap. A handler set later does not get links tapped before it was set; the system has already opened those. A link is never lost and never opened twice.
 
 Your own key-value data from the dashboard is in the push's `userInfo["data"]` as `[String: String]`:
 
@@ -152,6 +156,7 @@ All `PushPilot` methods are static, callable from any thread, and return at once
 | `forget()` | Deletes this installation from PushPilot and clears everything the SDK stored. The SDK starts over with a new installation id, which is registered only after your next PushPilot call (any setter) or the next app launch. To stop pushes on the device as well, also call `UIApplication.shared.unregisterForRemoteNotifications()`. |
 | `handleMessage(_:) -> Bool` | Returns whether a received push's `userInfo` came from PushPilot (it carries `source` = `pushpilot`). No network call, works without `initialize`. |
 | `handleNotificationResponse(_:) -> Bool` | Handles a tap: records the click and opens the link (see *Taps and links*). Returns whether the push came from PushPilot. |
+| `handleNotificationTap(userInfo:actionIdentifier:) -> Bool` | The same, from the notification's `userInfo` and the action identifier. |
 | `setLinkHandler(_:)` | Routes PushPilot links to your closure instead of the system. Pass `nil` to go back to the system. |
 
 `PushPilotServiceExtension` (in `PushPilotNotificationService`) has `didReceive(_:withContentHandler:) -> Bool` and `serviceExtensionTimeWillExpire()`, described above.

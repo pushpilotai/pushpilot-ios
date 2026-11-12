@@ -29,6 +29,8 @@ public enum PushPilot {
     private static var waiting: [(Engine) -> Void] = []
     /// The app's own link handler; nil lets the system open links. Used only on the SDK queue.
     private static var linkHandler: ((URL) -> Void)?
+    /// Notifications whose tap was handled in this process, so a tap forwarded twice counts once.
+    private static var tapped: Set<String> = []
     /// Opens a link when the app set no handler; tests replace it.
     static var systemOpen: (URL) -> Void = { url in
         #if canImport(UIKit)
@@ -83,32 +85,53 @@ public enum PushPilot {
         userInfo["source"] as? String == "pushpilot"
     }
 
-    /// Forward `userNotificationCenter(_:didReceive:withCompletionHandler:)` here. For a PushPilot push it
-    /// records the click (with the button id when a button was tapped) and opens the button's `url` or the
-    /// push's `url`. Returns false for any other push so your code can handle it. Your own values are in
-    /// `response.notification.request.content.userInfo["data"]` as `[String: String]`.
+    /// Forward `userNotificationCenter(_:didReceive:withCompletionHandler:)` here. Same as
+    /// `handleNotificationTap(userInfo:actionIdentifier:)` with the response's `userInfo` and `actionIdentifier`.
+    /// Your own values are in `response.notification.request.content.userInfo["data"]` as `[String: String]`.
     public static func handleNotificationResponse(_ response: UNNotificationResponse) -> Bool {
-        handleTap(userInfo: response.notification.request.content.userInfo, action: response.actionIdentifier)
+        handleNotificationTap(userInfo: response.notification.request.content.userInfo,
+                              actionIdentifier: response.actionIdentifier)
     }
 
-    /// Sends the links of tapped PushPilot pushes to `handler`, on the main thread, instead of letting the
-    /// system open them; nil restores the default.
-    public static func setLinkHandler(_ handler: ((URL) -> Void)?) {
-        queue.async { linkHandler = handler }
-    }
-
-    /// Records the click and opens its link; false when the push is not from PushPilot.
-    static func handleTap(userInfo: [AnyHashable: Any], action: String) -> Bool {
+    /// Handles a tap given as plain values: the notification's `userInfo` and the action identifier iOS
+    /// reported (`UNNotificationDefaultActionIdentifier` for the push itself, the button's id for a button,
+    /// `UNNotificationDismissActionIdentifier` for a dismissal). Returns false for a push that is not from
+    /// PushPilot and does nothing with it; returns true for a PushPilot push, including a dismissal, which
+    /// is not recorded. For a tap it records the click (with the button id for a button) and passes the
+    /// button's `url`, or the push's `url`, to the link handler (see `setLinkHandler`).
+    ///
+    /// Each notification is handled once per app process: if a tap is forwarded twice, for example by a
+    /// wrapper and by the app, later calls with the same `notification_id` still return true but record
+    /// nothing and open nothing.
+    public static func handleNotificationTap(userInfo: [AnyHashable: Any], actionIdentifier: String) -> Bool {
         guard handleMessage(userInfo) else { return false }
-        guard let tap = Tap(userInfo: userInfo, action: action) else { return true }
-        if let id = tap.notificationId { run { $0.trackClick(notificationId: id, buttonId: tap.buttonId) } }
-        if let url = tap.url {
-            queue.async {
+        guard let tap = Tap(userInfo: userInfo, action: actionIdentifier) else { return true }
+        queue.async {
+            if let id = tap.notificationId {
+                guard tapped.insert(id).inserted else { return }
+                runNow { $0.trackClick(notificationId: id, buttonId: tap.buttonId) }
+            }
+            if let url = tap.url {
                 let open = linkHandler ?? systemOpen
                 DispatchQueue.main.async { open(url) }
             }
         }
         return true
+    }
+
+    /// Sets who opens the links of tapped PushPilot pushes; nil goes back to the default.
+    ///
+    /// - The handler receives the tapped button's `url`, or the push's `url` for a tap on the push itself,
+    ///   on the main thread, once per tap. It is not called for a dismissal, a button without a `url`, or a
+    ///   push without one.
+    /// - It returns nothing: once set, it owns every link and the SDK never opens one as well.
+    /// - With no handler set, the SDK opens the link with `UIApplication.shared.open(_:)`.
+    /// - The handler set at the moment the tap is handled decides; links are not held for a handler set
+    ///   later. iOS delivers the tap that launched a killed app only after
+    ///   `application(_:didFinishLaunchingWithOptions:)` returns, so a handler set there (or earlier) gets
+    ///   that tap too; if none is set by then, the system opens that link. Either way it is opened once.
+    public static func setLinkHandler(_ handler: ((URL) -> Void)?) {
+        queue.async { linkHandler = handler }
     }
 
     /// Uses `given` from now on: starts the engine, or points an engine started from the saved values at it.
@@ -161,7 +184,7 @@ public enum PushPilot {
     /// Forgets everything held in memory, as in a new process; for tests.
     static func resetForTesting() {
         queue.sync {
-            config = nil; initialized = false; engine = nil; waiting = []; linkHandler = nil
+            config = nil; initialized = false; engine = nil; waiting = []; linkHandler = nil; tapped = []
         }
     }
 }

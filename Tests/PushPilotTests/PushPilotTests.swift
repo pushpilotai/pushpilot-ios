@@ -112,27 +112,27 @@ final class PushPilotTests: XCTestCase {
     }
 
     /// A payload v2 push as iOS hands it to the app.
-    let push: [AnyHashable: Any] = [
+    func push(_ id: String = "n-1") -> [AnyHashable: Any] { [
         "aps": ["alert": ["title": "नमस्ते", "body": "مرحبا"], "mutable-content": 1],
         "source": "pushpilot",
-        "notification_id": "n-1",
+        "notification_id": id,
         "url": "myapp://orders/42",
         "buttons": [
             ["id": "track", "label": "Track", "url": "https://example.com/track"],
             ["id": "later", "label": "Later"],
         ],
         "data": ["order_id": "42"],
-    ]
+    ] }
 
     /// Body tap: no button, the push's url. Button with url: its id and url. Button without: its id, no link.
     func testTapDecision() throws {
-        let body = try XCTUnwrap(Tap(userInfo: push, action: UNNotificationDefaultActionIdentifier))
+        let body = try XCTUnwrap(Tap(userInfo: push(), action: UNNotificationDefaultActionIdentifier))
         XCTAssertEqual([body.notificationId, body.buttonId, body.url?.absoluteString], ["n-1", nil, "myapp://orders/42"])
-        let track = try XCTUnwrap(Tap(userInfo: push, action: "track"))
+        let track = try XCTUnwrap(Tap(userInfo: push(), action: "track"))
         XCTAssertEqual([track.notificationId, track.buttonId, track.url?.absoluteString], ["n-1", "track", "https://example.com/track"])
-        let later = try XCTUnwrap(Tap(userInfo: push, action: "later"))
+        let later = try XCTUnwrap(Tap(userInfo: push(), action: "later"))
         XCTAssertEqual([later.notificationId, later.buttonId, later.url?.absoluteString], ["n-1", "later", nil])
-        XCTAssertNil(Tap(userInfo: push, action: UNNotificationDismissActionIdentifier), "a dismissal is not an event")
+        XCTAssertNil(Tap(userInfo: push(), action: UNNotificationDismissActionIdentifier), "a dismissal is not an event")
         let bare = try XCTUnwrap(Tap(userInfo: ["source": "pushpilot", "url": ""], action: UNNotificationDefaultActionIdentifier))
         XCTAssertNil(bare.notificationId)
         XCTAssertNil(bare.url)
@@ -140,32 +140,69 @@ final class PushPilotTests: XCTestCase {
 
     /// Links go to the app's handler when one is set, otherwise to the system; other pushes are left alone.
     func testLinkHandlerOverridesTheSystem() {
-        var systemOpened: [URL] = []
-        let original = PushPilot.systemOpen
-        defer { PushPilot.systemOpen = original; PushPilot.setLinkHandler(nil) }
-        PushPilot.systemOpen = { systemOpened.append($0) }
-
-        func tapAndWait(_ userInfo: [AnyHashable: Any], _ action: String) -> Bool {
-            let handled = PushPilot.handleTap(userInfo: userInfo, action: action)
-            PushPilot.queue.sync {}
-            let mainDone = expectation(description: "main queue drained")
-            DispatchQueue.main.async { mainDone.fulfill() }
-            wait(for: [mainDone], timeout: 2)
-            return handled
-        }
-
-        XCTAssertTrue(tapAndWait(push, UNNotificationDefaultActionIdentifier))
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-1"), actionIdentifier: UNNotificationDefaultActionIdentifier))
+        drain()
         XCTAssertEqual(systemOpened, [URL(string: "myapp://orders/42")!])
 
         var handled: [URL] = []
         PushPilot.setLinkHandler { handled.append($0) }
-        XCTAssertTrue(tapAndWait(push, "track"))
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-2"), actionIdentifier: "track"))
+        drain()
         XCTAssertEqual(handled, [URL(string: "https://example.com/track")!])
         XCTAssertEqual(systemOpened.count, 1, "the handler replaces the system")
 
-        XCTAssertTrue(tapAndWait(push, "later"), "a button without a link opens nothing")
-        XCTAssertFalse(tapAndWait(["source": "other", "url": "https://x.io"], UNNotificationDefaultActionIdentifier))
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-3"), actionIdentifier: "later"), "a button without a link opens nothing")
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-4"), actionIdentifier: UNNotificationDismissActionIdentifier))
+        XCTAssertFalse(PushPilot.handleNotificationTap(userInfo: ["source": "other", "url": "https://x.io"],
+                                                       actionIdentifier: UNNotificationDefaultActionIdentifier))
+        drain()
         XCTAssertEqual(handled.count, 1)
+    }
+
+    /// The plain-data call records the click with its button; the same tap forwarded again counts once.
+    func testTapForwardedTwiceCountsOnce() throws {
+        PushPilot.initialize(sdkKey: "pk_test")
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-9"), actionIdentifier: "track"))
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-9"), actionIdentifier: "track"))
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-9"), actionIdentifier: UNNotificationDefaultActionIdentifier))
+        drain()
+        let events = try XCTUnwrap(engine?.state.events)
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?["notification_id"], .string("n-9"))
+        XCTAssertEqual(events.first?["button_id"], .string("track"))
+        XCTAssertEqual(systemOpened, [URL(string: "https://example.com/track")!])
+    }
+
+    /// A tap that launches a killed app, before the app calls initialize: the SDK starts from the saved key,
+    /// queues the click on disk, and opens the link once, with the handler the app set during launch.
+    func testKilledAppTap() throws {
+        saved.config = SavedConfig(sdkKey: "pk_saved", baseUrl: PushPilot.defaultBaseUrl)
+        var handled: [URL] = []
+        PushPilot.setLinkHandler { handled.append($0) } // as in didFinishLaunching
+        XCTAssertTrue(PushPilot.handleNotificationTap(userInfo: push("n-cold"), actionIdentifier: UNNotificationDefaultActionIdentifier))
+        drain()
+        XCTAssertEqual(storage.state?.events?.count, 1, "the click is on disk before initialize")
+        XCTAssertEqual(handled, [URL(string: "myapp://orders/42")!])
+        XCTAssertEqual(systemOpened, [])
+
+        PushPilot.initialize(sdkKey: "pk_saved")
+        _ = PushPilot.handleNotificationTap(userInfo: push("n-cold"), actionIdentifier: UNNotificationDefaultActionIdentifier)
+        PushPilot.queue.sync { clock.advance(Engine.coalesceDelay) }
+        drain()
+        XCTAssertEqual(handled.count, 1, "opened once")
+        let sent = network.all.first { $0.url.hasSuffix("/events/") }
+        XCTAssertEqual(sent?.sdkKey, "pk_saved", "the click is sent")
+    }
+
+    /// With no saved key and no initialize yet, the click waits in memory and the system opens the link once.
+    func testTapBeforeAnyInitialize() {
+        _ = PushPilot.handleNotificationTap(userInfo: push("n-early"), actionIdentifier: UNNotificationDefaultActionIdentifier)
+        drain()
+        XCTAssertNil(engine)
+        XCTAssertEqual(systemOpened.count, 1)
+        PushPilot.initialize(sdkKey: "pk_test")
+        PushPilot.queue.sync {}
+        XCTAssertEqual(engine?.state.events?.count, 1)
     }
 
     /// OS authorisation states map to the server's four values.
