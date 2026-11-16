@@ -8,10 +8,10 @@ Swift package that registers your app's installation with PushPilot and forwards
 
 ## Install
 
-In Xcode choose **File › Add Package Dependencies…**, enter this repository's URL, add the `PushPilot` library to your app target and, if you want images or buttons, the `PushPilotNotificationService` library to your Notification Service Extension target. In a `Package.swift`:
+In Xcode choose **File › Add Package Dependencies…**, enter `https://github.com/pushpilotai/pushpilot-ios`, add the `PushPilot` library to your app target and, if you want images or buttons, the `PushPilotNotificationService` library to your Notification Service Extension target. In a `Package.swift`:
 
 ```swift
-.package(url: "<this repository's URL>", from: "2.0.0")
+.package(url: "https://github.com/pushpilotai/pushpilot-ios", from: "2.0.0")
 // app target:
 .product(name: "PushPilot", package: "pushpilot-ios")
 // Notification Service Extension target:
@@ -236,3 +236,11 @@ The **Show a test push in 3 seconds** button tries buttons and taps without a se
 ```bash
 xcodebuild -scheme PushPilot-Package -destination 'platform=iOS Simulator,name=iPhone 17' test
 ```
+
+## Releasing
+
+See [RELEASING.md](RELEASING.md) and [CHANGELOG.md](CHANGELOG.md).
+
+## Licence
+
+Apache License 2.0. See [LICENSE](LICENSE).
