@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.0 (unreleased)
+## 2.0.0 (2026-11-17)
 
 First public release: Swift package at `https://github.com/pushpilotai/pushpilot-ios`, tag `2.0.0`.
 
