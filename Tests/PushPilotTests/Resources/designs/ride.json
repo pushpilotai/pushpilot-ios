@@ -1,0 +1,41 @@
+{"name":"Ride with driver","canvas":"Ride.dc.html",
+"fields":[{"name":"initials","kind":"text","max":3},{"name":"car","kind":"text","max":40},{"name":"eta","kind":"number"},{"name":"plate","kind":"text","max":14},{"name":"pin","kind":"text","max":6}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#30D158","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{eta}}","size":64,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+   {"type":"text","text":"min","size":24,"weight":"heavy","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"text","runs":[{"text":"{{plate}} · PIN "},{"text":"{{pin}}","weight":"heavy"}],"size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"column","at":"trailing","pad":[0,22,0,0],"spacing":8,"align":"center","items":[
+  {"type":"text","text":"{{initials}}","w":76,"h":76,"radius":38,"bg":"#000000","size":26,"weight":"heavy","color":"#30D158"},
+  {"type":"icon","name":"car","color":"#000000","size":"m"}]}]},
+"island":{
+ "leading":{"type":"row","spacing":12,"items":[
+  {"type":"text","text":"{{initials}}","w":40,"h":40,"radius":20,"bg":"#2C2C2E","size":14,"weight":"semibold","color":"#FFFFFF"},
+  {"type":"column","spacing":2,"items":[
+   {"type":"text","text":"{{title}}","size":15,"weight":"semibold","color":"#FFFFFF","lines":1},
+   {"type":"text","text":"{{car}}","size":12,"color":"#A1A1A8","lines":1}]}]},
+ "trailing":{"type":"column","spacing":2,"align":"trailing","items":[
+  {"type":"text","text":"{{eta}}","size":28,"weight":"bold","mono":true,"color":"#30D158"},
+  {"type":"text","text":"min","size":11,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"row","spacing":12,"items":[
+  {"type":"text","text":"{{plate}}","pad":[6,12,6,12],"radius":8,"border":{"color":"#636366","width":1},"size":13,"weight":"semibold","tracking":0.06,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"Start PIN","size":12,"color":"#A1A1A8"},
+   {"type":"text","text":"{{pin}}","size":18,"weight":"bold","tracking":0.1,"mono":true,"color":"#30D158"}]}]},
+ "compact_leading":{"type":"icon","name":"car","color":"#30D158"},
+ "compact_trailing":{"type":"text","text":"{{eta}} min","size":14,"weight":"semibold","mono":true,"color":"#30D158"},
+ "minimal":{"type":"icon","name":"car","color":"#30D158"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#30D158","items":[
+ {"type":"text","text":"{{initials}}","w":40,"h":40,"radius":20,"bg":"#000000","size":15,"weight":"heavy","color":"#30D158"},
+ {"type":"column","items":[
+  {"type":"text","text":"PIN {{pin}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{eta}} min","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{title}}","text":"{{car}} · {{plate}} · PIN {{pin}}","chip":"{{eta}} min"}},
+"state":{"title":"Rajesh is arriving","initials":"RK","car":"White Swift Dzire · 4.9 rating","eta":3,"plate":"KA 01 AB 1234","pin":"4821"}}

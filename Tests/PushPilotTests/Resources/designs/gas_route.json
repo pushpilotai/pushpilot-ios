@@ -1,0 +1,49 @@
+{"name":"Cheapest gas on your route","canvas":"GasRoute.dc.html",
+"fields":[{"name":"e1","kind":"text","max":7},{"name":"p1","kind":"text","max":6},{"name":"e2","kind":"text","max":7},{"name":"p2","kind":"text","max":6},{"name":"e3","kind":"text","max":7},{"name":"p3","kind":"text","max":6},{"name":"dist","kind":"text","max":6},{"name":"save","kind":"text","max":6},{"name":"car","kind":"number"}],
+"layout":{
+"defs":{
+"car":{"type":"layer","w":38,"h":20,"radius":8,"bg":"$c","items":[
+ {"type":"shape","shape":"rect","at":"trailing","offset":[-8,0],"w":8,"h":14,"fill":"#1C1C1E"}]},
+"post":{"type":"shape","shape":"rect","w":4,"h":12,"fill":"#8E8E93"},
+"scene":{"type":"layer","fw":1,"fh":1,"items":[
+ {"type":"layer","at":"bottom","h":36,"bg":"#2C2C2E","items":[
+  {"type":"shape","shape":"line","h":2,"stroke":"#FFFFFF","width":2,"dash":[6,6]},
+  {"type":"use","ref":"car","pos":["car",0.583]}]},
+ {"type":"row","at":"bottom","pad":[0,20,36,0],"spacing":18,"align":"bottom","items":[
+  {"type":"spacer"},
+  {"type":"column","align":"center","spacing":0,"items":[
+   {"type":"column","align":"center","pad":[6,11,6,11],"radius":6,"bg":"#0B6B3A","border":{"color":"#FFFFFF","width":2},"items":[
+    {"type":"text","text":"{{e1}}","upper":true,"size":11,"weight":"heavy","color":"#FFFFFF"},
+    {"type":"text","text":"{{p1}}","size":16,"weight":"heavy","color":"#FFFFFF"}]},
+   {"type":"use","ref":"post"}]},
+  {"type":"column","align":"center","spacing":0,"items":[
+   {"type":"column","align":"center","pad":[6,14,6,14],"radius":8,"bg":"#4AE37A","border":{"color":"#FFFFFF","width":2},"items":[
+    {"type":"text","text":"{{e2}} · {{dist}}","upper":true,"size":11,"weight":"heavy","color":"#000000"},
+    {"type":"text","text":"{{p2}}","size":28,"weight":"heavy","color":"#000000"}]},
+   {"type":"use","ref":"post"}]},
+  {"type":"column","align":"center","spacing":0,"items":[
+   {"type":"column","align":"center","pad":[6,11,6,11],"radius":6,"bg":"#0B6B3A","border":{"color":"#FFFFFF","width":2},"items":[
+    {"type":"text","text":"{{e3}}","upper":true,"size":11,"weight":"heavy","color":"#FFFFFF"},
+    {"type":"text","text":"{{p3}}","size":16,"weight":"heavy","color":"#FFFFFF"}]},
+   {"type":"use","ref":"post"}]}]}]}},
+"lock":{"type":"layer","h":160,"bg":"#0F2747","items":[
+ {"type":"use","ref":"scene","colors":{"c":"#FFD23F"}},
+ {"type":"row","at":"top","pad":[18,22,0,22],"items":[
+  {"type":"text","text":"CHEAPEST GAS AHEAD","size":11,"weight":"heavy","tracking":0.06,"color":"#9CC8FF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Save {{save}} a fill-up","size":12,"weight":"heavy","color":"#FFFFFF"}]}]},
+"island":{
+ "leading":{"type":"text","text":"Cheapest gas ahead","size":16,"weight":"heavy","color":"#FFFFFF"},
+ "trailing":{"type":"text","runs":[{"text":"{{e2}} · ","color":"#A1A1A8"},{"text":"{{dist}}","color":"#FFFFFF","weight":"semibold"}],"size":12},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"use","ref":"scene","h":100,"colors":{"c":"#FFFFFF"}},
+ "compact_leading":{"type":"text","text":"{{e2}}","upper":true,"pad":[3,8,3,8],"radius":5,"bg":"#0B6B3A","size":11,"weight":"heavy","color":"#FFFFFF"},
+ "compact_trailing":{"type":"text","text":"{{p2}}","size":14,"weight":"bold","color":"#4AE37A"},
+ "minimal":{"type":"icon","name":"fuel","color":"#4AE37A"}},
+"small":{"type":"row","pad":10,"bg":"#0F2747","items":[
+ {"type":"icon","name":"fuel","color":"#4AE37A"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{e2}} · {{dist}}","size":12,"weight":"bold","color":"#9CC8FF"},
+  {"type":"text","text":"{{p2}}","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"Cheapest gas: {{p2}} at {{e2}}","text":"{{dist}} ahead · save {{save}}","chip":"{{p2}}","progress":{"type":"progress","value":"car","tracker":"car","color":"#4AE37A"}}},
+"state":{"title":"Cheapest gas on your route","e1":"Exit 38","p1":"$3.29","e2":"Exit 42","p2":"$3.05","e3":"Exit 51","p3":"$3.41","dist":"11 mi","save":"$4.10","car":0.114}}

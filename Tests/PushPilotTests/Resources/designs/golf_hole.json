@@ -1,0 +1,42 @@
+{"name":"Golf hole flyover","canvas":"GolfHole.dc.html",
+"fields":[{"name":"yds","kind":"number"},{"name":"hole","kind":"number"},{"name":"par","kind":"number"}],
+"layout":{
+"defs":{
+"hole":{"type":"layer","bg":"#1F5E33","view":[300,128],"items":[
+ {"type":"path","d":"M24 78C66 40 124 102 174 62S244 34 268 52C284 68 268 96 244 90C204 78 154 122 104 108C64 98 34 112 24 78Z","fill":"#3FA35A"},
+ {"type":"path","d":"M120 30C120 23 134 18 150 18S180 23 180 30 167 42 150 42 120 37 120 30Z","fill":"#3B8FD9"},
+ {"type":"path","d":"M202 36C202 32 208 28 216 28S230 32 230 36 224 44 216 44 202 40 202 36ZM218 106C218 102 224 99 232 99S246 102 246 106 240 113 232 113 218 110 218 106Z","fill":"#EBD9A0"},
+ {"type":"path","d":"M228 68C228 56 240 46 254 46S280 56 280 68 268 90 254 90 228 80 228 68Z","fill":"#7BD88F"},
+ {"type":"path","d":"M172 66Q216 34 254 68","stroke":"#FFFFFF","width":2,"dash":[3,5]},
+ {"type":"path","d":"M167 66C167 63 169 61 172 61S177 63 177 66 175 71 172 71 167 69 167 66Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M254 68V38","stroke":"#FFFFFF","width":2.5},
+ {"type":"path","d":"M254 38L270 44 254 50Z","fill":"#FF453A"}]},
+"flag":{"type":"layer","w":20,"h":20,"view":[24,24],"items":[
+ {"type":"path","d":"M6 3V22","stroke":"#FFFFFF","width":2},
+ {"type":"path","d":"M6 3L19 7.5 6 12Z","fill":"#FF453A"}]}},
+"lock":{"type":"layer","h":160,"bg":"#1F5E33","items":[
+ {"type":"use","ref":"hole"},
+ {"type":"column","at":"top_leading","h":160,"pad":[16,18,16,18],"align":"leading","items":[
+  {"type":"text","text":"Hole {{hole}} · Par {{par}}","upper":true,"pad":[4,10,4,10],"radius":10,"bg":"#0F3D20","size":11,"weight":"heavy","tracking":0.06,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"row","align":"baseline","spacing":6,"pad":[8,12,8,12],"radius":14,"bg":"#0F3D20","items":[
+   {"type":"text","text":"{{yds}}","size":34,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"yds to the pin","size":13,"weight":"bold","color":"#FFFFFF"}]}]}]},
+"island":{
+ "leading":{"type":"row","align":"baseline","spacing":6,"items":[
+  {"type":"text","text":"{{yds}} yds","size":28,"weight":"heavy","tracking":-0.02,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"to the pin","size":13,"color":"#A1A1A8"}]},
+ "trailing":{"type":"text","text":"Hole {{hole}} · Par {{par}}","size":12,"weight":"bold","color":"#7BD88F"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"layer","h":84,"radius":14,"clip":true,"items":[
+  {"type":"use","ref":"hole","h":108}]},
+ "compact_leading":{"type":"use","ref":"flag"},
+ "compact_trailing":{"type":"text","text":"{{yds}} yds","size":14,"weight":"bold","mono":true,"color":"#7BD88F"},
+ "minimal":{"type":"use","ref":"flag"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1F5E33","items":[
+ {"type":"use","ref":"flag","w":28,"h":28},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Hole {{hole}} · Par {{par}}","size":12,"weight":"bold","color":"#7BD88F"},
+  {"type":"text","text":"{{yds}} yds","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{yds}} yds to the pin","text":"Hole {{hole}} · Par {{par}}","chip":"{{yds}} yds"}},
+"state":{"title":"Golf hole flyover","yds":142,"hole":7,"par":4}}

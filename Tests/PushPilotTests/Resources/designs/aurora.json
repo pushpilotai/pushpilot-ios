@@ -1,0 +1,41 @@
+{"name":"Aurora alert","canvas":"Aurora.dc.html",
+"fields":[{"name":"eta","kind":"text","max":8},{"name":"sky","kind":"text","max":28}],
+"layout":{
+"defs":{
+"scene":{"type":"layer","items":[
+ {"type":"path","d":"M29 23h2v2h-2ZM83 51h2v2h-2ZM127 19h2v2h-2ZM175 103h2v2h-2ZM231 117h2v2h-2ZM299 95h2v2h-2ZM351 109h2v2h-2ZM59 95h2v2h-2Z","view":[376,160],"fill":"#FFFFFF"},
+ {"type":"path","d":"M190 36C240 0 320 50 386 6","view":[376,160],"stroke":"#9B6BFF","width":16,"opacity":0.5},
+ {"type":"path","d":"M150 62C200 12 260 92 386 32","view":[376,160],"stroke":"#3CF2A6","width":28,"opacity":0.6},
+ {"type":"path","d":"M130 94C210 54 280 112 386 72","view":[376,160],"stroke":"#36D6E7","width":18,"opacity":0.45},
+ {"type":"path","d":"M168 70C210 30 262 98 386 46","view":[376,160],"stroke":"#B9FFE3","width":3,"opacity":0.8},
+ {"type":"path","d":"M110 160L170 120 205 142 250 102 290 134 330 110 376 138V160Z","view":[376,160],"fill":"#0B1D3A"},
+ {"type":"path","d":"M250 102L262 114 254 118 246 112 238 118ZM330 110L340 120 332 123 324 118Z","view":[376,160],"fill":"#DCE8F5"},
+ {"type":"path","d":"M196 160L204 134 212 160ZM214 160L223 128 232 160ZM296 160L304 136 312 160ZM0 160V150Q70 138 150 150T376 152V160Z","view":[376,160],"fill":"#06142B"}]},
+"glyph":{"type":"layer","items":[
+ {"type":"path","d":"M2 12C8 2 14 14 24 5","view":[26,18],"stroke":"#3CF2A6","width":4},
+ {"type":"path","d":"M4 16C10 9 16 16 24 11","view":[26,18],"stroke":"#36D6E7","width":2.5}]}},
+"lock":{"type":"layer","h":160,"bg":"#071226","items":[
+ {"type":"use","ref":"scene"},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":4,"align":"leading","items":[
+  {"type":"text","text":"AURORA PEAKS IN","size":11,"weight":"heavy","tracking":0.06,"color":"#3CF2A6"},
+  {"type":"text","text":"{{eta}}","size":44,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{sky}}","size":13,"weight":"semibold","color":"#C7D0FF"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#071226","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[{"type":"use","ref":"scene"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"AURORA PEAKS IN","size":11,"weight":"bold","tracking":0.08,"color":"#3CF2A6"},
+  {"type":"text","text":"{{eta}}","size":38,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"Clear sky tonight","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph","w":26,"h":18},
+ "compact_trailing":{"type":"text","text":"{{eta}}","size":14,"weight":"bold","mono":true,"color":"#3CF2A6"},
+ "minimal":{"type":"use","ref":"glyph","w":26,"h":18}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#071226","items":[
+ {"type":"use","ref":"glyph","w":30,"h":21},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Aurora peaks in","size":12,"weight":"bold","color":"#3CF2A6"},
+  {"type":"text","text":"{{eta}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Aurora peaks in {{eta}}","text":"{{sky}}","chip":"{{eta}}"}},
+"state":{"title":"Northern lights tonight","eta":"40 min","sky":"Clear sky · look north"}}

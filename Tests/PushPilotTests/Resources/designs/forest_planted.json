@@ -1,0 +1,45 @@
+{"name":"Trees you planted","canvas":"ForestPlanted.dc.html",
+"fields":[{"name":"planted","kind":"number"},{"name":"left","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"defs":{
+"back":{"type":"layer","items":[
+ {"type":"path","d":"M320 30C320 21 327 14 336 14S352 21 352 30 345 46 336 46 320 39 320 30Z","view":[376,160],"fill":"#FFD23F"},
+ {"type":"path","d":"M0 132Q90 108 190 118T376 92V160H0Z","view":[376,160],"fill":"#A8D8B0"}]},
+"front":{"type":"path","d":"M0 150Q120 128 230 138T376 124V160H0Z","view":[376,160],"fill":"#5BB974"},
+"tree":{"type":"layer","items":[
+ {"type":"path","d":"M10 36h4v12h-4Z","view":[24,48],"fill":"#6B4423"},
+ {"type":"path","d":"M0 38L12 14 24 38ZM3 22L12 2 21 22Z","view":[24,48],"fill":"#1F7A45"}]},
+"ghost":{"type":"path","d":"M2 38L12 16 22 38Z","view":[24,48],"stroke":"#1F7A45","width":2,"dash":[3,4]}},
+"lock":{"type":"layer","h":160,"bg":"#E4F4E6","items":[
+ {"type":"use","ref":"back"},
+ {"type":"grid","at":"top_leading","offset":[156,66],"w":220,"h":50,"rotate":-6,"cols":10,"count":10,"filled":"planted",
+  "tile":{"type":"use","ref":"tree","w":20,"h":40},"empty":{"type":"use","ref":"ghost","w":20,"h":40}},
+ {"type":"use","ref":"front"},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":3,"align":"leading","items":[
+  {"type":"text","text":"YOUR ORDERS PLANTED","size":11,"weight":"heavy","tracking":0.06,"color":"#1F7A45"},
+  {"type":"text","text":"{{planted}} trees","size":42,"weight":"heavy","tracking":-0.04,"color":"#0F3D24"},
+  {"type":"text","text":"{{left}} more for a grove","size":13,"weight":"bold","color":"#0F3D24"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#E4F4E6","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[
+   {"type":"use","ref":"back"},
+   {"type":"grid","at":"top_leading","offset":[100,46],"w":182,"h":38,"rotate":-6,"cols":10,"count":10,"filled":"planted",
+    "tile":{"type":"use","ref":"tree"},"empty":{"type":"use","ref":"ghost"}},
+   {"type":"use","ref":"front"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"YOU PLANTED","size":11,"weight":"bold","tracking":0.08,"color":"#4AE37A"},
+  {"type":"text","text":"{{planted}} trees","size":38,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"},
+  {"type":"text","text":"{{left}} more makes a grove","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"tree","w":18,"h":22},
+ "compact_trailing":{"type":"text","text":"{{planted}} of 10","size":14,"weight":"bold","mono":true,"color":"#4AE37A"},
+ "minimal":{"type":"use","ref":"tree","w":18,"h":22}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#E4F4E6","items":[
+ {"type":"use","ref":"tree","w":24,"h":34},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"You planted","size":12,"weight":"bold","color":"#1F7A45"},
+  {"type":"text","text":"{{planted}} trees","size":24,"weight":"heavy","color":"#0F3D24"}]}]},
+"promoted":{"title":"{{planted}} trees planted","text":"{{left}} more for a grove","chip":"{{planted}}/10",
+ "progress":{"type":"progress","value":"share","segments":10,"tracker":"tree","color":"#1F7A45"}}},
+"state":{"title":"Your forest","planted":7,"left":3,"share":0.7}}

@@ -1,0 +1,44 @@
+{"name":"Summit push","canvas":"Summit.dc.html",
+"fields":[{"name":"left","kind":"number"},{"name":"pct","kind":"number"},{"name":"climbed","kind":"number"}],
+"layout":{
+"defs":{
+"scene":{"type":"layer","items":[
+ {"type":"path","d":"M305 50C305 36 316 25 330 25S355 36 355 50 344 75 330 75 305 64 305 50Z","view":[376,160],"fill":"#FFB36B","stroke":"#4A3384","width":14},
+ {"type":"path","d":"M120 160L176 96 210 124 250 84 300 130 340 100 376 126V160Z","view":[376,160],"fill":"#43327F"},
+ {"type":"path","d":"M168 160L262 34 286 62 300 50 376 150V160Z","view":[376,160],"fill":"#5B45A6"},
+ {"type":"path","d":"M262 34L290 160H376V150L300 50 286 62Z","view":[376,160],"fill":"#4E3B96"},
+ {"type":"path","d":"M262 34L246 55 254 60 261 53 268 61 276 50ZM261 18h2v16h-2ZM39 19h2v2h-2ZM95 39h2v2h-2ZM149 17h2v2h-2ZM199 35h2v2h-2Z","view":[376,160],"fill":"#FFFFFF"},
+ {"type":"path","d":"M262 18L276 23 262 28Z","view":[376,160],"fill":"#FF5A5F"},
+ {"type":"path","d":"M196 160L214 128 232 136 240 106 256 112 258 78 262 40","view":[376,160],"stroke":"#FFFFFF","width":2,"dash":[3,5]},
+ {"type":"path","d":"M196 160L214 128 232 136 240 106 256 112 258 78 262 40","view":[376,160],"stroke":"#FFFFFF","width":2,"trim":"climbed",
+  "marker":{"type":"shape","shape":"circle","w":14,"h":14,"fill":"#FFD23F","stroke":"#2A1E5C","width":2.5}},
+ {"type":"path","d":"M0 160V146Q60 132 130 146T260 150L376 156V160Z","view":[376,160],"fill":"#1B1440"}]},
+"glyph":{"type":"layer","items":[
+ {"type":"path","d":"M1 17L10 2 15 10 18 6 23 17Z","view":[24,18],"fill":"#8E78F0"},
+ {"type":"path","d":"M10 2L7 7 9 8 10 6.5 12 8.5 13 6.8Z","view":[24,18],"fill":"#FFFFFF"}]}},
+"lock":{"type":"layer","h":160,"bg":"#2A1E5C","items":[
+ {"type":"use","ref":"scene"},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":4,"align":"leading","items":[
+  {"type":"text","text":"TO THE SUMMIT","size":11,"weight":"heavy","tracking":0.06,"color":"#FFB36B"},
+  {"type":"text","text":"{{left}} m","size":58,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{pct}}% climbed","size":13,"weight":"semibold","color":"#D9CCFF"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#2A1E5C","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[{"type":"use","ref":"scene"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"TO THE SUMMIT","size":11,"weight":"bold","tracking":0.08,"color":"#FFB36B"},
+  {"type":"text","text":"{{left}} m","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{pct}}% climbed","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph","w":24,"h":18},
+ "compact_trailing":{"type":"text","text":"{{left}} m","size":14,"weight":"bold","mono":true,"color":"#FFB36B"},
+ "minimal":{"type":"use","ref":"glyph","w":24,"h":18}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#2A1E5C","items":[
+ {"type":"use","ref":"glyph","w":32,"h":24},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"To the summit","size":12,"weight":"bold","color":"#FFB36B"},
+  {"type":"text","text":"{{left}} m","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{left}} m to the summit","text":"{{pct}}% of the climb done","chip":"{{left}} m",
+ "progress":{"type":"progress","value":"climbed","points":[1],"tracker":"walk","color":"#6A4FD6"}}},
+"state":{"title":"Kedarkantha summit","left":640,"pct":68,"climbed":0.68}}

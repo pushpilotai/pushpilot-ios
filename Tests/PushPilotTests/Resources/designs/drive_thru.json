@@ -1,0 +1,42 @@
+{"name":"Drive-thru lane","canvas":"DriveThru.dc.html",
+"fields":[{"name":"ahead","kind":"number"},{"name":"wait","kind":"text","max":8},{"name":"order","kind":"text","max":6}],
+"layout":{
+"defs":{
+"glass":{"type":"layer","w":62,"h":32,"items":[
+ {"type":"shape","shape":"rect","at":"trailing","offset":[-12,0],"w":12,"h":22,"radius":3,"fill":"#0B1B2B"},
+ {"type":"shape","shape":"rect","at":"leading","offset":[8,0],"w":6,"h":20,"radius":2,"fill":"#0B1B2B"}]},
+"booth":{"type":"column","w":70,"fh":1,"bg":"#C8102E","align":"center","spacing":6,"items":[
+ {"type":"path","d":"M0 0H14V12H0ZM28 0H42V12H28ZM56 0H70V12H56Z","view":[70,12],"h":12,"fill":"#FFFFFF"},
+ {"type":"shape","shape":"rect","w":34,"h":26,"radius":4,"fill":"#FFD23F"}]},
+"lane":{"type":"layer","w":376,"h":70,"items":[
+ {"type":"use","ref":"glass","w":68,"h":38,"pad":3,"radius":15,"bg":"$y","border":{"color":"$r","width":3},"pos":[0.141,0.5]},
+ {"type":"use","ref":"glass","w":62,"h":32,"radius":12,"bg":"$b","pos":[0.393,0.5],"show":{"field":"ahead","above":1}},
+ {"type":"use","ref":"glass","w":62,"h":32,"radius":12,"bg":"$w","pos":[0.645,0.5],"show":{"field":"ahead","above":0}},
+ {"type":"use","ref":"booth","at":"trailing"}]}},
+"lock":{"type":"column","h":160,"bg":"#EFE4CF","pad":[18,0,18,0],"spacing":0,"items":[
+ {"type":"row","align":"baseline","pad":[0,22,0,22],"items":[
+  {"type":"text","text":"{{ahead}} cars ahead","size":28,"weight":"heavy","tracking":-0.03,"color":"#2B1A0A"},
+  {"type":"spacer"},
+  {"type":"text","text":"about {{wait}}","size":13,"weight":"heavy","color":"#2B1A0A"}]},
+ {"type":"spacer"},
+ {"type":"layer","h":76,"bg":"#3A3A3C","items":[
+  {"type":"shape","shape":"line","at":"top","h":3,"stroke":"#EFE4CF","width":3,"dash":[9,6],"cap":"butt"},
+  {"type":"shape","shape":"line","at":"bottom","h":3,"stroke":"#EFE4CF","width":3,"dash":[9,6],"cap":"butt"},
+  {"type":"use","ref":"lane","colors":{"y":"#C8102E","r":"#FFFFFF","b":"#7FA7D9","w":"#E8EDF2"}}]},
+ {"type":"spacer"},
+ {"type":"text","text":"Order {{order}} · have your code ready","pad":[0,22,0,22],"size":13,"weight":"bold","color":"#2B1A0A"}]},
+"island":{
+ "leading":{"type":"text","text":"{{ahead}} cars ahead","size":26,"weight":"heavy","tracking":-0.02,"color":"#FFFFFF","lines":1},
+ "trailing":{"type":"text","runs":[{"text":"about ","color":"#A1A1A8"},{"text":"{{wait}}","color":"#FFFFFF","weight":"semibold"}],"size":13},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"use","ref":"lane","h":66,"radius":16,"bg":"#1C1C1E","border":{"color":"#48484A","width":2,"dash":[6,4]},"clip":true,"colors":{"y":"#5EF2C6","r":"#1F6B56","b":"#8E8E93","w":"#C7CCD6"}},
+ "compact_leading":{"type":"use","ref":"glass","w":30,"h":16,"radius":6,"bg":"#5EF2C6"},
+ "compact_trailing":{"type":"text","text":"{{ahead}} ahead","size":14,"weight":"bold","color":"#5EF2C6"},
+ "minimal":{"type":"use","ref":"glass","w":24,"h":13,"radius":5,"bg":"#5EF2C6"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#EFE4CF","items":[
+ {"type":"use","ref":"glass","w":36,"h":20,"radius":7,"bg":"#C8102E"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"About {{wait}}","size":12,"weight":"bold","color":"#8A5A33"},
+  {"type":"text","text":"{{ahead}} ahead","size":24,"weight":"heavy","color":"#2B1A0A"}]}]},
+"promoted":{"title":"{{ahead}} cars ahead","text":"About {{wait}} · order {{order}}, have your code ready","chip":"{{ahead}} ahead"}},
+"state":{"title":"Drive-thru","ahead":2,"wait":"4 min","order":"58"}}

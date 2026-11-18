@@ -6,3 +6,7 @@ xcuserdata/
 DerivedData/
 *.xcuserstate
 Package.resolved
+
+# Example app build output (README build commands)
+Example/build/
+Example/build-device/

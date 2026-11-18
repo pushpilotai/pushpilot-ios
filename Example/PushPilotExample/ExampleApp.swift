@@ -2,15 +2,32 @@ import PushPilot
 import SwiftUI
 import UserNotifications
 
-/// Replace with the public SDK key from the PushPilot dashboard (Apps page).
-let pushPilotSdkKey = "pp_sdk_REPLACE_ME"
+/// The settings a tester passes as build settings (PUSHPILOT_SDK_KEY, PUSHPILOT_BASE_URL, PUSHPILOT_APP_GROUP),
+/// which Info.plist carries into the app; see the README's "Test against a local server".
+enum ExampleConfig {
+    /// One Info.plist value, or "" when it is missing.
+    private static func value(_ key: String) -> String {
+        (Bundle.main.object(forInfoDictionaryKey: key) as? String ?? "").trimmingCharacters(in: .whitespaces)
+    }
+
+    static var sdkKey: String { value("PushPilotSDKKey") }
+    static var baseUrl: URL { URL(string: value("PushPilotBaseURL")).flatMap { $0.scheme == nil ? nil : $0 } ?? PushPilot.defaultBaseUrl }
+    /// nil when the build set no App Group.
+    static var appGroup: String? { value("PushPilotAppGroup").isEmpty ? nil : value("PushPilotAppGroup") }
+}
 
 @main
 struct ExampleApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
-        WindowGroup { ContentView() }
+        WindowGroup {
+            ContentView()
+                // A tap on a live activity opens the app with its link; PushPilot counts it and returns the link.
+                .onOpenURL { url in
+                    if let link = PushPilot.handleLiveActivityURL(url) { print("Live activity link: \(link)") }
+                }
+        }
     }
 }
 
@@ -19,7 +36,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCent
     /// Starts PushPilot and, if the user already allowed notifications, registers for the device token.
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        PushPilot.initialize(sdkKey: pushPilotSdkKey)
+        PushPilot.initialize(sdkKey: ExampleConfig.sdkKey, baseUrl: ExampleConfig.baseUrl, appGroup: ExampleConfig.appGroup)
         // Optional: route PushPilot links yourself. Without a handler the system opens them.
         PushPilot.setLinkHandler { url in
             print("PushPilot link: \(url)")

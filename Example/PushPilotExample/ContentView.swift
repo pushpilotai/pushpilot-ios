@@ -7,10 +7,21 @@ import UserNotifications
 struct ContentView: View {
     @State private var userId = "user-1"
     @State private var status = ""
+    @State private var sdk: PushPilotStatus?
 
     var body: some View {
         NavigationView {
             Form {
+                Section("Status") {
+                    row("Server", ExampleConfig.baseUrl.absoluteString)
+                    row("Installation id", sdk?.installationId ?? "…")
+                    row("Live Activities supported", yesNo(sdk?.liveSupported))
+                    row("Live Activities on", yesNo(sdk?.liveEnabled))
+                    row("Push-to-start token reported", sdk.map { $0.liveStartTokenReported ? "yes" : "no" } ?? "…")
+                    row("App Group", ExampleConfig.appGroup.map { "\($0) (\(sdk?.liveAppGroup == true ? "open" : "not open"))" } ?? "none")
+                    row("Last sync", sdk?.lastSyncResult ?? "none yet")
+                    Button("Refresh") { refresh() }
+                }
                 Section("Permission") {
                     // The app asks for permission and registers for the token itself; PushPilot only reports the result.
                     Button("Allow notifications") {
@@ -59,7 +70,28 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("PushPilot Example")
+            .onAppear { refresh() }
         }
+    }
+
+    /// Reads the SDK's status again; it changes as syncs finish and live activities are allowed.
+    private func refresh() {
+        PushPilot.status { sdk = $0 }
+    }
+
+    /// A label and a selectable value on one line.
+    private func row(_ label: String, _ value: String) -> some View {
+        HStack(alignment: .firstTextBaseline) {
+            Text(label)
+            Spacer()
+            Text(value).foregroundColor(.secondary).multilineTextAlignment(.trailing).textSelection(.enabled)
+        }
+        .font(.footnote)
+    }
+
+    /// "yes", "no", or "not reported" before the SDK watches live activities (iOS below 17.2).
+    private func yesNo(_ value: Bool?) -> String {
+        value.map { $0 ? "yes" : "no" } ?? "not reported"
     }
 }
 

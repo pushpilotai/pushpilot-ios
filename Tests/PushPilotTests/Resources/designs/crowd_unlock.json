@@ -1,0 +1,43 @@
+{"name":"Crowd unlock","canvas":"CrowdUnlock.dc.html",
+"fields":[{"name":"joined","kind":"text","max":6},{"name":"goal","kind":"text","max":6},{"name":"pct","kind":"number"},{"name":"share","kind":"number"},{"name":"tiers","kind":"number"},{"name":"top","kind":"number"},{"name":"ends","kind":"time"},{"name":"friends","kind":"number"},{"name":"perk","kind":"text","max":34}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#64D2FF","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{joined}} in","size":50,"weight":"heavy","tracking":-0.03,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"row","items":[
+   {"type":"text","text":"{{top}}% off at {{goal}} · ends in","size":13,"weight":"semibold","color":"#000000"},
+   {"type":"timer","field":"ends","mode":"down","size":13,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+ {"type":"layer","at":"trailing","offset":[-22,0],"w":88,"h":88,"items":[
+  {"type":"arc","value":"share","segments":3,"gap":8,"width":10,"cap":"butt","color":"#000000","track":"#00000026"},
+  {"type":"text","text":"{{pct}}%","size":20,"weight":"heavy","color":"#000000"}]}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"{{joined}} of {{goal}} joined","size":15,"weight":"semibold","color":"#FFFFFF"},
+  {"type":"text","text":"At {{goal}} everyone gets {{top}}% off","size":12,"color":"#A1A1A8"}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"Ends in","size":11,"color":"#A1A1A8"},
+  {"type":"timer","field":"ends","mode":"down","size":20,"weight":"bold","mono":true,"color":"#64D2FF"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":8,"items":[
+  {"type":"layer","fw":1,"h":30,"items":[
+   {"type":"layer","at":"top","offset":[0,3],"fw":1,"h":6,"radius":3,"bg":"#3A3A3C","items":[
+    {"type":"shape","shape":"capsule","at":"leading","fw":"share","fill":"#64D2FF"}]},
+   {"type":"grid","h":30,"cols":3,"count":3,"filled":"tiers","labels":["10% unlocked","25% unlocked","{{top}}% at {{goal}}"],
+    "tile":{"type":"column","align":"trailing","items":[{"type":"shape","shape":"circle","w":12,"h":12,"fill":"#64D2FF"},{"type":"text","text":"{{label}}","size":11,"weight":"semibold","color":"#FFFFFF"}]},
+    "empty":{"type":"column","align":"trailing","items":[{"type":"shape","shape":"circle","w":12,"h":12,"stroke":"#8E8E93","width":2},{"type":"text","text":"{{label}}","size":11,"color":"#A1A1A8"}]}}]},
+  {"type":"text","runs":[{"text":"You brought {{friends}} friends.","color":"#FFFFFF","weight":"semibold"},{"text":" {{perk}}","color":"#A1A1A8"}],"size":12,"lines":2}]},
+ "compact_leading":{"type":"icon","name":"people","color":"#64D2FF"},
+ "compact_trailing":{"type":"text","text":"{{pct}}%","size":14,"weight":"semibold","color":"#64D2FF"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","segments":3,"gap":12,"width":3,"color":"#64D2FF","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#64D2FF","items":[
+ {"type":"icon","name":"people","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{joined}} of {{goal}} in","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{pct}}%","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"{{joined}} of {{goal}} joined","text":"{{top}}% off at {{goal}} · {{perk}}","chip":"{{pct}}%",
+ "progress":{"type":"progress","value":"share","segments":3,"color":"#64D2FF"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Crowd unlock","joined":"2,340","goal":"3,000","pct":78,"share":0.78,"tiers":2,"top":50,"ends":"2026-11-18T20:18:20+05:30","friends":2,"perk":"One more and your delivery is free"}}

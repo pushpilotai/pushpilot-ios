@@ -1,0 +1,43 @@
+{"name":"Double-stamp hour","canvas":"StampCard.dc.html",
+"fields":[{"name":"stamps","kind":"number"},{"name":"total","kind":"number"},{"name":"more","kind":"number"},{"name":"share","kind":"number"},{"name":"reward","kind":"text","max":12},{"name":"ends","kind":"time"}],
+"layout":{
+"lock":{"type":"column","h":160,"bg":"#F3E7D3","pad":[20,22,20,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"DOUBLE-STAMP HOUR","size":11,"weight":"heavy","tracking":0.08,"color":"#3B2416"},
+  {"type":"spacer"},
+  {"type":"text","text":"Ends in","size":12,"weight":"heavy","color":"#3B2416"},
+  {"type":"timer","field":"ends","mode":"down","size":12,"weight":"heavy","mono":true,"color":"#3B2416"}]},
+ {"type":"spacer"},
+ {"type":"row","align":"baseline","spacing":10,"items":[
+  {"type":"text","text":"{{more}} more","size":50,"weight":"heavy","tracking":-0.03,"color":"#3B2416","lines":1},
+  {"type":"text","text":"for a free {{reward}}","size":16,"weight":"bold","color":"#3B2416","lines":1}]},
+ {"type":"spacer"},
+ {"type":"grid","cols":10,"count":10,"filled":"stamps","gap":8,"h":26,"current":9,
+  "tile":{"type":"icon","name":"check","size":"s","color":"#F3E7D3","bg":"#3B2416","radius":13},
+  "empty":{"type":"shape","shape":"circle","stroke":"#8A6F5C","width":2,"dash":[4,3]},
+  "current_tile":{"type":"icon","name":"gift","size":"s","color":"#3B2416","radius":13,"bg":"#F3E7D3","border":{"color":"#3B2416","width":2,"dash":[4,3]}}}]},
+"island":{
+ "leading":{"type":"grid","cols":5,"count":10,"filled":"stamps","gap":7,"w":178,"h":67,"current":9,
+  "tile":{"type":"icon","name":"check","size":"s","color":"#3B2416","bg":"#F2C38B","radius":15},
+  "empty":{"type":"shape","shape":"circle","stroke":"#636366","width":2,"dash":[4,3]},
+  "current_tile":{"type":"icon","name":"gift","size":"s","color":"#F2C38B","radius":15,"bg":"#000000","border":{"color":"#F2C38B","width":2,"dash":[4,3]}}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"{{more}} more","size":36,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","text":"for a free {{reward}}","size":13,"color":"#A1A1A8","lines":1},
+  {"type":"row","items":[
+   {"type":"text","text":"2× stamps ·","size":12,"weight":"bold","color":"#F2C38B"},
+   {"type":"timer","field":"ends","mode":"down","size":12,"weight":"bold","mono":true,"color":"#F2C38B"}]}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"coffee","color":"#F2C38B"},
+ "compact_trailing":{"type":"text","text":"{{stamps}} of {{total}}","size":14,"weight":"bold","mono":true,"color":"#F2C38B"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","segments":10,"gap":10,"width":3,"cap":"butt","color":"#F2C38B","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#F3E7D3","items":[
+ {"type":"icon","name":"coffee","size":"l","color":"#3B2416"},
+ {"type":"column","items":[
+  {"type":"text","text":"Double stamps","size":12,"weight":"bold","color":"#8A6F5C"},
+  {"type":"text","text":"{{more}} more","size":24,"weight":"heavy","color":"#3B2416"}]}]},
+"promoted":{"title":"{{more}} more for a free {{reward}}","text":"{{stamps}} of {{total}} stamps · double stamps this hour","chip":"{{stamps}}/{{total}}",
+ "progress":{"type":"progress","value":"share","segments":10,"color":"#3B2416"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Double-stamp hour","stamps":7,"total":10,"more":3,"share":0.7,"reward":"coffee","ends":"2026-11-18T17:20:00+05:30"}}

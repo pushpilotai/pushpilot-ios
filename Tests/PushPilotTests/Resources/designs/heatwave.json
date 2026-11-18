@@ -1,0 +1,40 @@
+{"name":"Heatwave deal","canvas":"Heatwave.dc.html",
+"fields":[{"name":"temp","kind":"number"},{"name":"off","kind":"number"},{"name":"step","kind":"number"},{"name":"city","kind":"text","max":12},{"name":"item","kind":"text","max":18},{"name":"heat","kind":"number"}],
+"layout":{
+"defs":{
+"th":{"type":"layer","w":44,"h":110,"items":[
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[12,2],"w":20,"h":82,"radius":10,"stroke":"$s","width":3},
+ {"type":"shape","shape":"circle","at":"top_leading","offset":[3,69],"w":38,"h":38,"fill":"$b","stroke":"$s","width":3},
+ {"type":"layer","at":"top_leading","offset":[18,10],"w":8,"h":80,"items":[{"type":"shape","shape":"rect","at":"bottom","fh":"heat","radius":4,"fill":"$m"}]},
+ {"type":"shape","shape":"circle","at":"top_leading","offset":[10,76],"w":24,"h":24,"fill":"$m"},
+ {"type":"path","d":"M37 20h6M37 36h6M37 52h6","view":[44,110],"stroke":"$k","width":2}]}},
+"lock":{"type":"row","h":160,"bg":"#FF8A4C","pad":[20,22,20,22],"spacing":10,"items":[
+ {"type":"column","h":120,"items":[
+  {"type":"text","text":"Heatwave deal · {{city}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{off}}% off","size":50,"weight":"heavy","tracking":-0.04,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{item}} · {{step}}% more per degree","size":12,"weight":"bold","color":"#000000","lines":1}]},
+ {"type":"column","spacing":0,"align":"trailing","items":[
+  {"type":"text","text":"{{temp}}°","size":34,"weight":"heavy","mono":true,"color":"#000000"},
+  {"type":"text","text":"now","size":11,"weight":"heavy","color":"#000000"}]},
+ {"type":"use","ref":"th","w":46,"h":116,"colors":{"s":"#000000","b":"#FF8A4C","m":"#000000","k":"#00000000"}}]},
+"island":{
+ "leading":{"type":"use","ref":"th","w":44,"h":110,"colors":{"s":"#48484A","b":"#000000","m":"#FF8A4C","k":"#636366"}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"{{temp}}° in {{city}} right now","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#FF8A4C","lines":1},
+  {"type":"text","text":"{{off}}% off","size":46,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","runs":[{"text":"{{item}} · ","color":"#A1A1A8"},{"text":"{{step}}% more per degree","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"thermometer","color":"#FF8A4C"},
+ "compact_trailing":{"type":"text","text":"{{temp}}° · {{off}}%","size":14,"weight":"bold","mono":true,"color":"#FF8A4C"},
+ "minimal":{"type":"icon","name":"thermometer","color":"#FF8A4C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FF8A4C","items":[
+ {"type":"use","ref":"th","w":22,"h":55,"colors":{"s":"#000000","b":"#FF8A4C","m":"#000000","k":"#00000000"}},
+ {"type":"column","items":[
+  {"type":"text","text":"{{temp}}° in {{city}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"{{off}}% off {{item}}","text":"{{temp}}° in {{city}} · {{step}}% more per degree","chip":"{{temp}}°",
+ "progress":{"type":"progress","value":"heat","color":"#FF8A4C"}}},
+"state":{"title":"Heatwave deal","temp":38,"off":15,"step":5,"city":"Delhi","item":"Cold drinks","heat":0.82}}

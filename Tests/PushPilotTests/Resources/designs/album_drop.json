@@ -1,0 +1,48 @@
+{"name":"Album drop","canvas":"AlbumDrop.dc.html",
+"fields":[{"name":"drops","kind":"time"},{"name":"album","kind":"text","max":24},{"name":"saves","kind":"text","max":7}],
+"layout":{
+"defs":{
+"disc":{"type":"layer","w":200,"h":200,"items":[
+ {"type":"shape","shape":"circle","fill":"$d","stroke":"$o","width":3},
+ {"type":"arc","w":173,"h":173,"width":1.5,"color":"$g"},
+ {"type":"arc","w":145,"h":145,"width":1.5,"color":"$g"},
+ {"type":"arc","w":117,"h":117,"width":1.5,"color":"$g"}]},
+"mini":{"type":"layer","w":20,"h":20,"items":[
+ {"type":"arc","w":20,"h":20,"width":2,"color":"#FF5CA8"},
+ {"type":"arc","w":8,"h":8,"width":2,"color":"#FF5CA8"}]}},
+"lock":{"type":"layer","h":160,"bg":"#C2185F","items":[
+ {"type":"layer","w":200,"h":200,"at":"top_trailing","offset":[88,-20],"items":[
+  {"type":"use","ref":"disc","w":200,"h":200,"colors":{"d":"#141414","g":"#333333","o":"#00000000"}},
+  {"type":"shape","shape":"circle","w":76,"h":76,"fill":"#FFD23F"},
+  {"type":"shape","shape":"circle","w":12,"h":12,"fill":"#141414"}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"ALBUM DROPS AT MIDNIGHT","size":11,"weight":"heavy","tracking":0.08,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"timer","field":"drops","mode":"down","size":52,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{album}} · {{saves}} pre-saved","size":13,"weight":"bold","color":"#FFFFFF","lines":1}]}]},
+"island":{
+ "leading":{"type":"layer","w":104,"h":104,"items":[
+  {"type":"use","ref":"disc","w":104,"h":104,"colors":{"d":"#1C1C1E","g":"#3A3A3C","o":"#3A3A3C"}},
+  {"type":"arc","w":86,"h":86,"start":30,"sweep":30,"width":2,"color":"#8E8E93"},
+  {"type":"shape","shape":"circle","w":36,"h":36,"fill":"#FF5CA8"},
+  {"type":"shape","shape":"circle","w":6,"h":6,"fill":"#000000"}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"DROPS AT MIDNIGHT","size":11,"weight":"bold","tracking":0.08,"color":"#FF5CA8"},
+  {"type":"timer","field":"drops","mode":"down","size":38,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"{{album}} · ","color":"#A1A1A8"},{"text":"{{saves}} pre-saved","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"mini","w":20,"h":20},
+ "compact_trailing":{"type":"timer","field":"drops","mode":"down","format":"hours","size":14,"weight":"bold","mono":true,"color":"#FF5CA8"},
+ "minimal":{"type":"use","ref":"mini","w":20,"h":20}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#C2185F","items":[
+ {"type":"layer","w":44,"h":44,"items":[
+  {"type":"use","ref":"disc","w":44,"h":44,"colors":{"d":"#141414","g":"#333333","o":"#00000000"}},
+  {"type":"shape","shape":"circle","w":17,"h":17,"fill":"#FFD23F"}]},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Drops at midnight","size":12,"weight":"bold","color":"#FFFFFF"},
+  {"type":"timer","field":"drops","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{album}} drops at midnight","text":"{{saves}} pre-saved","chip":"Drop",
+ "timer":{"type":"timer","field":"drops","mode":"down"}}},
+"state":{"title":"Album drop","drops":"2026-11-19T00:00:00+05:30","album":"Night Shift","saves":"8,412"}}

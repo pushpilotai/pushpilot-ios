@@ -1,0 +1,41 @@
+{"name":"Bill due today","canvas":"BillDue.dc.html",
+"fields":[{"name":"amount","kind":"text","max":10},{"name":"bill","kind":"text","max":14},{"name":"due","kind":"text","max":3},{"name":"note","kind":"text","max":30},{"name":"left","kind":"number"}],
+"layout":{
+"lock":{"type":"row","h":160,"bg":"#FFD23F","pad":[20,22,20,22],"spacing":14,"items":[
+ {"type":"column","h":120,"items":[
+  {"type":"text","text":"{{bill}} bill · due in {{due}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{amount}}","size":58,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{note}}","size":13,"weight":"bold","color":"#000000","lines":1}]},
+ {"type":"spacer"},
+ {"type":"layer","w":100,"h":100,"items":[
+  {"type":"shape","shape":"circle","w":96,"h":96,"fill":"#000000"},
+  {"type":"arc","w":83,"h":83,"value":"left","width":7,"color":"#FFD23F","track":"#4A3C0E"},
+  {"type":"path","d":"M54 26L36 54H49L46 76 66 46H52Z","fill":"#FFD23F"}]}]},
+"island":{
+ "leading":{"type":"layer","w":104,"h":104,"items":[
+  {"type":"arc","w":100,"h":100,"value":"left","width":10,"color":"#FFD23F","track":"#2C2C2E"},
+  {"type":"path","d":"M54 24L34 54H49L46 78 68 46H52Z","fill":"#FFD23F"}]},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"{{bill}} · due in {{due}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F","lines":1},
+  {"type":"text","text":"{{amount}}","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{note}}","size":13,"color":"#A1A1A8","lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"bolt","color":"#FFD23F"},
+ "compact_trailing":{"type":"text","text":"Due in {{due}}","size":14,"weight":"bold","mono":true,"color":"#FFD23F"},
+ "minimal":{"type":"layer","w":22,"h":22,"items":[
+  {"type":"arc","value":"left","width":3,"color":"#FFD23F","track":"#3A3A3C"},
+  {"type":"path","d":"M54 24L34 54H49L46 78 68 46H52Z","fill":"#FFD23F"}]}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFD23F","items":[
+ {"type":"layer","w":44,"h":44,"items":[
+  {"type":"shape","shape":"circle","fill":"#000000"},
+  {"type":"arc","w":36,"h":36,"value":"left","width":4,"color":"#FFD23F","track":"#4A3C0E"},
+  {"type":"path","d":"M54 26L36 54H49L46 76 66 46H52Z","fill":"#FFD23F"}]},
+ {"type":"column","items":[
+  {"type":"text","text":"{{bill}} · {{due}}","size":12,"weight":"bold","color":"#000000","lines":1},
+  {"type":"text","text":"{{amount}}","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{amount}} {{bill}} bill due in {{due}}","text":"{{note}}","chip":"Due {{due}}",
+ "progress":{"type":"progress","value":"left","color":"#FFD23F"}}},
+"state":{"title":"Electricity bill due","amount":"₹1,860","bill":"Electricity","due":"6h","note":"₹50 late fee after midnight","left":0.25}}

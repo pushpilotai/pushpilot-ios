@@ -1,0 +1,43 @@
+{"name":"Curbside pickup","canvas":"Curbside.dc.html",
+"fields":[{"name":"spot","kind":"text","max":4},{"name":"status","kind":"text","max":18},{"name":"short","kind":"text","max":10},{"name":"walk","kind":"number"}],
+"layout":{
+"defs":{
+"spot":{"type":"text","text":"{{spot}}","w":22,"h":22,"radius":6,"bg":"#4DA3FF","size":14,"weight":"heavy","color":"#000000"},
+"car":{"type":"shape","shape":"rect","w":30,"h":46,"radius":10,"fill":"#8E8E93"}},
+"lock":{"type":"layer","h":160,"bg":"#2A2D34","items":[
+ {"type":"layer","at":"top_trailing","w":226,"h":160,"view":[226,160],"items":[
+  {"type":"shape","shape":"rect","at":"top","h":30,"fill":"#0A4FB8"},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[96,0],"w":34,"h":30,"fill":"#FFFFFF"},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[104,6],"w":18,"h":24,"fill":"#9CC8FF"},
+  {"type":"path","d":"M2 56V160M58 56V160M114 56V160M170 56V160","stroke":"#FFD23F","width":3},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[12,74],"w":36,"h":78,"radius":12,"fill":"#8E8E93"},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[122,68],"w":40,"h":86,"radius":13,"fill":"#4DA3FF"},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[178,92],"w":40,"h":56,"radius":13,"fill":"#4A4E57"},
+  {"type":"path","d":"M113 30V46Q113 54 124 56L134 58","stroke":"#FFFFFF","width":2.5,"dash":[4,5],"marker_at":"walk","marker":{"type":"shape","shape":"circle","w":14,"h":14,"fill":"#FFFFFF"}}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"CURBSIDE PICKUP","size":11,"weight":"heavy","tracking":0.06,"color":"#9CC8FF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Spot {{spot}}","size":38,"weight":"heavy","tracking":-0.04,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{status}}","size":13,"weight":"bold","color":"#FFFFFF"}]}]},
+"island":{
+ "leading":{"type":"text","text":"{{status}}","size":22,"weight":"heavy","color":"#FFFFFF"},
+ "trailing":{"type":"text","text":"Spot {{spot}}","upper":true,"pad":[3,9,3,9],"radius":6,"bg":"#4DA3FF","size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"layer","w":324,"h":84,"radius":12,"clip":true,"bg":"#1C1C1E","view":[324,84],"items":[
+  {"type":"shape","shape":"rect","at":"top","h":14,"fill":"#0A4FB8"},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[204,0],"w":26,"h":14,"fill":"#FFFFFF"},
+  {"type":"path","d":"M54 28V84M108 28V84M162 28V84M216 28V84M270 28V84","stroke":"#FFD23F","width":2},
+  {"type":"use","ref":"car","copies":[[81,57],[297,57]]},
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[172,32],"w":34,"h":50,"radius":11,"fill":"#4DA3FF"},
+  {"type":"path","d":"M217 14V22Q217 26 213 26","stroke":"#FFFFFF","width":2,"dash":[3,4],"marker_at":"walk","marker":{"type":"shape","shape":"circle","w":10,"h":10,"fill":"#FFFFFF"}}]},
+ "compact_leading":{"type":"use","ref":"spot"},
+ "compact_trailing":{"type":"text","text":"{{short}}","size":14,"weight":"bold","color":"#4DA3FF"},
+ "minimal":{"type":"use","ref":"spot"}},
+"small":{"type":"row","pad":10,"bg":"#2A2D34","items":[
+ {"type":"use","ref":"spot","w":36,"h":36},
+ {"type":"column","items":[
+  {"type":"text","text":"{{short}}","size":12,"weight":"bold","color":"#9CC8FF"},
+  {"type":"text","text":"Spot {{spot}}","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"Spot {{spot}}: {{status}}","text":"Curbside pickup","chip":"Spot {{spot}}","progress":{"type":"progress","value":"walk","tracker":"walk","color":"#4DA3FF"}}},
+"state":{"title":"Curbside pickup","spot":"4","status":"On our way out","short":"Coming out","walk":0.3}}

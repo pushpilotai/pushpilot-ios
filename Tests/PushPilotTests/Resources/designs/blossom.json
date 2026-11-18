@@ -1,0 +1,45 @@
+{"name":"Peak bloom","canvas":"Blossom.dc.html",
+"fields":[{"name":"when","kind":"text","max":10},{"name":"open","kind":"text","max":4},{"name":"bloom","kind":"number"}],
+"layout":{
+"defs":{
+"branches":{"type":"layer","items":[
+ {"type":"path","d":"M380 22C332 32 290 70 222 62","view":[376,160],"stroke":"#5A3222","width":8},
+ {"type":"path","d":"M318 44C308 72 292 98 262 112","view":[376,160],"stroke":"#5A3222","width":5},
+ {"type":"path","d":"M288 62C272 44 252 36 232 30M344 32C354 60 358 82 350 106","view":[376,160],"stroke":"#5A3222","width":4}]},
+"fa":{"type":"layer","w":25,"h":25,"items":[{"type":"arc","width":11,"dash":[0.5,8.3],"color":"#FF8FB1"},{"type":"shape","shape":"circle","w":8,"h":8,"fill":"#FFD23F"}]},
+"fb":{"type":"layer","w":25,"h":25,"items":[{"type":"arc","width":11,"dash":[0.5,8.3],"color":"#FFB3C9"},{"type":"shape","shape":"circle","w":8,"h":8,"fill":"#FFD23F"}]},
+"bud":{"type":"shape","shape":"circle","w":8,"h":8,"fill":"#D94F7C"},
+"scene":{"type":"layer","items":[
+ {"type":"use","ref":"branches"},
+ {"type":"use","ref":"fa","view":[376,160],"copies":[[222,62],[350,106],[302,52,1.14],[288,88],[262,46,0.86]]},
+ {"type":"use","ref":"fb","view":[376,160],"copies":[[262,112],[232,30],[338,66]]},
+ {"type":"use","ref":"bud","view":[376,160],"copies":[[246,68],[312,82],[276,30],[356,84]]}]}},
+"lock":{"type":"layer","h":160,"bg":"#FFE3EC","items":[
+ {"type":"use","ref":"scene"},
+ {"type":"shape","shape":"ellipse","w":10,"h":6,"fill":"#FF8FB1","at":"top_leading","offset":[195,97],"rotate":30},
+ {"type":"shape","shape":"ellipse","w":10,"h":6,"fill":"#FF8FB1","at":"top_leading","offset":[213,129],"rotate":60},
+ {"type":"shape","shape":"ellipse","w":10,"h":6,"fill":"#FFB3C9","at":"top_leading","offset":[295,133],"rotate":-40},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":3,"align":"leading","items":[
+  {"type":"text","text":"PEAK BLOOM IN","size":11,"weight":"heavy","tracking":0.06,"color":"#A3123A"},
+  {"type":"text","text":"{{when}}","size":54,"weight":"heavy","tracking":-0.04,"color":"#4A1027"},
+  {"type":"text","text":"{{open}} of the park is open","size":13,"weight":"bold","color":"#4A1027"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#FFE3EC","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[{"type":"use","ref":"scene"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"PEAK BLOOM IN","size":11,"weight":"bold","tracking":0.08,"color":"#FF8FB1"},
+  {"type":"text","text":"{{when}}","size":40,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"},
+  {"type":"text","text":"{{open}} open today","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"fa","w":22,"h":22},
+ "compact_trailing":{"type":"text","text":"{{when}}","size":14,"weight":"bold","mono":true,"color":"#FF8FB1"},
+ "minimal":{"type":"use","ref":"fa","w":22,"h":22}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFE3EC","items":[
+ {"type":"use","ref":"fa","w":28,"h":28},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Peak bloom in","size":12,"weight":"bold","color":"#A3123A"},
+  {"type":"text","text":"{{when}}","size":24,"weight":"heavy","color":"#4A1027"}]}]},
+"promoted":{"title":"Peak bloom in {{when}}","text":"{{open}} of the park is open","chip":"{{when}}",
+ "progress":{"type":"progress","value":"bloom","color":"#FF8FB1"}}},
+"state":{"title":"Cherry blossom watch","when":"3 days","open":"70%","bloom":0.7}}

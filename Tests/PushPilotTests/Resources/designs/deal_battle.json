@@ -1,0 +1,48 @@
+{"name":"Deal battle","canvas":"DealBattle.dc.html",
+"fields":[{"name":"a_name","kind":"text","max":10},{"name":"b_name","kind":"text","max":10},{"name":"a_pct","kind":"number"},{"name":"b_pct","kind":"number"},{"name":"share","kind":"number"},{"name":"closes","kind":"time"},{"name":"pick","kind":"text","max":10},{"name":"prize","kind":"text","max":32}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#FF9F0A","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"Team {{a_name}} vs team {{b_name}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{a_pct}}%","size":58,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+   {"type":"text","text":"vs {{b_pct}}%","size":22,"weight":"heavy","mono":true,"color":"#0A3D7A"}]},
+  {"type":"spacer"},
+  {"type":"row","spacing":4,"items":[
+   {"type":"text","text":"You backed {{pick}} · closes in","size":13,"weight":"semibold","color":"#000000"},
+   {"type":"timer","field":"closes","mode":"down","size":13,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+ {"type":"layer","at":"trailing","offset":[-22,0],"w":88,"h":88,"items":[
+  {"type":"arc","value":"share","width":12,"color":"#000000","track":"#1F5FA8"},
+  {"type":"icon","name":"trophy","color":"#000000","size":"l"}]}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"TEAM {{a_name}}","size":12,"weight":"bold","color":"#FF9F0A"},
+  {"type":"text","text":"{{a_pct}}%","size":28,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"TEAM {{b_name}}","size":12,"weight":"bold","color":"#4DA3FF"},
+  {"type":"text","text":"{{b_pct}}%","size":28,"weight":"bold","mono":true,"color":"#A1A1A8"}]},
+ "center":{"type":"column","align":"center","items":[
+  {"type":"text","text":"Voting closes in","size":11,"color":"#A1A1A8"},
+  {"type":"timer","field":"closes","mode":"down","size":16,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"row","spacing":0,"items":[
+   {"type":"shape","shape":"rect","fw":"share","h":10,"radius":[5,0,0,5],"fill":"#FF9F0A"},
+   {"type":"shape","shape":"rect","w":4,"h":18,"radius":2,"fill":"#FFFFFF"},
+   {"type":"shape","shape":"rect","h":10,"radius":[0,5,5,0],"fill":"#1F5FA8"}]},
+  {"type":"row","items":[
+   {"type":"text","text":"You backed {{pick}}","size":12,"weight":"semibold","color":"#FFFFFF"},
+   {"type":"spacer"},
+   {"type":"text","text":"{{prize}}","size":12,"color":"#A1A1A8"}]}]},
+ "compact_leading":{"type":"text","text":"{{a_pct}}%","size":14,"weight":"bold","mono":true,"color":"#FF9F0A"},
+ "compact_trailing":{"type":"text","text":"{{b_pct}}%","size":14,"weight":"bold","mono":true,"color":"#4DA3FF"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","width":4,"color":"#FF9F0A","track":"#1F5FA8"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FF9F0A","items":[
+ {"type":"icon","name":"trophy","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{a_name}} vs {{b_name}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","runs":[{"text":"{{a_pct}}%","color":"#000000"},{"text":" {{b_pct}}%","color":"#0A3D7A"}],"size":20,"weight":"heavy","mono":true}]}]},
+"promoted":{"title":"{{a_name}} {{a_pct}}% vs {{b_name}} {{b_pct}}%","text":"You backed {{pick}} · {{prize}}","chip":"{{a_pct}}%",
+ "progress":{"type":"progress","value":"share","color":"#FF9F0A"},
+ "timer":{"type":"timer","field":"closes","mode":"down"}}},
+"state":{"title":"Pizza vs Burger","a_name":"PIZZA","b_name":"BURGER","a_pct":54,"b_pct":46,"share":0.54,"closes":"2026-11-18T19:05:12+05:30","pick":"Pizza","prize":"Winner goes 50% off at 8 PM"}}

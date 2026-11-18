@@ -1,0 +1,47 @@
+{"name":"Home run free delivery","canvas":"Diamond.dc.html",
+"fields":[{"name":"on","kind":"number"},{"name":"outs","kind":"number"},{"name":"balls","kind":"number"},{"name":"strikes","kind":"number"},{"name":"bases","kind":"numbers","max":3}],
+"layout":{
+"defs":{
+"run":{"type":"layer","w":30,"h":30,"items":[
+ {"type":"shape","shape":"circle","stroke":"#FFD23F","width":2.5},
+ {"type":"shape","shape":"rect","w":14,"h":14,"fill":"#FFD23F"}]},
+"field":{"type":"layer","w":160,"h":130,"view":[160,130],"items":[
+ {"type":"path","d":"M80 124L6 50A104 104 0 0 1 154 50Z","fill":"#1E7A3C"},
+ {"type":"path","d":"M80 114L120 74 80 34 40 74Z","fill":"#C99A62"},
+ {"type":"path","d":"M80 100L106 74 80 48 54 74Z","fill":"#2A9150"},
+ {"type":"path","d":"M120 64L130 74 120 84 110 74ZM80 24L90 34 80 44 70 34ZM40 64L50 74 40 84 30 74ZM74 109H86V115L80 121 74 115Z","fill":"#FFFFFF"},
+ {"type":"grid","w":113,"h":113,"pos":[0.5,0.569],"rotate":45,"cols":2,"count":3,"filled":"bases","tile":{"type":"use","ref":"run","w":30,"h":30}}]},
+"bso":{"type":"row","spacing":4,"items":[
+ {"type":"text","text":"B","size":11,"weight":"heavy","color":"$t"},
+ {"type":"grid","w":33,"cols":3,"count":3,"gap":3,"filled":"balls","tile":{"type":"spacer","bg":"#4AE37A","radius":9},"empty":{"type":"spacer","bg":"$e","radius":9}},
+ {"type":"text","text":"S","size":11,"weight":"heavy","color":"$t"},
+ {"type":"grid","w":21,"cols":2,"count":2,"gap":3,"filled":"strikes","tile":{"type":"spacer","bg":"#FFD23F","radius":9},"empty":{"type":"spacer","bg":"$e","radius":9}},
+ {"type":"text","text":"O","size":11,"weight":"heavy","color":"$t"},
+ {"type":"grid","w":21,"cols":2,"count":2,"gap":3,"filled":"outs","tile":{"type":"spacer","bg":"#FF6B5E","radius":9},"empty":{"type":"spacer","bg":"$e","radius":9}}]},
+"glyph":{"type":"grid","w":13,"h":13,"rotate":45,"cols":2,"count":3,"gap":1,"filled":"bases","tile":{"type":"shape","shape":"rect","fill":"#FFD23F"},"empty":{"type":"shape","shape":"rect","stroke":"#8E8E93","width":1.5}}},
+"lock":{"type":"layer","h":160,"bg":"#14532B","items":[
+ {"type":"use","ref":"field","at":"top_trailing","offset":[14,-4],"w":216,"h":176},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"HOME RUN NOW =","size":11,"weight":"heavy","tracking":0.06,"color":"#FFD23F"},
+  {"type":"spacer"},
+  {"type":"text","text":"Free delivery","w":150,"lines":2,"align":"leading","size":30,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"use","ref":"bso","colors":{"t":"#FFFFFF","e":"#0B3219"}}]}]},
+"island":{
+ "leading":{"type":"use","ref":"field","w":140,"h":114},
+ "trailing":{"type":"column","items":[
+  {"type":"text","text":"HOME RUN NOW =","size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F"},
+  {"type":"text","text":"Free delivery","size":26,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"use","ref":"bso","colors":{"t":"#A1A1A8","e":"#3A3A3C"}}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph"},
+ "compact_trailing":{"type":"text","text":"{{on}} on · {{outs}} out","size":14,"weight":"bold","color":"#FFD23F"},
+ "minimal":{"type":"use","ref":"glyph"}},
+"small":{"type":"row","pad":10,"bg":"#14532B","items":[
+ {"type":"use","ref":"glyph","w":20,"h":20},
+ {"type":"column","items":[
+  {"type":"text","text":"{{on}} on · {{outs}} out","size":12,"weight":"bold","color":"#FFD23F"},
+  {"type":"text","text":"Free delivery","size":20,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"Home run now = free delivery","text":"{{on}} on · {{outs}} out","chip":"{{on}} on"}},
+"state":{"title":"Home run free delivery","on":2,"outs":2,"balls":2,"strikes":1,"bases":[1,1,0]}}

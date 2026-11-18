@@ -10,7 +10,7 @@ public enum PushPilot {
     /// The server used when `initialize` gets no `baseUrl`.
     public static let defaultBaseUrl = URL(string: "https://pushpilot.ai")!
     /// The version reported to the server as `sdk_version`.
-    public static let sdkVersion = "2.0.0"
+    public static let sdkVersion = "2.1.1"
 
     static let queue = DispatchQueue(label: "ai.pushpilot.sdk")
     /// Builds the engine; tests replace it to inject fakes.
@@ -44,7 +44,10 @@ public enum PushPilot {
     /// `initialize` yet, such as one launched by a tap on a push, the first SDK call starts the SDK from
     /// them, so a click or a token is sent instead of waiting in memory. When `initialize` then runs, its
     /// values replace the saved ones.
-    public static func initialize(sdkKey: String, baseUrl: URL = defaultBaseUrl) {
+    ///
+    /// On iOS 17.2 and later the SDK also watches PushPilot live activities. `appGroup` is an App Group
+    /// shared with your Widget Extension; with it, images in live activity layouts are downloaded for the widget.
+    public static func initialize(sdkKey: String, baseUrl: URL = defaultBaseUrl, appGroup: String? = nil) {
         queue.async {
             guard !initialized else { return }
             guard !sdkKey.isEmpty else { return log.error("initialize ignored: sdkKey is empty") }
@@ -56,7 +59,23 @@ public enum PushPilot {
                 }
             }
             configure(given)
+            #if canImport(ActivityKit)
+            if #available(iOS 17.2, *) { LiveObserver.start(appGroup: appGroup) }
+            #endif
         }
+    }
+
+    /// Forward the URL your app opens from a live activity tap (`onOpenURL`, or the scene's `openURLContexts`).
+    /// For a PushPilot live activity link it records the click once and returns the activity's own link
+    /// without PushPilot's marker, or nil when the activity has no link (just open the app). Any other URL
+    /// is returned unchanged.
+    public static func handleLiveActivityURL(_ url: URL) -> URL? {
+        guard let tap = LiveTap.parse(url) else { return url }
+        queue.async {
+            guard tapped.insert("live:" + tap.notificationId).inserted else { return }
+            runNow { $0.trackClick(notificationId: tap.notificationId, buttonId: nil) }
+        }
+        return tap.link
     }
 
     /// Passes the APNs device token from `application(_:didRegisterForRemoteNotificationsWithDeviceToken:)`
@@ -171,7 +190,7 @@ public enum PushPilot {
 
     /// Runs `work` on the SDK queue now, or once the engine exists. Before `initialize` it first tries
     /// to start the SDK from the saved configuration.
-    private static func run(_ work: @escaping (Engine) -> Void) {
+    static func run(_ work: @escaping (Engine) -> Void) {
         queue.async { runNow(work) }
     }
 

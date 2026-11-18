@@ -1,0 +1,46 @@
+{"name":"Every six cuts the price","canvas":"SixesSale.dc.html",
+"fields":[{"name":"code","kind":"text","max":4},{"name":"off","kind":"number"},{"name":"sixes","kind":"number"},{"name":"overs","kind":"text","max":5},{"name":"next","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"defs":{
+"badge":{"type":"text","text":"{{code}} BATTING","pad":[3,8,3,8],"radius":6,"bg":"#D7263D","size":11,"weight":"bold","tracking":0.06,"color":"#FFFFFF"}},
+"lock":{"type":"layer","h":160,"bg":"#FFD60A","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"row","spacing":8,"items":[
+   {"type":"use","ref":"badge"},
+   {"type":"text","text":"{{sixes}} sixes · {{overs}} ov","size":12,"weight":"bold","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{off}}%","size":58,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+   {"type":"text","text":"off","size":22,"weight":"heavy","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"Next six makes it {{next}}%","size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"grid","at":"trailing","offset":[-22,4],"w":136,"h":54,"cols":5,"count":10,"filled":"sixes","gap":6,
+  "tile":{"type":"text","text":"6","radius":13,"bg":"#000000","size":13,"weight":"heavy","color":"#FFD60A"},
+  "empty":{"type":"shape","shape":"circle","stroke":"#00000066","width":2,"dash":[3,3]}}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"Every six cuts the price 5%","size":12,"color":"#A1A1A8"},
+  {"type":"text","text":"{{off}}% off","size":30,"weight":"bold","mono":true,"color":"#FFD60A"}]},
+ "trailing":{"type":"column","spacing":6,"align":"trailing","items":[
+  {"type":"use","ref":"badge"},
+  {"type":"text","text":"{{sixes}} sixes · {{overs}} overs","size":12,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"grid","w":312,"h":24,"cols":10,"count":10,"filled":"sixes","gap":8,
+   "tile":{"type":"text","text":"6","radius":12,"bg":"#FFD60A","size":12,"weight":"bold","color":"#000000"},
+   "empty":{"type":"shape","shape":"circle","stroke":"#636366","width":2,"dash":[3,3]}},
+  {"type":"row","items":[
+   {"type":"text","runs":[{"text":"Next six makes it ","color":"#A1A1A8"},{"text":"{{next}}%","color":"#FFFFFF","weight":"semibold"}],"size":12},
+   {"type":"spacer"},
+   {"type":"text","text":"Locks when the innings ends","size":12,"color":"#A1A1A8"}]}]},
+ "compact_leading":{"type":"icon","name":"cricket","color":"#FFD60A"},
+ "compact_trailing":{"type":"text","text":"{{off}}% off","size":14,"weight":"semibold","mono":true,"color":"#FFD60A"},
+ "minimal":{"type":"icon","name":"cricket","color":"#FFD60A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFD60A","items":[
+ {"type":"text","text":"6","w":40,"h":40,"radius":20,"bg":"#000000","size":22,"weight":"heavy","color":"#FFD60A"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{sixes}} sixes · {{code}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{off}}% off · every six cuts 5%","text":"{{code}} batting · {{sixes}} sixes · next six makes it {{next}}%","chip":"{{off}}%",
+ "progress":{"type":"progress","value":"share","segments":10,"color":"#FFD60A"}}},
+"state":{"title":"Every six cuts the price","code":"IND","off":35,"sixes":7,"overs":"14.3","next":40,"share":0.7}}

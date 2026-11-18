@@ -1,0 +1,41 @@
+{"name":"Refund on its way","canvas":"RefundTrack.dc.html",
+"fields":[{"name":"amount","kind":"text","max":10},{"name":"by","kind":"text","max":10},{"name":"d1","kind":"text","max":3},{"name":"d2","kind":"text","max":3},{"name":"d3","kind":"text","max":3},{"name":"d4","kind":"text","max":3},{"name":"now","kind":"number"},{"name":"done","kind":"number"}],
+"layout":{
+"defs":{
+"days":{"type":"grid","h":44,"cols":4,"count":4,"gap":6,"filled":"now","current":"now","labels":["{{d1}}","{{d2}}","{{d3}}","{{d4}}"],
+ "tile":{"type":"column","radius":12,"bg":"$on","align":"center","spacing":2,"items":[{"type":"spacer"},
+  {"type":"text","text":"{{label}}","upper":true,"size":11,"weight":"heavy","color":"$ink"},
+  {"type":"icon","name":"check","color":"$ink","size":"s"},{"type":"spacer"}]},
+ "current_tile":{"type":"column","radius":12,"border":{"color":"$on","width":2.5},"align":"center","items":[{"type":"spacer"},
+  {"type":"text","text":"TODAY","size":11,"weight":"heavy","color":"$on"},
+  {"type":"shape","shape":"circle","w":8,"h":8,"fill":"$on"},{"type":"spacer"}]},
+ "empty":{"type":"column","radius":12,"bg":"$off","align":"center","spacing":2,"items":[{"type":"spacer"},
+  {"type":"text","text":"{{label}}","upper":true,"size":11,"weight":"heavy","color":"$dim"},
+  {"type":"text","text":"₹","size":13,"weight":"heavy","color":"$cash"},{"type":"spacer"}]}}},
+"lock":{"type":"column","h":160,"bg":"#EFEAFF","pad":[20,22,20,22],"items":[
+ {"type":"row","align":"bottom","items":[
+  {"type":"column","items":[
+   {"type":"text","text":"REFUND ON ITS WAY","size":11,"weight":"heavy","tracking":0.06,"color":"#4B2BD1"},
+   {"type":"text","text":"{{amount}}","size":48,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#1F1147"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"in your bank by {{by}}","pad":[0,0,6,0],"size":12,"weight":"bold","color":"#1F1147"}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"days","colors":{"on":"#4B2BD1","ink":"#FFFFFF","off":"#D9CFFF","dim":"#1F1147","cash":"#1F1147"}}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"REFUND ON ITS WAY","size":11,"weight":"bold","tracking":0.08,"color":"#A99BFF"},
+  {"type":"text","text":"{{amount}}","size":38,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"text","runs":[{"text":"in your bank by ","color":"#A1A1A8"},{"text":"{{d4}}","color":"#FFFFFF","weight":"semibold"}],"size":13},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"use","ref":"days","colors":{"on":"#A99BFF","ink":"#000000","off":"#1C1C1E","dim":"#A1A1A8","cash":"#FFFFFF"}},
+ "compact_leading":{"type":"icon","name":"refresh","color":"#A99BFF"},
+ "compact_trailing":{"type":"text","text":"{{amount}} · {{d4}}","size":14,"weight":"bold","mono":true,"color":"#A99BFF"},
+ "minimal":{"type":"icon","name":"refresh","color":"#A99BFF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#EFEAFF","items":[
+ {"type":"icon","name":"refresh","color":"#4B2BD1","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Refund by {{d4}}","size":12,"weight":"bold","color":"#4B2BD1"},
+  {"type":"text","text":"{{amount}}","size":24,"weight":"heavy","mono":true,"color":"#1F1147"}]}]},
+"promoted":{"title":"{{amount}} refund on its way","text":"In your bank by {{by}}","chip":"By {{d4}}",
+ "progress":{"type":"progress","value":"done","segments":4,"color":"#4B2BD1"}}},
+"state":{"title":"Refund on its way","amount":"₹2,340","by":"Thursday","d1":"Mon","d2":"Tue","d3":"Wed","d4":"Thu","now":2,"done":0.625}}

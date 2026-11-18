@@ -1,0 +1,50 @@
+{"name":"Auction","canvas":"Auction.dc.html",
+"fields":[{"name":"bid","kind":"text","max":10},{"name":"mine","kind":"text","max":10},{"name":"bids","kind":"number"},{"name":"status","kind":"text","max":16},{"name":"ends","kind":"time"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#FFD60A","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"Current bid · {{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{bid}}","size":54,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","runs":[{"text":"{{status}}","weight":"heavy"},{"text":" · your bid {{mine}}"}],"size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"column","at":"trailing","offset":[-22,0],"w":96,"h":76,"radius":20,"bg":"#000000","spacing":2,"align":"center","items":[
+  {"type":"spacer"},
+  {"type":"text","text":"ENDS IN","size":10,"weight":"heavy","tracking":0.08,"color":"#FFD60A"},
+  {"type":"timer","field":"ends","mode":"down","size":26,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"}]}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"Current bid","size":12,"color":"#A1A1A8"},
+  {"type":"text","text":"{{bid}}","size":30,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","spacing":6,"align":"trailing","items":[
+  {"type":"text","text":"{{status}}","pad":[3,8,3,8],"radius":6,"bg":"#FFD60A","size":11,"weight":"bold","color":"#000000"},
+  {"type":"row","spacing":3,"items":[
+   {"type":"timer","field":"ends","mode":"down","size":13,"weight":"semibold","mono":true,"color":"#FFD60A"},
+   {"type":"text","text":"left","size":13,"color":"#A1A1A8"}]}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"shape","shape":"rect","h":1,"fill":"#2C2C2E"},
+  {"type":"row","items":[
+   {"type":"column","spacing":2,"items":[
+    {"type":"text","text":"Lot","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{title}}","size":14,"weight":"semibold","color":"#FFFFFF","lines":1}]},
+   {"type":"spacer"},
+   {"type":"column","spacing":2,"align":"center","items":[
+    {"type":"text","text":"Your bid","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{mine}}","size":14,"weight":"semibold","mono":true,"color":"#FFFFFF"}]},
+   {"type":"spacer"},
+   {"type":"column","spacing":2,"align":"trailing","items":[
+    {"type":"text","text":"Bids","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{bids}}","size":14,"weight":"semibold","mono":true,"color":"#FFFFFF"}]}]}]},
+ "compact_leading":{"type":"icon","name":"trend_up","color":"#FFD60A"},
+ "compact_trailing":{"type":"timer","field":"ends","mode":"down","size":14,"weight":"semibold","mono":true,"color":"#FFD60A"},
+ "minimal":{"type":"icon","name":"trend_up","color":"#FFD60A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFD60A","items":[
+ {"type":"icon","name":"trend_up","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{status}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{bid}}","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{status}} · {{bid}}","text":"{{title}} · your bid {{mine}} · {{bids}} bids","chip":"{{bid}}",
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Film camera","bid":"₹4,200","mine":"₹4,000","bids":18,"status":"You are outbid","ends":"2026-11-18T20:02:45+05:30"}}

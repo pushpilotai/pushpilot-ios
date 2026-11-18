@@ -1,0 +1,40 @@
+{"name":"Queue token","canvas":"Queue.dc.html",
+"fields":[{"name":"token","kind":"text","max":6},{"name":"serving","kind":"text","max":6},{"name":"ahead","kind":"number"},{"name":"mins","kind":"number"},{"name":"moved","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#D48BFF","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"Your token · {{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{token}}","size":64,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","runs":[{"text":"Now serving "},{"text":"{{serving}}","weight":"heavy"},{"text":" · {{ahead}} ahead · ~{{mins}} min"}],"size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"grid","at":"trailing","offset":[-22,-8],"w":96,"h":62,"cols":3,"count":6,"filled":"moved","gap":6,
+  "tile":{"type":"shape","shape":"rect","radius":8,"fill":"#000000"},
+  "empty":{"type":"shape","shape":"rect","radius":8,"fill":"#00000026"}}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"Your token","size":12,"color":"#A1A1A8"},
+  {"type":"text","text":"{{token}}","size":30,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"Now serving","size":12,"color":"#A1A1A8"},
+  {"type":"text","text":"{{serving}}","size":30,"weight":"bold","mono":true,"color":"#D48BFF"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":8,"items":[
+  {"type":"grid","h":6,"cols":6,"count":6,"filled":"moved","gap":4,
+   "tile":{"type":"shape","shape":"capsule","fill":"#D48BFF"},
+   "empty":{"type":"shape","shape":"capsule","fill":"#3A3A3C"}},
+  {"type":"row","items":[
+   {"type":"text","runs":[{"text":"{{ahead}} people","color":"#FFFFFF","weight":"semibold"},{"text":" ahead of you","color":"#A1A1A8"}],"size":12},
+   {"type":"spacer"},
+   {"type":"text","runs":[{"text":"About ","color":"#A1A1A8"},{"text":"{{mins}} min","color":"#FFFFFF","weight":"semibold"}],"size":12}]}]},
+ "compact_leading":{"type":"icon","name":"people","color":"#D48BFF"},
+ "compact_trailing":{"type":"text","text":"{{token}}","size":14,"weight":"semibold","mono":true,"color":"#D48BFF"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","segments":6,"gap":12,"width":3,"color":"#D48BFF","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#D48BFF","items":[
+ {"type":"icon","name":"people","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Serving {{serving}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{token}}","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"Token {{token}} · now serving {{serving}}","text":"{{ahead}} people ahead of you · about {{mins}} min","chip":"{{token}}",
+ "progress":{"type":"progress","value":"share","segments":6,"color":"#D48BFF"}}},
+"state":{"title":"City Clinic","token":"A-27","serving":"A-24","ahead":3,"mins":12,"moved":3,"share":0.5}}

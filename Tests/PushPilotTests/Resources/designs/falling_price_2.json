@@ -1,0 +1,39 @@
+{"name":"Falling price, v2","canvas":"FallingPrice2.dc.html",
+"fields":[{"name":"price","kind":"text","max":8},{"name":"was","kind":"text","max":8},{"name":"drop","kind":"text","max":6},{"name":"left","kind":"number"},{"name":"step","kind":"number"},{"name":"done","kind":"number"},{"name":"last","kind":"time"},{"name":"next","kind":"time"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#0F3D22","items":[
+ {"type":"chart","kind":"bar","at":"bottom_trailing","offset":[-22,0],"w":109,"h":104,"values":[104,88,72,56,40,24],"min":0,"max":104,"color":"#1F7A3A","rest":"#17522D","split":"done","highlight":"step","highlight_color":"#4AE37A","gap":5},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"row","spacing":8,"items":[
+   {"type":"text","text":"FALLING PRICE","size":11,"weight":"bold","tracking":0.08,"color":"#8BE8A8"},
+   {"type":"text","text":"{{left}} LEFT","pad":[2,7,2,7],"radius":6,"bg":"#4AE37A","size":11,"weight":"bold","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"{{price}}","size":54,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"row","items":[
+   {"type":"text","text":"Drops {{drop}} in","size":13,"weight":"semibold","color":"#C9EED5"},
+   {"type":"timer","field":"next","mode":"down","size":13,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]}]},
+"island":{
+ "leading":{"type":"column","spacing":8,"items":[
+  {"type":"row","spacing":8,"items":[
+   {"type":"text","text":"Price right now","size":12,"color":"#A1A1A8"},
+   {"type":"text","text":"{{left}} LEFT","pad":[2,7,2,7],"radius":6,"bg":"#30D158","size":11,"weight":"bold","color":"#000000"}]},
+  {"type":"text","text":"{{price}}","size":52,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"{{was}}","strike":true},{"text":" · drops {{drop}} every minute"}],"size":12,"color":"#A1A1A8","lines":1}]},
+ "trailing":{"type":"layer","w":84,"h":84,"items":[
+  {"type":"arc","from":"last","to":"next","width":9,"color":"#30D158","track":"#2C2C2E"},
+  {"type":"timer","field":"next","mode":"down","format":"seconds","size":16,"weight":"heavy","color":"#30D158"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"trend_down","color":"#30D158"},
+ "compact_trailing":{"type":"text","text":"{{price}}","size":14,"weight":"bold","mono":true,"color":"#30D158"},
+ "minimal":{"type":"arc","w":22,"h":22,"from":"last","to":"next","width":3,"color":"#30D158","track":"#2C2C2E"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0F3D22","items":[
+ {"type":"icon","name":"trend_down","size":"l","color":"#4AE37A"},
+ {"type":"column","items":[
+  {"type":"text","text":"Falling price","size":12,"weight":"bold","color":"#8BE8A8"},
+  {"type":"text","text":"{{price}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{price}} right now","text":"Was {{was}} · drops {{drop}} every minute · {{left}} left","chip":"{{left}} left",
+ "progress":{"type":"progress","from":"last","to":"next","color":"#30D158"},
+ "timer":{"type":"timer","field":"next","mode":"down"}}},
+"state":{"title":"Falling price","price":"₹1,840","was":"₹2,080","drop":"₹60","left":3,"step":3,"done":0.667,"last":"2026-11-18T19:00:00+05:30","next":"2026-11-18T19:01:00+05:30"}}

@@ -1,0 +1,38 @@
+{"name":"Order-ahead latte","canvas":"LatteCup.dc.html",
+"fields":[{"name":"drink","kind":"text","max":24},{"name":"eta","kind":"text","max":7},{"name":"step","kind":"number"},{"name":"done","kind":"number"}],
+"layout":{
+"defs":{
+"cup":{"type":"layer","view":[100,132],"items":[
+ {"type":"path","d":"M36 18q-6-5 0-10q6-5 0-9M50 20q-6-6 0-12q6-6 0-11M64 18q-6-5 0-10q6-5 0-9","stroke":"$s","width":3},
+ {"type":"path","d":"M20 26H80Q86 26 86 32V34Q86 40 80 40H20Q14 40 14 34V32Q14 26 20 26Z","fill":"$l"},
+ {"type":"path","d":"M20 40H80L72 132H28Z","fill":"#F4EDE4"},
+ {"type":"path","d":"M22.4 66H77.6L74.6 102H25.4Z","fill":"#C98A4B"},
+ {"type":"path","d":"M40 84C40 78 44 74 50 74S60 78 60 84 56 94 50 94 40 90 40 84Z","fill":"#F4EDE4"},
+ {"type":"path","d":"M45 84C45 81 47 79 50 79S55 81 55 84C55 88 50 91 50 91S45 88 45 84Z","fill":"#8A5A33"}]}},
+"lock":{"type":"layer","h":160,"bg":"#5A341C","items":[
+ {"type":"shape","shape":"rect","at":"bottom","h":22,"fill":"#3B2110"},
+ {"type":"use","ref":"cup","at":"top_trailing","offset":[-34,4],"w":132,"h":174,"colors":{"l":"#2B1A0A","s":"#C9A98C"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"{{drink}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#F2C38B"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{eta}}","size":64,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"grid","w":132,"h":13,"pad":[0,0,6,0],"cols":3,"count":3,"gap":6,"filled":"step","tile":{"type":"spacer","radius":4,"bg":"#F2C38B"},"empty":{"type":"spacer","radius":4,"bg":"#8A5A33"}}]}]},
+"island":{
+ "leading":{"type":"use","ref":"cup","w":106,"h":140,"colors":{"l":"#8A5A33","s":"#8E8E93"}},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"{{drink}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#F2C38B","lines":1},
+  {"type":"text","text":"{{eta}}","size":50,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"grid","w":114,"h":6,"cols":3,"count":3,"gap":6,"filled":"step","tile":{"type":"spacer","radius":3,"bg":"#F2C38B"},"empty":{"type":"spacer","radius":3,"bg":"#3A3A3C"}}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"cup","w":18,"h":24,"colors":{"l":"#C98A4B","s":"#00000000"}},
+ "compact_trailing":{"type":"text","text":"{{eta}}","size":14,"weight":"bold","mono":true,"color":"#F2C38B"},
+ "minimal":{"type":"use","ref":"cup","w":18,"h":24,"colors":{"l":"#C98A4B","s":"#00000000"}}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#5A341C","items":[
+ {"type":"use","ref":"cup","w":30,"h":40,"colors":{"l":"#2B1A0A","s":"#C9A98C"}},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"{{drink}}","size":12,"weight":"bold","color":"#F2C38B","lines":1},
+  {"type":"text","text":"{{eta}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{drink}} in {{eta}}","text":"Your order-ahead latte is being made","chip":"{{eta}}","progress":{"type":"progress","value":"done","segments":3,"color":"#C98A4B"}}},
+"state":{"title":"Order-ahead latte","drink":"Sam's oat latte","eta":"2 min","step":2,"done":0.67}}

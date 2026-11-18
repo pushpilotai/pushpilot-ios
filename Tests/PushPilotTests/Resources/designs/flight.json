@@ -1,0 +1,55 @@
+{"name":"Flight boarding","canvas":"Flight.dc.html",
+"fields":[{"name":"from","kind":"text","max":4},{"name":"from_city","kind":"text","max":12},{"name":"to","kind":"text","max":4},{"name":"to_city","kind":"text","max":12},{"name":"boards","kind":"time"},{"name":"gate","kind":"text","max":4},{"name":"seat","kind":"text","max":4}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#64D2FF","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{from}} → {{to}} · BOARDING IN","size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"timer","field":"boards","mode":"down","format":"minutes","size":38,"weight":"heavy","tracking":-0.03,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"Boards {{boards}} · Seat {{seat}}","size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"column","at":"trailing","offset":[-22,0],"w":88,"h":88,"radius":22,"bg":"#000000","spacing":0,"align":"center","items":[
+  {"type":"spacer"},
+  {"type":"text","text":"GATE","size":11,"weight":"heavy","tracking":0.08,"color":"#64D2FF"},
+  {"type":"text","text":"{{gate}}","size":34,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"spacer"}]}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"{{from}}","size":26,"weight":"bold","color":"#FFFFFF"},
+  {"type":"text","text":"{{from_city}}","size":11,"color":"#A1A1A8"}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"{{to}}","size":26,"weight":"bold","color":"#FFFFFF"},
+  {"type":"text","text":"{{to_city}}","size":11,"color":"#A1A1A8"}]},
+ "center":{"type":"column","spacing":6,"align":"center","items":[
+  {"type":"row","spacing":3,"items":[
+   {"type":"text","text":"Boarding in","size":11,"weight":"semibold","color":"#64D2FF"},
+   {"type":"timer","field":"boards","mode":"down","format":"minutes","size":11,"weight":"semibold","color":"#64D2FF"}]},
+  {"type":"row","spacing":6,"items":[
+   {"type":"shape","shape":"rect","fw":0.22,"h":2,"fill":"#64D2FF"},
+   {"type":"icon","name":"plane","color":"#64D2FF","size":"s"},
+   {"type":"shape","shape":"rect","h":2,"fill":"#3A3A3C"}]}]},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"shape","shape":"rect","h":1,"fill":"#2C2C2E"},
+  {"type":"row","items":[
+   {"type":"column","items":[
+    {"type":"text","text":"Gate","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{gate}}","size":16,"weight":"semibold","color":"#FFFFFF"}]},
+   {"type":"spacer"},
+   {"type":"column","align":"center","items":[
+    {"type":"text","text":"Boarding","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{boards}}","size":16,"weight":"semibold","color":"#FFFFFF"}]},
+   {"type":"spacer"},
+   {"type":"column","align":"trailing","items":[
+    {"type":"text","text":"Seat","size":11,"color":"#A1A1A8"},
+    {"type":"text","text":"{{seat}}","size":16,"weight":"semibold","color":"#FFFFFF"}]}]}]},
+ "compact_leading":{"type":"icon","name":"plane","color":"#64D2FF"},
+ "compact_trailing":{"type":"timer","field":"boards","mode":"down","format":"minutes","size":14,"weight":"semibold","color":"#64D2FF"},
+ "minimal":{"type":"icon","name":"plane","color":"#64D2FF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#64D2FF","items":[
+ {"type":"icon","name":"plane","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Gate {{gate}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"timer","field":"boards","mode":"down","format":"minutes","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"{{title}}","text":"Gate {{gate}} · Seat {{seat}} · Boards {{boards}}","chip":"{{gate}}",
+ "timer":{"type":"timer","field":"boards","mode":"down"}}},
+"state":{"title":"6E 2134 Delhi to Bengaluru","from":"DEL","from_city":"Delhi","to":"BLR","to_city":"Bengaluru","boards":"2026-11-18T18:10:00+05:30","gate":"14B","seat":"23A"}}

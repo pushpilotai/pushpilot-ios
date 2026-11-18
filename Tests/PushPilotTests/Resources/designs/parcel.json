@@ -1,0 +1,46 @@
+{"name":"Parcel tracking","canvas":"Parcel.dc.html",
+"fields":[{"name":"note","kind":"text","max":32},{"name":"day","kind":"text","max":7},{"name":"stops","kind":"number"},{"name":"reached","kind":"number"},{"name":"cur","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#8E8BFF","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{stops}}","size":64,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+   {"type":"text","text":"stops away","size":22,"weight":"heavy","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"{{note}}","size":13,"weight":"semibold","color":"#000000"}]},
+ {"type":"layer","at":"trailing","offset":[-22,0],"w":76,"h":76,"radius":38,"bg":"#000000","items":[
+  {"type":"icon","name":"package","color":"#8E8BFF","size":"l"}]}]},
+"island":{
+ "leading":{"type":"row","spacing":12,"items":[
+  {"type":"layer","w":40,"h":40,"radius":20,"bg":"#2C2C2E","items":[{"type":"icon","name":"package","color":"#8E8BFF","size":"m"}]},
+  {"type":"column","spacing":2,"items":[
+   {"type":"text","text":"{{title}}","size":15,"weight":"semibold","color":"#FFFFFF","lines":1},
+   {"type":"text","text":"{{note}}","size":12,"color":"#A1A1A8"}]}]},
+ "trailing":{"type":"column","spacing":2,"align":"trailing","items":[
+  {"type":"text","text":"{{stops}}","size":28,"weight":"bold","mono":true,"color":"#8E8BFF"},
+  {"type":"text","text":"stops away","size":11,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":8,"items":[
+  {"type":"layer","fw":1,"h":20,"items":[
+   {"type":"layer","fw":0.75,"h":2,"bg":"#3A3A3C","items":[
+    {"type":"shape","shape":"rect","at":"leading","fw":"share","fill":"#8E8BFF"}]},
+   {"type":"grid","h":20,"cols":4,"count":4,"filled":"reached",
+    "tile":{"type":"shape","shape":"circle","w":12,"h":12,"fill":"#8E8BFF"},
+    "empty":{"type":"shape","shape":"circle","w":10,"h":10,"fill":"#3A3A3C"},"current":"cur",
+    "current_tile":{"type":"shape","shape":"circle","w":20,"h":20,"fill":"#8E8BFF","stroke":"#FFFFFF","width":3}}]},
+  {"type":"grid","h":14,"cols":4,"count":4,"filled":4,"labels":["Ordered","Shipped","Nearby","Delivered"],"current":"cur",
+   "tile":{"type":"text","text":"{{label}}","size":11,"color":"#A1A1A8"},
+   "current_tile":{"type":"text","text":"{{label}}","size":11,"weight":"semibold","color":"#FFFFFF"}}]},
+ "compact_leading":{"type":"icon","name":"package","color":"#8E8BFF"},
+ "compact_trailing":{"type":"text","text":"{{day}}","size":14,"weight":"semibold","color":"#8E8BFF"},
+ "minimal":{"type":"icon","name":"package","color":"#8E8BFF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#8E8BFF","items":[
+ {"type":"layer","w":40,"h":40,"radius":20,"bg":"#000000","items":[{"type":"icon","name":"package","color":"#8E8BFF","size":"m"}]},
+ {"type":"column","items":[
+  {"type":"text","text":"{{title}}","size":12,"weight":"bold","color":"#000000","lines":1},
+  {"type":"text","text":"{{stops}} stops","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{title}}","text":"{{note}} · {{stops}} stops away","chip":"{{day}}",
+ "progress":{"type":"progress","value":"share","points":[0,0.333,0.667,1],"tracker":"truck","color":"#8E8BFF"}}},
+"state":{"title":"Out for delivery","note":"Arriving today by 6 PM","day":"Today","stops":2,"reached":3,"cur":2,"share":0.667}}

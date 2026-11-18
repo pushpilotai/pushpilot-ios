@@ -1,0 +1,36 @@
+{"name":"Open tab","canvas":"OpenTab.dc.html",
+"fields":[{"name":"table","kind":"text","max":4},{"name":"total","kind":"text","max":7},{"name":"items","kind":"number"},{"name":"added","kind":"text","max":16}],
+"layout":{
+"defs":{
+"receipt":{"type":"layer","w":104,"h":132,"view":[104,132],"items":[
+ {"type":"path","d":"M0 0h104v126l-8.67 6-8.67-6-8.67 6-8.67-6-8.67 6-8.67-6-8.67 6-8.67-6-8.67 6-8.67-6-8.67 6-8.67-6Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M14.5 18.5h39M76.5 18.5h13M14.5 32.5h27M76.5 32.5h13M14.5 46.5h43M76.5 46.5h13M14.5 60.5h33M76.5 60.5h13","stroke":"#8E8E93","width":5},
+ {"type":"path","d":"M14.5 74.5h31M76.5 74.5h13","stroke":"#30B36B","width":5},
+ {"type":"path","d":"M12 87h80","stroke":"#C7C7CC","width":2,"dash":[6,4],"cap":"butt"},
+ {"type":"path","d":"M16 101h20M66 101h22","stroke":"#000000","width":8}]}},
+"lock":{"type":"layer","h":160,"bg":"#1F3A2E","items":[
+ {"type":"use","ref":"receipt","w":104,"h":132,"at":"top_trailing","offset":[-26,0]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"Your tab · Table {{table}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#9EE6C0"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{total}}","size":58,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{items}} items · pay or split anytime","size":13,"weight":"semibold","color":"#CDEBDD","lines":1}]}]},
+"island":{
+ "leading":{"type":"use","ref":"receipt","w":85,"h":108},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"Your tab · Table {{table}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#9EE6C0"},
+  {"type":"text","text":"{{total}}","size":44,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"{{items}} items · ","color":"#A1A1A8"},{"text":"{{added}} just added","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"text","text":"Table {{table}}","size":13,"weight":"bold","color":"#9EE6C0"},
+ "compact_trailing":{"type":"text","text":"{{total}}","size":14,"weight":"bold","mono":true,"color":"#9EE6C0"},
+ "minimal":{"type":"icon","name":"receipt","color":"#9EE6C0"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1F3A2E","items":[
+ {"type":"use","ref":"receipt","w":28,"h":36},
+ {"type":"column","items":[
+  {"type":"text","text":"Tab · Table {{table}}","size":12,"weight":"bold","color":"#9EE6C0"},
+  {"type":"text","text":"{{total}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Your tab: {{total}}","text":"{{items}} items · {{added}} just added","sub_text":"Table {{table}}","chip":"{{total}}"}},
+"state":{"title":"Open tab","table":"12","total":"₹1,840","items":6,"added":"fries"}}

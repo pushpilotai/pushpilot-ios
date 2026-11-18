@@ -1,0 +1,42 @@
+{"name":"Flash sale countdown","canvas":"FlashSale.dc.html",
+"fields":[{"name":"offer","kind":"text","max":40},{"name":"ends","kind":"time"},{"name":"claimed","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#FF6482","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{title}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"timer","field":"ends","mode":"down","size":56,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{offer}}","size":13,"weight":"semibold","color":"#000000","lines":1}]},
+ {"type":"layer","at":"trailing","offset":[-22,0],"w":88,"h":88,"items":[
+  {"type":"arc","value":"share","width":10,"color":"#000000","track":"#00000026"},
+  {"type":"column","spacing":0,"align":"center","items":[
+   {"type":"text","text":"{{claimed}}%","size":20,"weight":"heavy","mono":true,"color":"#000000"},
+   {"type":"text","text":"claimed","size":10,"weight":"bold","color":"#000000"}]}]}]},
+"island":{
+ "leading":{"type":"row","spacing":12,"items":[
+  {"type":"layer","w":40,"h":40,"radius":20,"bg":"#2C2C2E","items":[{"type":"icon","name":"tag","color":"#FF6482","size":"m"}]},
+  {"type":"column","spacing":2,"items":[
+   {"type":"text","text":"{{title}}","size":15,"weight":"semibold","color":"#FFFFFF","lines":1},
+   {"type":"text","text":"{{offer}}","size":12,"color":"#A1A1A8","lines":1}]}]},
+ "trailing":{"type":"timer","field":"ends","mode":"down","size":30,"weight":"bold","mono":true,"color":"#FF6482"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":8,"items":[
+  {"type":"layer","fw":1,"h":6,"radius":3,"bg":"#3A3A3C","clip":true,"items":[
+   {"type":"shape","shape":"capsule","at":"leading","fw":"share","fill":"#FF6482"}]},
+  {"type":"row","items":[
+   {"type":"text","runs":[{"text":"{{claimed}}%","color":"#FFFFFF","weight":"semibold"},{"text":" claimed","color":"#A1A1A8"}],"size":12},
+   {"type":"spacer"},
+   {"type":"text","text":"Ends {{ends}}","size":12,"color":"#A1A1A8"}]}]},
+ "compact_leading":{"type":"icon","name":"tag","color":"#FF6482"},
+ "compact_trailing":{"type":"timer","field":"ends","mode":"down","size":14,"weight":"semibold","mono":true,"color":"#FF6482"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","width":3,"color":"#FF6482","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FF6482","items":[
+ {"type":"layer","w":40,"h":40,"radius":20,"bg":"#000000","items":[{"type":"icon","name":"tag","color":"#FF6482","size":"m"}]},
+ {"type":"column","items":[
+  {"type":"text","text":"Sale ends in","size":12,"weight":"bold","color":"#000000"},
+  {"type":"timer","field":"ends","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{title}}","text":"{{offer}} · {{claimed}}% claimed","chip":"{{claimed}}%",
+ "progress":{"type":"progress","value":"share","color":"#FF6482"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Flash sale ends in","offer":"Up to 60% off sneakers","ends":"2026-11-18T21:00:00+05:30","claimed":72,"share":0.72}}

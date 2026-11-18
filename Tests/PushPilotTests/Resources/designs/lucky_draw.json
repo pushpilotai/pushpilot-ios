@@ -1,0 +1,48 @@
+{"name":"Lucky draw reveal","canvas":"LuckyDraw.dc.html",
+"fields":[{"name":"win","kind":"text","max":5},{"name":"shown","kind":"number"},{"name":"ticket","kind":"text","max":5},{"name":"hits","kind":"numbers","max":5},{"name":"matched","kind":"number"},{"name":"next","kind":"time"}],
+"layout":{
+"defs":{
+"tiles":{"type":"grid","cols":5,"count":5,"filled":"shown","gap":8,"labels":"{{win}}","w":272,"h":58,
+ "tile":{"type":"text","text":"{{label}}","size":34,"weight":"heavy","color":"$digit","bg":"$tile","radius":10},
+ "empty":{"type":"text","text":"?","size":24,"weight":"heavy","color":"$q","bg":"$qbg","radius":10,"border":{"color":"$qline","width":2,"dash":[4,3]}}}},
+"lock":{"type":"column","h":160,"bg":"#FF9F0A","pad":[20,22,20,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"LUCKY DRAW · LIVE","size":11,"weight":"heavy","tracking":0.08,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"Next digit in","size":12,"weight":"heavy","color":"#000000"},
+  {"type":"timer","field":"next","mode":"down","size":12,"weight":"heavy","mono":true,"color":"#000000"}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"tiles","colors":{"tile":"#000000","digit":"#FF9F0A","q":"#000000","qbg":"#E08600","qline":"#E08600"}},
+ {"type":"spacer"},
+ {"type":"row","items":[
+  {"type":"text","runs":[{"text":"Your ticket "},{"text":"{{ticket}}","weight":"heavy"}],"size":13,"weight":"bold","color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{matched}} of {{shown}} match so far","size":13,"weight":"bold","color":"#000000"}]}]},
+"island":{
+ "leading":{"type":"column","spacing":8,"items":[
+  {"type":"text","text":"Winning number","size":12,"color":"#A1A1A8"},
+  {"type":"use","ref":"tiles","w":194,"h":42,"colors":{"tile":"#FF9F0A","digit":"#000000","q":"#8E8E93","qbg":"#000000","qline":"#636366"}}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"Next digit in","size":11,"color":"#A1A1A8"},
+  {"type":"timer","field":"next","mode":"down","size":24,"weight":"bold","mono":true,"color":"#FF9F0A"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"shape","shape":"rect","h":1,"fill":"#2C2C2E"},
+  {"type":"row","items":[
+   {"type":"text","text":"Your ticket","size":12,"color":"#A1A1A8"},
+   {"type":"grid","w":116,"h":24,"cols":5,"count":5,"filled":"hits","gap":4,"labels":"{{ticket}}",
+    "tile":{"type":"text","text":"{{label}}","size":14,"weight":"bold","color":"#FF9F0A","bg":"#2C2C2E","radius":5},
+    "empty":{"type":"text","text":"{{label}}","size":14,"weight":"bold","color":"#FFFFFF","bg":"#2C2C2E","radius":5}},
+   {"type":"spacer"},
+   {"type":"text","text":"{{matched}} of {{shown}} match so far","size":12,"weight":"semibold","color":"#FFFFFF"}]}]},
+ "compact_leading":{"type":"icon","name":"gift","color":"#FF9F0A"},
+ "compact_trailing":{"type":"text","text":"{{shown}} of 5","size":14,"weight":"semibold","mono":true,"color":"#FF9F0A"},
+ "minimal":{"type":"icon","name":"gift","color":"#FF9F0A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FF9F0A","items":[
+ {"type":"icon","name":"gift","size":"l","color":"#000000"},
+ {"type":"column","items":[
+  {"type":"text","text":"Winning number","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{win}}","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"text":"Your ticket {{ticket}} · {{matched}} of {{shown}} match so far","chip":"{{shown}}/5",
+ "timer":{"type":"timer","field":"next","mode":"down"}}},
+"state":{"title":"Lucky draw","win":"417","shown":3,"ticket":"41702","hits":[1,1,1,0,0],"matched":3,"next":"2026-11-18T20:00:20+05:30"}}

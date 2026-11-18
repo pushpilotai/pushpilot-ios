@@ -1,0 +1,48 @@
+{"name":"Technician on the way","canvas":"Technician.dc.html",
+"fields":[{"name":"job","kind":"text","max":12},{"name":"who","kind":"text","max":10},{"name":"mins","kind":"number"},{"name":"code","kind":"text","max":4},{"name":"trip","kind":"number"}],
+"layout":{
+"defs":{
+"van":{"type":"layer","view":[150,96],"items":[
+ {"type":"path","d":"M2 30H16M0 44H10","stroke":"#6B7280","width":3},
+ {"type":"path","d":"M30 14H94a8 8 0 0 1 8 8V58a8 8 0 0 1-8 8H30a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8Z","fill":"#FFB340"},
+ {"type":"path","d":"M102 26H122Q130 26 134 34L142 50V66H102Z","fill":"#FFD27A"},
+ {"type":"path","d":"M56 40h.1","stroke":"#FFFFFF","width":30},
+ {"type":"path","d":"M108 32H121Q125 32 127 36L133 48H108ZM56 29V51M46.5 34.5L65.5 45.5M46.5 45.5L65.5 34.5","fill":"#1F2937","stroke":"#1F2937","width":3},
+ {"type":"path","d":"M46 68h.1M120 68h.1","stroke":"$wheel","width":27},
+ {"type":"path","d":"M46 68h.1M120 68h.1","stroke":"$tyre","width":21},
+ {"type":"path","d":"M46 68h.1M120 68h.1","stroke":"#9CA3AF","width":10}]},
+"mini":{"type":"layer","view":[140,84],"items":[
+ {"type":"path","d":"M14 14H86a8 8 0 0 1 8 8V56a8 8 0 0 1-8 8H14a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8Z","fill":"#FFB340"},
+ {"type":"path","d":"M94 26H116Q124 26 128 34L136 50V64H94Z","fill":"#FFD27A"},
+ {"type":"path","d":"M36 66h.1M112 66h.1","stroke":"#FFFFFF","width":26}]}},
+"lock":{"type":"layer","h":160,"bg":"#1F2937","items":[
+ {"type":"shape","shape":"rect","at":"bottom","h":26,"fill":"#111827"},
+ {"type":"shape","shape":"line","at":"bottom","offset":[0,-12],"h":3,"stroke":"#4B5563","width":3,"dash":[9,6]},
+ {"type":"use","ref":"van","at":"bottom_trailing","offset":[-10,-6],"w":180,"h":115,"colors":{"wheel":"#1F2937","tyre":"#111827"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,32,22],"items":[
+  {"type":"text","text":"{{job}} · {{who}}","upper":true,"size":11,"weight":"heavy","color":"#FFB340"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{mins}} min","size":46,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","runs":[{"text":"Door code ","color":"#E5E7EB"},{"text":"{{code}}","color":"#FFFFFF","weight":"heavy"}],"size":13}]}]},
+"island":{
+ "leading":{"type":"layer","w":150,"h":96,"items":[
+  {"type":"path","d":"M0 84H150","view":[150,96],"stroke":"#48484A","width":3,"dash":[10,8]},
+  {"type":"use","ref":"van","w":150,"h":96,"colors":{"wheel":"#000000","tyre":"#1C1C1E"}}]},
+ "trailing":{"type":"column","items":[
+  {"type":"text","text":"{{job}} · {{who}}","upper":true,"size":11,"weight":"bold","color":"#FFB340"},
+  {"type":"text","text":"{{mins}} min","size":44,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"Door code ","color":"#A1A1A8"},{"text":"{{code}}","color":"#FFFFFF","weight":"bold"}],"size":13}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"mini","w":30,"h":18},
+ "compact_trailing":{"type":"text","text":"{{mins}} min","size":14,"weight":"bold","color":"#FFB340"},
+ "minimal":{"type":"text","text":"{{mins}}m","size":14,"weight":"heavy","color":"#FFB340"}},
+"small":{"type":"row","pad":10,"bg":"#1F2937","items":[
+ {"type":"use","ref":"mini","w":40,"h":24},
+ {"type":"column","items":[
+  {"type":"text","text":"{{who}} · {{job}}","size":12,"weight":"bold","color":"#FFB340"},
+  {"type":"text","text":"{{mins}} min","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{who}} arrives in {{mins}} min","text":"{{job}} · door code {{code}}","chip":"{{mins}} min",
+ "progress":{"type":"progress","value":"trip","segments":3,"tracker":"truck","color":"#B26A00"}}},
+"state":{"title":"AC service","job":"AC service","who":"Ravi","mins":12,"code":"4821","trip":0.54}}

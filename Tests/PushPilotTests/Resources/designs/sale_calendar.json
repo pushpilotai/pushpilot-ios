@@ -1,0 +1,45 @@
+{"name":"Sale day calendar","canvas":"SaleCalendar.dc.html",
+"fields":[{"name":"opens","kind":"time"},{"name":"month","kind":"text","max":3},{"name":"day","kind":"text","max":2},{"name":"weekday","kind":"text","max":9},{"name":"save","kind":"text","max":8},{"name":"items","kind":"number"}],
+"layout":{
+"defs":{
+"page":{"type":"column","w":88,"h":104,"radius":12,"bg":"#FFFFFF","clip":true,"align":"center","items":[
+ {"type":"text","text":"{{month}}","upper":true,"w":88,"h":26,"bg":"$h","size":12,"weight":"heavy","tracking":0.1,"color":"$t"},
+ {"type":"spacer"},
+ {"type":"text","text":"{{day}}","size":46,"weight":"heavy","tracking":-0.03,"color":"#000000"},
+ {"type":"text","text":"{{weekday}}","size":11,"weight":"bold","color":"#48484A"},
+ {"type":"spacer"}]},
+"mini":{"type":"layer","w":20,"h":22,"radius":4,"bg":"#FFFFFF","clip":true,"items":[
+ {"type":"shape","shape":"rect","at":"top","h":6,"fill":"#FF5247"},
+ {"type":"text","text":"{{day}}","at":"bottom","h":16,"size":11,"weight":"heavy","color":"#000000"}]}},
+"lock":{"type":"row","h":160,"bg":"#C9241B","pad":[20,22,20,22],"spacing":7,"items":[
+ {"type":"column","h":120,"items":[
+  {"type":"row","items":[{"type":"text","text":"SALE OPENS IN","size":11,"weight":"heavy","tracking":0.06,"color":"#FFFFFF"},{"type":"timer","field":"opens","mode":"down","format":"days","size":11,"weight":"heavy","color":"#FFFFFF"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"Save {{save}}","size":36,"weight":"heavy","tracking":-0.04,"color":"#FFFFFF","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{items}} items ready in your cart","size":13,"weight":"bold","color":"#FFFFFF","lines":1}]},
+ {"type":"spacer"},
+ {"type":"layer","w":96,"h":112,"items":[
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[8,8],"w":86,"h":100,"radius":12,"rotate":6,"fill":"#8E1711"},
+  {"type":"use","ref":"page","at":"top_leading","offset":[0,2],"w":88,"h":104,"rotate":-3,"colors":{"h":"#1C1C1E","t":"#FFFFFF"}}]}]},
+"island":{
+ "leading":{"type":"layer","w":90,"h":100,"items":[
+  {"type":"shape","shape":"rect","at":"top_leading","offset":[6,6],"w":84,"h":94,"radius":12,"rotate":5,"fill":"#8E8E93"},
+  {"type":"use","ref":"page","at":"top_leading","w":86,"h":98,"colors":{"h":"#FF5247","t":"#000000"}}]},
+ "trailing":{"type":"column","items":[
+  {"type":"row","items":[{"type":"text","text":"SALE OPENS IN","size":11,"weight":"bold","tracking":0.08,"color":"#FF7A70"},{"type":"timer","field":"opens","mode":"down","format":"days","size":11,"weight":"bold","color":"#FF7A70"}]},
+  {"type":"text","text":"Save {{save}}","size":36,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","runs":[{"text":"{{items}} items","color":"#FFFFFF","weight":"semibold"},{"text":" ready in your cart","color":"#A1A1A8"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"mini","w":20,"h":22},
+ "compact_trailing":{"type":"timer","field":"opens","mode":"down","format":"days","size":14,"weight":"bold","color":"#FF7A70"},
+ "minimal":{"type":"use","ref":"mini","w":20,"h":22}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#C9241B","items":[
+ {"type":"use","ref":"mini","w":32,"h":35},
+ {"type":"column","items":[
+  {"type":"text","text":"Save on {{day}} {{month}}","size":12,"weight":"bold","color":"#FFFFFF"},
+  {"type":"text","text":"{{save}}","size":22,"weight":"heavy","color":"#FFFFFF","lines":1}]}]},
+"promoted":{"title":"Sale opens {{weekday}} {{day}} {{month}}","text":"Save {{save}} · {{items}} items ready in your cart","chip":"{{day}} {{month}}",
+ "timer":{"type":"timer","field":"opens","mode":"down"}}},
+"state":{"title":"Sale day","opens":"2026-11-21T00:00:00+05:30","month":"Nov","day":"21","weekday":"Friday","save":"₹1,240","items":3}}

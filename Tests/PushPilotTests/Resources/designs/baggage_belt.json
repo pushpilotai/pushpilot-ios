@@ -1,0 +1,43 @@
+{"name":"Bag on the belt","canvas":"BaggageBelt.dc.html",
+"fields":[{"name":"belt","kind":"text","max":3},{"name":"mins","kind":"number"},{"name":"status","kind":"text","max":20}],
+"layout":{
+"defs":{
+"bags":{"type":"layer","w":176,"h":110,"items":[
+ {"type":"shape","shape":"capsule","w":172,"h":102,"stroke":"$belt","width":24},
+ {"type":"shape","shape":"capsule","w":150,"h":80,"stroke":"$dash","width":2,"dash":[4,7],"cap":"butt"},
+ {"type":"text","text":"{{belt}}","offset":[0,2],"size":28,"weight":"heavy","color":"#FFB340"},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[34,4],"w":26,"h":22,"radius":5,"rotate":-8,"fill":"#7FA7D9"},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[98,2],"w":30,"h":26,"radius":6,"fill":"#FFB340"},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[106,-3],"w":14,"h":8,"radius":4,"stroke":"#FFB340","width":2.5},
+ {"type":"shape","shape":"circle","at":"top_leading","offset":[101,3],"w":24,"h":24,"stroke":"#FFFFFF","width":2.5},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[150,42],"w":22,"h":28,"radius":5,"fill":"#E5352B"},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[62,82],"w":28,"h":24,"radius":5,"rotate":6,"fill":"#4AE37A"},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[2,44],"w":22,"h":26,"radius":5,"fill":"#C7CCD6"}]}},
+"lock":{"type":"layer","h":160,"bg":"#2B2F3A","items":[
+ {"type":"use","ref":"bags","at":"top_leading","offset":[170,2],"w":250,"h":156,"colors":{"belt":"#1C1F27","dash":"#5A6070"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"YOUR BAG IS ON","size":11,"weight":"heavy","tracking":0.06,"color":"#FFB340"},
+  {"type":"spacer"},
+  {"type":"text","text":"Belt {{belt}}","size":54,"weight":"heavy","tracking":-0.04,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Reaches you in {{mins}} min","size":13,"weight":"semibold","color":"#E5E7EB"}]}]},
+"island":{
+ "leading":{"type":"use","ref":"bags","w":176,"h":110,"colors":{"belt":"#2C2C2E","dash":"#636366"}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"YOUR BAG · BELT {{belt}}","size":11,"weight":"bold","tracking":0.08,"color":"#FFB340"},
+  {"type":"text","text":"{{mins}} min","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{status}}","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"row","spacing":6,"items":[
+  {"type":"shape","shape":"rect","w":18,"h":16,"radius":4,"fill":"#FFB340"},
+  {"type":"text","text":"Belt {{belt}}","size":13,"weight":"heavy","color":"#FFB340"}]},
+ "compact_trailing":{"type":"text","text":"{{mins}} min","size":14,"weight":"bold","mono":true,"color":"#FFB340"},
+ "minimal":{"type":"text","text":"{{belt}}","w":22,"h":18,"radius":4,"bg":"#FFB340","size":12,"weight":"heavy","color":"#000000"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#2B2F3A","items":[
+ {"type":"text","text":"{{belt}}","w":40,"h":36,"radius":8,"bg":"#FFB340","size":22,"weight":"heavy","color":"#000000"},
+ {"type":"column","items":[
+  {"type":"text","text":"Your bag is on","size":12,"weight":"bold","color":"#FFB340"},
+  {"type":"text","text":"Belt {{belt}}","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"Your bag is on belt {{belt}}","text":"Reaches you in {{mins}} min · {{status}}","chip":"Belt {{belt}}"}},
+"state":{"title":"Bag on the belt","belt":"7","mins":3,"status":"It's on the belt"}}

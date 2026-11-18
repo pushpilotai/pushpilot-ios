@@ -1,0 +1,43 @@
+{"name":"Beach sunscreen reminder","canvas":"BeachUV.dc.html",
+"fields":[{"name":"uv","kind":"number"},{"name":"level","kind":"text","max":10},{"name":"reapply","kind":"time"}],
+"layout":{
+"defs":{
+"scene":{"type":"layer","view":[376,160],"items":[
+ {"type":"path","d":"M289 40C289 22 304 7 322 7S355 22 355 40 340 73 322 73 289 58 289 40Z","fill":"#FFD23F","stroke":"#B7EAF7","width":18},
+ {"type":"path","d":"M0 104H376V130H0Z","fill":"#1FA7C9"},
+ {"type":"path","d":"M0 104H376V109H0Z","fill":"#5CC8E6"},
+ {"type":"path","d":"M0 132Q100 118 200 126T376 116V160H0Z","fill":"#F6DDA6"},
+ {"type":"path","d":"M262 150L272 90","stroke":"#6B4423","width":4},
+ {"type":"path","d":"M226 100Q270 44 320 88Z","fill":"#FF5A5F"},
+ {"type":"path","d":"M257 80Q271 60 289 72L273 93Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M302.1 145.6L337.9 142.4","stroke":"#FF8FB1","width":12},
+ {"type":"path","d":"M202 140C202 134.5 206.5 130 212 130S222 134.5 222 140 217.5 150 212 150 202 145.5 202 140Z","fill":"#FFFFFF","stroke":"#4DA3FF","width":4},
+ {"type":"path","d":"M160 60q7-8 14 0q7-8 14 0","stroke":"$g","width":2.5}]}},
+"lock":{"type":"layer","h":160,"bg":"#8ADBF2","items":[
+ {"type":"use","ref":"scene","colors":{"g":"#00000000"}},
+ {"type":"column","at":"top_leading","pad":[16,22,16,22],"spacing":1,"align":"leading","items":[
+  {"type":"text","text":"UV {{uv}} · {{level}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#06303D"},
+  {"type":"timer","field":"reapply","mode":"down","size":46,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#06303D","format":"minutes"},
+  {"type":"text","text":"to reapply sunscreen","size":13,"weight":"bold","color":"#06303D"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#8ADBF2","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[
+   {"type":"use","ref":"scene","colors":{"g":"#06303D"}}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"UV {{uv}} · {{level}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F"},
+  {"type":"timer","field":"reapply","mode":"down","size":38,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF","format":"minutes"},
+  {"type":"text","text":"to reapply sunscreen","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"sun","color":"#FFD23F"},
+ "compact_trailing":{"type":"row","spacing":4,"items":[
+  {"type":"text","text":"UV {{uv}} ·","size":14,"weight":"bold","color":"#FFD23F"},
+  {"type":"timer","field":"reapply","mode":"down","size":14,"weight":"bold","mono":true,"color":"#FFD23F","format":"minutes"}]},
+ "minimal":{"type":"icon","name":"sun","color":"#FFD23F"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#8ADBF2","items":[
+ {"type":"icon","name":"sun","color":"#E59A00","size":"l"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"UV {{uv}} · reapply in","size":12,"weight":"bold","color":"#06303D"},
+  {"type":"timer","field":"reapply","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#06303D","format":"minutes"}]}]},
+"promoted":{"title":"Reapply sunscreen","text":"UV {{uv}} · {{level}}","chip":"UV {{uv}}","timer":{"type":"timer","field":"reapply","mode":"down"}}},
+"state":{"title":"Beach day","uv":9,"level":"Very high","reapply":"2026-11-18T13:20:00+05:30"}}

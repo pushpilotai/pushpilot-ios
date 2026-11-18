@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsLocalNetworking</key>
+		<true/>
+	</dict>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>Connects to a PushPilot server on your local network while you test.</string>
+	<key>PushPilotSDKKey</key>
+	<string>$(PUSHPILOT_SDK_KEY)</string>
+	<key>PushPilotBaseURL</key>
+	<string>$(PUSHPILOT_BASE_URL)</string>
+	<key>PushPilotAppGroup</key>
+	<string>$(PUSHPILOT_APP_GROUP)</string>
+</dict>
+</plist>

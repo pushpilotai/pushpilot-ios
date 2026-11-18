@@ -1,0 +1,44 @@
+{"name":"Doctor running late","canvas":"DoctorLate.dc.html",
+"fields":[{"name":"doctor","kind":"text","max":10},{"name":"new_time","kind":"text","max":5},{"name":"ampm","kind":"text","max":2},{"name":"old_time","kind":"text","max":5},{"name":"delay","kind":"number"},{"name":"old_pos","kind":"number"},{"name":"late","kind":"number"},{"name":"hour","kind":"number"},{"name":"minute","kind":"number"}],
+"layout":{
+"defs":{
+"clock":{"type":"layer","items":[
+ {"type":"shape","shape":"circle","fill":"#3A1F00"},
+ {"type":"shape","shape":"circle","fw":0.84,"fh":0.84,"fill":"#FFFFFF"},
+ {"type":"arc","fw":0.8,"fh":0.8,"value":"late","rotate":{"value":"old_pos","from":0,"to":360},"color":"#FF9F45"},
+ {"type":"path","d":"M50 13h.1M87 50h.1M50 87h.1M13 50h.1","stroke":"#3A1F00","width":5.4},
+ {"type":"layer","fw":0.45,"fh":0.45,"rotate":{"value":"hour","from":0,"to":360},"items":[{"type":"shape","shape":"line","at":"top","w":6,"fh":0.5,"stroke":"#3A1F00","width":5.6}]},
+ {"type":"layer","fw":0.64,"fh":0.64,"rotate":{"value":"minute","from":0,"to":360},"items":[{"type":"shape","shape":"line","at":"top","w":4,"fh":0.5,"stroke":"#3A1F00","width":3.9}]},
+ {"type":"shape","shape":"circle","w":10,"h":10,"fill":"#3A1F00"}]}},
+"lock":{"type":"row","h":160,"bg":"#FFE8CC","pad":[20,22,20,22],"spacing":14,"align":"center","items":[
+ {"type":"column","h":120,"align":"leading","items":[
+  {"type":"text","text":"{{doctor}} IS RUNNING LATE","size":11,"weight":"heavy","tracking":0.06,"color":"#A14A00","lines":1},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{new_time}}","size":58,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#3A1F00"},
+   {"type":"text","text":"{{ampm}}","size":20,"weight":"heavy","color":"#3A1F00"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"Was {{old_time}} · leave {{delay}} min later","size":13,"weight":"bold","color":"#3A1F00","lines":1}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"clock","w":112,"h":112}]},
+"island":{
+ "leading":{"type":"use","ref":"clock","w":104,"h":104},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"{{doctor}} IS RUNNING LATE","size":11,"weight":"bold","tracking":0.08,"color":"#FF9F45","lines":1},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{new_time}}","size":40,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"{{ampm}}","size":16,"weight":"bold","color":"#FFFFFF"},
+   {"type":"text","text":"{{old_time}}","size":14,"strike":true,"mono":true,"color":"#A1A1A8"}]},
+  {"type":"text","runs":[{"text":"Leave home ","color":"#A1A1A8"},{"text":"{{delay}} min later","color":"#FFFFFF","weight":"semibold"}],"size":13}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"text","text":"{{old_time}}","size":13,"weight":"semibold","strike":true,"mono":true,"color":"#A1A1A8"},
+ "compact_trailing":{"type":"text","text":"{{new_time}} {{ampm}}","size":14,"weight":"bold","mono":true,"color":"#FF9F45"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"late","rotate":{"value":"old_pos","from":0,"to":360},"color":"#FF9F45"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFE8CC","items":[
+ {"type":"icon","name":"clock","color":"#A14A00","size":"l"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Now {{new_time}} {{ampm}}","size":17,"weight":"heavy","mono":true,"color":"#3A1F00"},
+  {"type":"text","text":"was {{old_time}}","size":12,"italic":true,"color":"#A14A00"}]}]},
+"promoted":{"title":"Appointment moved to {{new_time}} {{ampm}}","text":"{{doctor}} is running {{delay}} min late","chip":"{{new_time}}"}},
+"state":{"title":"Your appointment","doctor":"DR. RAO","new_time":"4:50","ampm":"PM","old_time":"4:30","delay":20,"old_pos":0.5,"late":0.333,"hour":0.403,"minute":0.833}}

@@ -1,0 +1,43 @@
+{"name":"Off-peak dial","canvas":"OffPeakDial.dc.html",
+"fields":[{"name":"off","kind":"number"},{"name":"until","kind":"time"},{"name":"elapsed","kind":"number"}],
+"layout":{
+"defs":{
+"dial":{"type":"layer","w":104,"h":104,"items":[
+ {"type":"arc","w":96,"h":96,"width":12.5,"color":"$track"},
+ {"type":"arc","w":96,"h":96,"start":60,"sweep":60,"width":12.5,"cap":"butt","color":"$bright"},
+ {"type":"arc","w":96,"h":96,"start":60,"sweep":60,"value":"elapsed","width":12.5,"cap":"butt","color":"$dark"},
+ {"type":"path","d":"M50 23h.1M50 77h.1M23 50h.1","stroke":"$dots","width":3.2},
+ {"type":"path","d":"M50 50V26","stroke":"$hand","width":3,"rotate":{"value":"elapsed","from":60,"to":120}},
+ {"type":"shape","shape":"circle","w":8,"h":8,"fill":"$hand"}]}},
+"lock":{"type":"row","h":160,"bg":"#B8F04A","pad":[20,22,20,22],"spacing":14,"items":[
+ {"type":"column","h":120,"items":[
+  {"type":"text","text":"LOW FARES TILL {{until}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{off}}% off","size":54,"weight":"heavy","tracking":-0.04,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"row","items":[
+   {"type":"text","text":"Every ride ·","size":13,"weight":"bold","color":"#000000"},
+   {"type":"timer","field":"until","mode":"down","format":"minutes","size":13,"weight":"bold","color":"#000000"},
+   {"type":"text","text":"left","size":13,"weight":"bold","color":"#000000"}]}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"dial","colors":{"track":"#9FD531","bright":"#000000","dark":"#5E7A24","dots":"#3F5A0E","hand":"#000000"}}]},
+"island":{
+ "leading":{"type":"use","ref":"dial","colors":{"track":"#2C2C2E","bright":"#B8F04A","dark":"#5E7A24","dots":"#8E8E93","hand":"#FFFFFF"}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"LOW FARES NOW","size":11,"weight":"bold","tracking":0.08,"color":"#B8F04A"},
+  {"type":"text","text":"{{off}}% off","size":40,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","runs":[{"text":"every ride till "},{"text":"{{until}}","color":"#FFFFFF","weight":"semibold"}],"size":13,"color":"#A1A1A8","lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"clock","color":"#B8F04A"},
+ "compact_trailing":{"type":"timer","field":"until","mode":"down","format":"minutes","size":14,"weight":"bold","color":"#B8F04A"},
+ "minimal":{"type":"icon","name":"clock","color":"#B8F04A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#B8F04A","items":[
+ {"type":"icon","name":"clock","size":"l","color":"#000000"},
+ {"type":"column","items":[
+  {"type":"text","text":"Low fares now","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"{{off}}% off every ride","text":"Low fares till {{until}}","chip":"{{off}}% off",
+ "progress":{"type":"progress","value":"elapsed","color":"#5E7A24"},
+ "timer":{"type":"timer","field":"until","mode":"down","format":"minutes"}}},
+"state":{"title":"Off-peak fares","off":30,"until":"2026-11-18T16:00:00+05:30","elapsed":0.68}}

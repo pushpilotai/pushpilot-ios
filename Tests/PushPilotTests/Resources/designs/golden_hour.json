@@ -1,0 +1,41 @@
+{"name":"Golden hour","canvas":"GoldenHour.dc.html",
+"fields":[{"name":"off","kind":"number"},{"name":"sunset","kind":"time"},{"name":"sun","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#2A1650","items":[
+ {"type":"shape","shape":"circle","at":"bottom_trailing","offset":[70,130],"w":240,"h":240,"fill":"#4A2260"},
+ {"type":"shape","shape":"circle","at":"bottom_trailing","offset":[35,95],"w":170,"h":170,"fill":"#FF9F43"},
+ {"type":"column","at":"bottom_trailing","offset":[-20,-10],"spacing":0,"align":"center","items":[
+  {"type":"timer","field":"sunset","mode":"down","format":"minutes","size":20,"weight":"heavy","color":"#2A1650"},
+  {"type":"text","text":"left","size":11,"weight":"heavy","color":"#2A1650"}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"GOLDEN HOUR","size":11,"weight":"bold","tracking":0.08,"color":"#FFC27A"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{off}}% off","size":56,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"Until the sun sets at {{sunset}}","size":13,"weight":"semibold","color":"#E9DDFB"}]}]},
+"island":{
+ "leading":{"type":"layer","w":136,"h":80,"view":[136,80],"items":[
+  {"type":"path","d":"M10 70A58 58 0 0 1 126 70","stroke":"#48484A","width":3,"dash":[2,7]},
+  {"type":"path","d":"M2 70H134","stroke":"#636366","width":2},
+  {"type":"path","d":"M10 70A58 58 0 0 1 126 70","stroke":"#FFB340","width":4,"trim":"sun",
+   "marker":{"type":"layer","w":30,"h":30,"items":[
+    {"type":"shape","shape":"circle","fill":"#5C3D0F"},
+    {"type":"shape","shape":"circle","w":18,"h":18,"fill":"#FFB340"}]}}]},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"GOLDEN HOUR","size":11,"weight":"bold","tracking":0.08,"color":"#FFB340"},
+  {"type":"text","text":"{{off}}% off","size":40,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","runs":[{"text":"till sunset at "},{"text":"{{sunset}}","color":"#FFFFFF","weight":"semibold"}],"size":13,"color":"#A1A1A8","lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"sun","color":"#FFB340"},
+ "compact_trailing":{"type":"timer","field":"sunset","mode":"down","format":"minutes","size":14,"weight":"bold","color":"#FFB340"},
+ "minimal":{"type":"icon","name":"sun","color":"#FFB340"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#2A1650","items":[
+ {"type":"icon","name":"sun","size":"l","color":"#FF9F43"},
+ {"type":"column","items":[
+  {"type":"text","text":"Golden hour","size":12,"weight":"bold","color":"#FFC27A"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{off}}% off till sunset","text":"Golden hour · until the sun sets at {{sunset}}","chip":"{{off}}% off",
+ "progress":{"type":"progress","value":"sun","color":"#FF9F43"},
+ "timer":{"type":"timer","field":"sunset","mode":"down","format":"minutes"}}},
+"state":{"title":"Golden hour","off":25,"sunset":"2026-11-18T18:12:00+05:30","sun":0.8}}

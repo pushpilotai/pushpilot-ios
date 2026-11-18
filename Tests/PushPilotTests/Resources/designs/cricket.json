@@ -1,0 +1,46 @@
+{"name":"Cricket score","canvas":"Cricket.dc.html",
+"fields":[{"name":"a_code","kind":"text","max":4},{"name":"a_score","kind":"text","max":6},{"name":"a_overs","kind":"text","max":10},{"name":"b_code","kind":"text","max":4},{"name":"b_score","kind":"text","max":6},{"name":"b_overs","kind":"text","max":10},{"name":"stage","kind":"text","max":20},{"name":"status","kind":"text","max":40},{"name":"chase","kind":"number"}],
+"layout":{
+"defs":{"live":{"type":"text","text":"LIVE","pad":[3,8,3,8],"radius":6,"bg":"#D7263D","size":11,"weight":"bold","tracking":0.06,"color":"#FFFFFF"}},
+"lock":{"type":"layer","h":160,"bg":"#0A84FF","items":[
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"row","spacing":8,"items":[
+   {"type":"use","ref":"live"},
+   {"type":"text","text":"{{a_code}} · {{a_overs}}","size":12,"weight":"bold","color":"#FFFFFF"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"{{a_score}}","size":60,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{status}}","size":13,"weight":"semibold","color":"#FFFFFF","lines":1}]},
+ {"type":"column","at":"top_trailing","pad":[20,22,0,0],"spacing":2,"align":"trailing","items":[
+  {"type":"text","text":"{{b_code}}","size":12,"weight":"heavy","tracking":0.06,"color":"#FFD60A"},
+  {"type":"text","text":"{{b_score}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFFB3"},
+  {"type":"text","text":"{{b_overs}}","size":11,"weight":"semibold","color":"#FFFFFFB3"}]},
+ {"type":"layer","at":"bottom","offset":[0,-10],"fw":0.88,"h":4,"radius":2,"bg":"#00000033","items":[
+  {"type":"shape","shape":"capsule","at":"leading","fw":"chase","fill":"#FFFFFF"}]}]},
+"island":{
+ "leading":{"type":"column","spacing":2,"items":[
+  {"type":"text","text":"{{a_code}}","size":12,"weight":"bold","color":"#0A84FF"},
+  {"type":"text","text":"{{a_score}}","size":26,"weight":"bold","mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{a_overs}}","size":11,"color":"#A1A1A8"}]},
+ "trailing":{"type":"column","spacing":2,"align":"trailing","items":[
+  {"type":"text","text":"{{b_code}}","size":12,"weight":"bold","color":"#FFD60A"},
+  {"type":"text","text":"{{b_score}}","size":26,"weight":"bold","mono":true,"color":"#A1A1A8"},
+  {"type":"text","text":"{{b_overs}}","size":11,"color":"#A1A1A8"}]},
+ "center":{"type":"column","spacing":6,"align":"center","items":[
+  {"type":"use","ref":"live"},
+  {"type":"text","text":"{{stage}}","size":11,"color":"#A1A1A8"}]},
+ "bottom":{"type":"column","spacing":8,"align":"center","items":[
+  {"type":"layer","fw":1,"h":6,"radius":3,"bg":"#3A3A3C","clip":true,"items":[
+   {"type":"shape","shape":"capsule","at":"leading","fw":"chase","fill":"#0A84FF"}]},
+  {"type":"text","text":"{{status}}","size":13,"weight":"medium","color":"#FFFFFF"}]},
+ "compact_leading":{"type":"text","text":"{{a_code}}","size":13,"weight":"bold","color":"#0A84FF"},
+ "compact_trailing":{"type":"text","text":"{{a_score}}","size":14,"weight":"semibold","mono":true,"color":"#FFFFFF"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"chase","width":3,"color":"#0A84FF","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0A84FF","items":[
+ {"type":"icon","name":"cricket","color":"#FFFFFF","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{a_code}} v {{b_code}} {{b_score}}","size":12,"weight":"bold","color":"#FFFFFF","lines":1},
+  {"type":"text","text":"{{a_score}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{a_code}} {{a_score}} v {{b_code}} {{b_score}}","text":"{{status}} · {{stage}}","chip":"{{a_score}}",
+ "progress":{"type":"progress","value":"chase","color":"#0A84FF"}}},
+"state":{"title":"India vs Australia","a_code":"IND","a_score":"184/4","a_overs":"16.2 overs","b_code":"AUS","b_score":"201/7","b_overs":"20 overs","stage":"T20 · 2nd innings","status":"India need 18 runs in 22 balls","chase":0.91}}

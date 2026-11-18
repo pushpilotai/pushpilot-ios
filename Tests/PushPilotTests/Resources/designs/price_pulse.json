@@ -1,0 +1,35 @@
+{"name":"Price pulse","canvas":"PricePulse.dc.html",
+"fields":[{"name":"price","kind":"text","max":10},{"name":"drop","kind":"number"},{"name":"item","kind":"text","max":20},{"name":"history","kind":"numbers","max":12}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#F4F1EA","items":[
+ {"type":"layer","at":"bottom_trailing","offset":[-12,0],"w":116,"h":120,"items":[
+  {"type":"chart","kind":"area","values":"history","min":-40,"max":100,"color":"#D5ECF2"},
+  {"type":"shape","shape":"circle","at":"top_trailing","offset":[11,75],"w":22,"h":22,"fill":"#9AD3E2"},
+  {"type":"chart","kind":"line","values":"history","min":-40,"max":100,"color":"#0A8FB0","width":3.5,"dot":true}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"LOWEST IN 90 DAYS","size":11,"weight":"heavy","tracking":0.08,"color":"#0A6A80"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{price}}","size":54,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#14181F"},
+  {"type":"spacer"},
+  {"type":"text","text":"Saved {{item}} · down {{drop}}%","size":13,"weight":"bold","color":"#3C4654","lines":1}]}]},
+"island":{
+ "leading":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"LOWEST IN 90 DAYS","size":11,"weight":"bold","tracking":0.08,"color":"#4CD7F6"},
+  {"type":"text","text":"{{price}}","size":44,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"Your saved {{item}} · ","color":"#A1A1A8"},{"text":"−{{drop}}%","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "trailing":{"type":"layer","w":104,"h":76,"items":[
+  {"type":"shape","shape":"line","at":"top_leading","offset":[2,61],"w":100,"h":2,"stroke":"#48484A","width":1.5,"dash":[2,5],"cap":"round"},
+  {"type":"shape","shape":"circle","at":"top_leading","offset":[84,52],"w":20,"h":20,"fill":"#134A57"},
+  {"type":"chart","kind":"line","at":"top_leading","offset":[4,12],"w":90,"h":50,"values":"history","min":0,"max":70,"color":"#4CD7F6","width":3,"dot":true}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"trend_down","color":"#4CD7F6"},
+ "compact_trailing":{"type":"text","text":"−{{drop}}%","size":14,"weight":"bold","mono":true,"color":"#4CD7F6"},
+ "minimal":{"type":"icon","name":"trend_down","color":"#4CD7F6"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#F4F1EA","items":[
+ {"type":"icon","name":"trend_down","color":"#0A8FB0","size":"l"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Lowest in 90 days","size":12,"weight":"bold","color":"#0A6A80"},
+  {"type":"text","text":"{{price}}","size":24,"weight":"heavy","mono":true,"color":"#14181F"}]}]},
+"promoted":{"title":"{{price}}, lowest in 90 days","text":"Saved {{item}} · down {{drop}}%","chip":"−{{drop}}%"}},
+"state":{"title":"Price drop","price":"₹14,990","drop":18,"item":"headphones","history":[66,56,70,44,52,28,36,12,0]}}

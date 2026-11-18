@@ -1,0 +1,38 @@
+{"name":"Mystery drop, v2","canvas":"MysteryDrop2.dc.html",
+"fields":[{"name":"word","kind":"text","max":8},{"name":"mask","kind":"numbers","max":8},{"name":"clue_n","kind":"number"},{"name":"clues","kind":"number"},{"name":"clue","kind":"text","max":24},{"name":"reveal","kind":"time"}],
+"layout":{
+"defs":{
+"tiles":{"type":"grid","h":58,"cols":8,"count":8,"filled":"mask","gap":6,"labels":"{{word}}",
+ "tile":{"type":"text","text":"{{label}}","size":30,"weight":"heavy","color":"$ink","bg":"$tile","radius":10},
+ "empty":{"type":"text","text":"?","size":22,"weight":"bold","color":"$q","bg":"$hid","radius":10}}},
+"lock":{"type":"column","h":160,"bg":"#2B1147","pad":[20,22,20,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"MYSTERY DROP","size":11,"weight":"bold","tracking":0.08,"color":"#E2BBFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Full reveal in","size":12,"weight":"bold","color":"#FFFFFF"},
+  {"type":"timer","field":"reveal","mode":"down","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"tiles","colors":{"ink":"#2B1147","tile":"#FFFFFF","q":"#E2BBFF","hid":"#48216F"}},
+ {"type":"spacer"},
+ {"type":"row","items":[
+  {"type":"text","text":"Clue {{clue_n}} of {{clues}}: {{clue}}","size":13,"weight":"semibold","color":"#FFFFFF","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"Guess first, buy first","size":12,"color":"#E2BBFF"}]}]},
+"island":{
+ "leading":{"type":"text","runs":[{"text":"Clue {{clue_n}} of {{clues}}:","color":"#FFFFFF","weight":"semibold"},{"text":" {{clue}}"}],"size":13,"color":"#A1A1A8","lines":1},
+ "trailing":{"type":"timer","field":"reveal","mode":"down","size":16,"weight":"heavy","mono":true,"color":"#D48BFF"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"align":"center","items":[
+  {"type":"use","ref":"tiles","colors":{"ink":"#000000","tile":"#D48BFF","q":"#8E8E93","hid":"#1C1C1E"}},
+  {"type":"text","runs":[{"text":"Guess first, buy first.","color":"#FFFFFF","weight":"semibold"},{"text":" A new letter with every clue"}],"size":12,"color":"#A1A1A8","align":"center"}]},
+ "compact_leading":{"type":"icon","name":"lock","color":"#D48BFF"},
+ "compact_trailing":{"type":"timer","field":"reveal","mode":"down","size":14,"weight":"bold","color":"#D48BFF","mono":true},
+ "minimal":{"type":"icon","name":"lock","color":"#D48BFF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#2B1147","items":[
+ {"type":"icon","name":"lock","size":"l","color":"#E2BBFF"},
+ {"type":"column","items":[
+  {"type":"text","text":"Full reveal in","size":12,"weight":"bold","color":"#E2BBFF"},
+  {"type":"timer","field":"reveal","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Mystery drop: clue {{clue_n}} of {{clues}}","text":"{{clue}} · guess first, buy first","chip":"{{clue_n}}/{{clues}}",
+ "timer":{"type":"timer","field":"reveal","mode":"down"}}},
+"state":{"title":"Mystery drop","word":"SN-A--RS","mask":[1,1,0,1,0,0,1,1],"clue_n":3,"clues":5,"clue":"it comes in red","reveal":"2026-11-18T20:04:10+05:30"}}

@@ -1,0 +1,42 @@
+{"name":"Crowd unlock, v2","canvas":"CrowdUnlock2.dc.html",
+"fields":[{"name":"joined","kind":"text","max":8},{"name":"to_go","kind":"text","max":8},{"name":"off","kind":"number"},{"name":"pct","kind":"number"},{"name":"share","kind":"number"},{"name":"ends","kind":"time"}],
+"layout":{
+"lock":{"type":"column","h":160,"bg":"#0A4FB8","pad":[20,22,20,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"{{joined}} joined · {{to_go}} to go","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Ends in","size":12,"weight":"bold","color":"#FFFFFF"},
+  {"type":"timer","field":"ends","mode":"down","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+ {"type":"spacer"},
+ {"type":"row","align":"baseline","spacing":10,"items":[
+  {"type":"text","text":"{{off}}% off","size":52,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","text":"for everyone","size":16,"weight":"bold","color":"#D6E6FF","lines":1}]},
+ {"type":"spacer"},
+ {"type":"layer","h":14,"radius":7,"bg":"#3D78D6","items":[
+  {"type":"shape","shape":"rect","at":"leading","fw":"share","h":14,"radius":7,"fill":"#FFFFFF"},
+  {"type":"shape","shape":"circle","w":8,"h":8,"fill":"#0A4FB8","pos":[0.345,0.5]},
+  {"type":"shape","shape":"circle","w":8,"h":8,"fill":"#0A4FB8","pos":[0.675,0.5]}]}]},
+"island":{
+ "leading":{"type":"layer","w":100,"h":100,"items":[
+  {"type":"arc","value":"share","width":11,"color":"#64D2FF","track":"#2C2C2E"},
+  {"type":"text","text":"{{pct}}%","size":26,"weight":"heavy","mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","items":[
+  {"type":"text","runs":[{"text":"{{to_go}} more","color":"#FFFFFF","weight":"semibold"},{"text":" and everyone gets"}],"size":13,"color":"#A1A1A8"},
+  {"type":"text","text":"{{off}}% off","size":40,"weight":"heavy","tracking":-0.03,"color":"#64D2FF"},
+  {"type":"row","pad":[4,0,0,0],"items":[
+   {"type":"text","text":"{{joined}} joined · ends in","size":12,"color":"#A1A1A8"},
+   {"type":"timer","field":"ends","mode":"down","size":12,"weight":"semibold","mono":true,"color":"#FFFFFF"}]}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"people","color":"#64D2FF"},
+ "compact_trailing":{"type":"text","text":"{{pct}}%","size":14,"weight":"bold","mono":true,"color":"#64D2FF"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","width":3,"color":"#64D2FF","track":"#2C2C2E"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0A4FB8","items":[
+ {"type":"arc","w":34,"h":34,"value":"share","width":6,"color":"#FFFFFF","track":"#3D78D6"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{to_go}} to go","size":12,"weight":"bold","color":"#D6E6FF"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{to_go}} more and everyone gets {{off}}% off","text":"{{joined}} joined · {{pct}}% of the goal","chip":"{{pct}}%",
+ "progress":{"type":"progress","value":"share","points":[0.33,0.66],"color":"#0A4FB8"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Crowd unlock","joined":"2,340","to_go":"660","off":50,"pct":78,"share":0.78,"ends":"2026-11-18T19:18:20+05:30"}}

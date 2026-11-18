@@ -1,0 +1,37 @@
+{"name":"Good air, go run","canvas":"AirRun.dc.html",
+"fields":[{"name":"headline","kind":"text","max":12},{"name":"place","kind":"text","max":20},{"name":"window","kind":"text","max":10},{"name":"aqi","kind":"number"},{"name":"needle","kind":"number"}],
+"layout":{
+"lock":{"type":"row","h":160,"bg":"#30D158","pad":[20,22,20,22],"spacing":14,"align":"center","items":[
+ {"type":"column","h":120,"align":"leading","items":[
+  {"type":"text","text":"AIR JUST TURNED GOOD","size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{headline}}","size":64,"weight":"heavy","tracking":-0.04,"color":"#000000","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"{{place}} · good for {{window}}","size":13,"weight":"bold","color":"#000000","lines":1}]},
+ {"type":"spacer"},
+ {"type":"column","w":96,"h":96,"radius":48,"bg":"#000000","align":"center","items":[
+  {"type":"text","text":"{{aqi}}","size":40,"weight":"heavy","mono":true,"color":"#30D158"},
+  {"type":"text","text":"AQI","size":11,"weight":"heavy","tracking":0.08,"color":"#30D158"}]}]},
+"island":{
+ "leading":{"type":"layer","w":136,"h":78,"items":[
+ {"type":"arc","at":"top","offset":[0,8],"w":124,"h":124,"start":270,"sweep":180,"segments":4,"gap":4,"width":12,"cap":"butt",
+  "colors":["#30D158","#6B5A0A","#6B420A","#6B1F1A"]},
+ {"type":"layer","at":"top","offset":[0,30],"w":80,"h":80,"rotate":{"value":"needle","from":-90,"to":90},"items":[
+  {"type":"shape","shape":"line","at":"top","w":4,"h":40,"stroke":"#FFFFFF","width":3.5,"cap":"round"}]},
+ {"type":"shape","shape":"circle","at":"top","offset":[0,64],"w":12,"h":12,"fill":"#FFFFFF"}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"AIR JUST TURNED GOOD","size":11,"weight":"bold","tracking":0.08,"color":"#30D158"},
+  {"type":"text","text":"{{headline}}","size":42,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF","lines":1},
+  {"type":"text","runs":[{"text":"AQI {{aqi}} · good for ","color":"#A1A1A8"},{"text":"{{window}}","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"wind","color":"#30D158"},
+ "compact_trailing":{"type":"text","text":"AQI {{aqi}}","size":14,"weight":"bold","mono":true,"color":"#30D158"},
+ "minimal":{"type":"icon","name":"wind","color":"#30D158"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#30D158","items":[
+ {"type":"text","text":"{{aqi}}","w":44,"h":44,"radius":22,"bg":"#000000","align":"center","size":18,"weight":"heavy","mono":true,"color":"#30D158"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Air turned good","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{headline}}","size":24,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"{{headline}}: the air just turned good","text":"AQI {{aqi}} at {{place}} · good for {{window}}","chip":"AQI {{aqi}}"}},
+"state":{"title":"Air quality","headline":"Go run","place":"Koramangala","window":"50 min","aqi":42,"needle":0.21}}

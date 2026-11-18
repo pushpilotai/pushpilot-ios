@@ -1,0 +1,47 @@
+{"name":"Live stream viewers","canvas":"LiveStream.dc.html",
+"fields":[{"name":"started","kind":"time"},{"name":"viewers","kind":"text","max":8},{"name":"note","kind":"text","max":40}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#FF453A","items":[
+ {"type":"layer","at":"trailing","offset":[-22,0],"w":84,"h":84,"items":[
+  {"type":"arc","start":225,"sweep":90,"width":6,"color":"#FFFFFF66"},
+  {"type":"arc","start":45,"sweep":90,"width":6,"color":"#FFFFFF66"},
+  {"type":"arc","w":48,"h":48,"start":225,"sweep":90,"width":6,"color":"#FFFFFF"},
+  {"type":"arc","w":48,"h":48,"start":45,"sweep":90,"width":6,"color":"#FFFFFF"},
+  {"type":"shape","shape":"circle","w":18,"h":18,"fill":"#FFFFFF"}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"row","spacing":8,"items":[
+   {"type":"text","text":"LIVE","pad":[3,8,3,8],"radius":6,"bg":"#FFFFFF","size":11,"weight":"heavy","tracking":0.06,"color":"#FF453A"},
+   {"type":"timer","field":"started","mode":"up","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+  {"type":"spacer"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{viewers}}","size":52,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"watching","size":16,"weight":"heavy","color":"#FFFFFF"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"{{title}}","size":13,"weight":"semibold","color":"#FFFFFF","lines":1}]}]},
+"island":{
+ "leading":{"type":"row","spacing":8,"items":[
+  {"type":"text","text":"LIVE","pad":[3,8,3,8],"radius":6,"bg":"#D7263D","size":11,"weight":"bold","tracking":0.06,"color":"#FFFFFF"},
+  {"type":"timer","field":"started","mode":"up","size":12,"mono":true,"color":"#A1A1A8"}]},
+ "trailing":{"type":"row","spacing":6,"items":[
+  {"type":"icon","name":"eye","color":"#A1A1A8","size":"s"},
+  {"type":"text","runs":[{"text":"{{viewers}}","color":"#FFFFFF","weight":"semibold"},{"text":" watching","color":"#A1A1A8"}],"size":12}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"row","spacing":12,"items":[
+  {"type":"layer","w":44,"h":44,"radius":12,"bg":"#2C2C2E","items":[{"type":"icon","name":"live","color":"#FF453A","size":"m"}]},
+  {"type":"column","spacing":3,"items":[
+   {"type":"text","text":"{{title}}","size":16,"weight":"semibold","color":"#FFFFFF","lines":1},
+   {"type":"text","text":"{{note}}","size":12,"color":"#A1A1A8","lines":1}]},
+  {"type":"spacer"}]},
+ "compact_leading":{"type":"row","spacing":6,"items":[
+  {"type":"shape","shape":"circle","w":8,"h":8,"fill":"#FF453A"},
+  {"type":"text","text":"LIVE","size":12,"weight":"bold","tracking":0.06,"color":"#FF453A"}]},
+ "compact_trailing":{"type":"text","text":"{{viewers}}","size":14,"weight":"semibold","mono":true,"color":"#FFFFFF"},
+ "minimal":{"type":"icon","name":"live","color":"#FF453A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FF453A","items":[
+ {"type":"layer","w":40,"h":40,"radius":20,"bg":"#FFFFFF","items":[{"type":"icon","name":"live","color":"#FF453A","size":"m"}]},
+ {"type":"column","items":[
+  {"type":"text","text":"Watching now","size":12,"weight":"bold","color":"#FFFFFF"},
+  {"type":"text","text":"{{viewers}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{title}}","text":"{{viewers}} watching · {{note}}","chip":"LIVE",
+ "timer":{"type":"timer","field":"started","mode":"up"}}},
+"state":{"title":"Grand final: game 5 is live","started":"2026-11-18T19:52:00+05:30","viewers":"12.4K","note":"Series tied 2–2 · Tap to watch"}}

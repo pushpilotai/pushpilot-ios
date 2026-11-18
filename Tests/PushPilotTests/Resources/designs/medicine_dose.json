@@ -1,0 +1,39 @@
+{"name":"Medicine dose","canvas":"MedicineDose.dc.html",
+"fields":[{"name":"at","kind":"time"},{"name":"slot","kind":"text","max":10},{"name":"qty","kind":"text","max":14},{"name":"c1","kind":"text","max":10},{"name":"c2","kind":"text","max":10}],
+"layout":{
+"defs":{"pill":{"type":"layer","w":28,"h":12,"radius":6,"bg":"$c","clip":true,"items":[{"type":"shape","shape":"rect","at":"trailing","fw":0.5,"fill":"#FFFFFF"}]}},
+"lock":{"type":"layer","h":160,"bg":"#DDF8F1","items":[
+ {"type":"use","ref":"pill","at":"top_trailing","offset":[4,30],"rotate":-35,"w":108,"h":46,"colors":{"c":"#19B894"}},
+ {"type":"use","ref":"pill","at":"top_trailing","offset":[12,96],"rotate":20,"w":92,"h":40,"colors":{"c":"#FF9F45"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{at}} · {{slot}} dose","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#0A6B57"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{qty}}","size":42,"weight":"heavy","tracking":-0.04,"color":"#06382E"},
+  {"type":"spacer"},
+  {"type":"row","spacing":6,"items":[
+   {"type":"text","text":"{{c1}} ✓","pad":[4,10,4,10],"radius":11,"bg":"#A9E9DA","size":12,"weight":"bold","color":"#06382E"},
+   {"type":"text","text":"{{c2}} ✓","pad":[4,10,4,10],"radius":11,"bg":"#A9E9DA","size":12,"weight":"bold","color":"#06382E"},
+   {"type":"text","text":"Now","pad":[4,10,4,10],"radius":11,"bg":"#06382E","size":12,"weight":"heavy","color":"#FFFFFF"}]}]}]},
+"island":{
+ "leading":{"type":"layer","w":104,"h":104,"radius":52,"bg":"#10332C","items":[
+  {"type":"use","ref":"pill","at":"top_leading","offset":[14,28],"rotate":-35,"w":70,"h":30,"colors":{"c":"#4AE3C1"}},
+  {"type":"use","ref":"pill","at":"top_leading","offset":[30,58],"rotate":20,"w":60,"h":26,"colors":{"c":"#FFB36B"}}]},
+ "trailing":{"type":"column","spacing":6,"items":[
+  {"type":"text","text":"{{at}} · {{slot}} dose","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#4AE3C1"},
+  {"type":"text","text":"{{qty}}","size":36,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"},
+  {"type":"row","spacing":6,"items":[
+   {"type":"text","text":"{{c1}} ✓","pad":[3,9,3,9],"radius":10,"bg":"#1F6B5B","size":11,"weight":"bold","color":"#FFFFFF"},
+   {"type":"text","text":"{{c2}} ✓","pad":[3,9,3,9],"radius":10,"bg":"#1F6B5B","size":11,"weight":"bold","color":"#FFFFFF"},
+   {"type":"text","text":"Now","pad":[3,9,3,9],"radius":10,"bg":"#4AE3C1","size":11,"weight":"heavy","color":"#000000"}]}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"pill","rotate":-25,"w":28,"h":14,"colors":{"c":"#4AE3C1"}},
+ "compact_trailing":{"type":"text","text":"{{at}} dose","size":14,"weight":"bold","color":"#4AE3C1"},
+ "minimal":{"type":"use","ref":"pill","rotate":-25,"w":24,"h":12,"colors":{"c":"#4AE3C1"}}},
+"small":{"type":"row","spacing":10,"pad":10,"bg":"#DDF8F1","items":[
+ {"type":"use","ref":"pill","rotate":-35,"w":40,"h":20,"colors":{"c":"#19B894"}},
+ {"type":"column","items":[
+  {"type":"text","text":"{{at}} dose","size":12,"weight":"bold","color":"#0A6B57"},
+  {"type":"text","text":"{{qty}}","size":20,"weight":"heavy","color":"#06382E"}]}]},
+"promoted":{"title":"{{qty}} at {{at}}","text":"{{slot}} dose · {{c1}} and {{c2}} taken","chip":"{{at}}"}},
+"state":{"title":"Evening dose","at":"2026-11-18T20:00:00+05:30","slot":"Evening","qty":"2 capsules","c1":"Morning","c2":"Noon"}}

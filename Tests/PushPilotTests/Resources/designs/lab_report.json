@@ -1,0 +1,45 @@
+{"name":"Lab report","canvas":"LabReport.dc.html",
+"fields":[{"name":"test","kind":"text","max":14},{"name":"stage","kind":"text","max":12},{"name":"by","kind":"text","max":7},{"name":"done_n","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"defs":{
+"tube":{"type":"layer","view":[14,24],"items":[
+ {"type":"path","d":"M3 2V17a4 4 0 0 0 8 0V2","stroke":"#FFFFFF","width":2},
+ {"type":"path","d":"M4 10H10V17a3 3 0 0 1-6 0Z","fill":"#C59BFF"}]},
+"tubes":{"type":"layer","view":[96,112],"items":[
+ {"type":"path","d":"M6 26H90a4 4 0 0 1 0 8H6a4 4 0 0 1 0-8Z","fill":"$rack"},
+ {"type":"path","d":"M12 8V86a10 10 0 0 0 20 0V8","stroke":"#FFFFFF","width":3},
+ {"type":"path","d":"M14 44H30V86a8 8 0 0 1-16 0Z","fill":"$f1"},
+ {"type":"path","d":"M38 8V86a10 10 0 0 0 20 0V8","stroke":"#FFFFFF","width":3,"show":{"field":"done_n","above":1}},
+ {"type":"path","d":"M40 54H56V86a8 8 0 0 1-16 0Z","fill":"$f2","show":{"field":"done_n","above":1}},
+ {"type":"path","d":"M43.5 66a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0-5 0M49 76a2 2 0 1 0 4 0a2 2 0 1 0-4 0","fill":"#FFFFFF","show":{"field":"done_n","above":1}},
+ {"type":"path","d":"M38 8V86a10 10 0 0 0 20 0V8","stroke":"$dash","width":3,"dash":[4,6],"show":{"field":"done_n","below":2}},
+ {"type":"path","d":"M64 8V86a10 10 0 0 0 20 0V8","stroke":"#FFFFFF","width":3,"show":{"field":"done_n","above":2}},
+ {"type":"path","d":"M66 34H82V86a8 8 0 0 1-16 0Z","fill":"$f1","show":{"field":"done_n","above":2}},
+ {"type":"path","d":"M64 8V86a10 10 0 0 0 20 0V8","stroke":"$dash","width":3,"dash":[4,6],"show":{"field":"done_n","below":3}}]}},
+"lock":{"type":"layer","h":160,"bg":"#3A1D6E","items":[
+ {"type":"use","ref":"tubes","at":"top_trailing","offset":[-14,8],"w":150,"h":176,"colors":{"rack":"#1F0E42","f1":"#C59BFF","f2":"#FF8FB1","dash":"#9B7FD1"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"{{test}} · {{stage}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#E2CCFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"by {{by}}","size":46,"weight":"heavy","tracking":-0.04,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{done_n}} of 3 tests done","size":13,"weight":"semibold","color":"#E2CCFF"}]}]},
+"island":{
+ "leading":{"type":"use","ref":"tubes","w":96,"h":112,"colors":{"rack":"#3A3A3C","f1":"#C59BFF","f2":"#C59BFF","dash":"#8E8E93"}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"{{test}} · {{stage}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#C59BFF"},
+  {"type":"text","text":"by {{by}}","size":40,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"},
+  {"type":"text","text":"{{done_n}} of 3 tests done","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"tube","w":14,"h":24},
+ "compact_trailing":{"type":"text","text":"by {{by}}","size":14,"weight":"bold","color":"#C59BFF"},
+ "minimal":{"type":"use","ref":"tube","w":14,"h":24}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#3A1D6E","items":[
+ {"type":"use","ref":"tube","w":20,"h":34},
+ {"type":"column","items":[
+  {"type":"text","text":"{{test}} results","size":12,"weight":"bold","color":"#E2CCFF"},
+  {"type":"text","text":"by {{by}}","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{test}} results by {{by}}","text":"{{stage}} · {{done_n}} of 3 tests done","chip":"{{by}}",
+ "progress":{"type":"progress","value":"share","segments":3,"color":"#C59BFF"}}},
+"state":{"title":"Blood test results","test":"Blood test","stage":"In the lab","by":"6 PM","done_n":2,"share":0.667}}

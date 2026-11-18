@@ -1,0 +1,49 @@
+{"name":"Rival chase, v2","canvas":"RivalChase2.dc.html",
+"fields":[{"name":"rank","kind":"number"},{"name":"total","kind":"text","max":6},{"name":"behind","kind":"number"},{"name":"rival","kind":"text","max":10},{"name":"share","kind":"number"},{"name":"ends","kind":"time"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#5C0F2B","items":[
+ {"type":"text","text":"#{{rank}}","at":"top_trailing","offset":[8,-30],"size":210,"weight":"heavy","color":"#74183A","tracking":-0.05},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"row","items":[
+   {"type":"text","text":"YOU ARE #{{rank}} OF {{total}}","size":11,"weight":"bold","tracking":0.08,"color":"#FFB3C4"},
+   {"type":"spacer"},
+   {"type":"text","text":"Ends in","size":12,"weight":"bold","color":"#FFFFFF"},
+   {"type":"timer","field":"ends","mode":"down","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"}]},
+  {"type":"spacer"},
+  {"type":"row","align":"baseline","spacing":10,"items":[
+   {"type":"text","text":"{{behind}} pts","size":52,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"behind {{rival}}","size":16,"weight":"bold","color":"#FFB3C4","lines":1}]},
+  {"type":"spacer"},
+  {"type":"layer","h":18,"items":[
+   {"type":"shape","shape":"rect","h":6,"radius":3,"fill":"#8A2F4D"},
+   {"type":"shape","shape":"rect","at":"leading","fw":"share","h":6,"radius":3,"fill":"#FF6482"},
+   {"type":"shape","shape":"circle","pos":[0.934,0.5],"w":14,"h":14,"fill":"#FFFFFF"},
+   {"type":"shape","shape":"circle","pos":["share",0.5],"w":18,"h":18,"fill":"#FF6482","stroke":"#FFFFFF","width":3}]}]}]},
+"island":{
+ "leading":{"type":"column","spacing":-6,"items":[
+  {"type":"text","text":"You are","size":12,"color":"#A1A1A8"},
+  {"type":"text","text":"#{{rank}}","size":68,"weight":"heavy","tracking":-0.04,"color":"#FF6482"},
+  {"type":"text","text":"of {{total}}","size":12,"color":"#A1A1A8"}]},
+ "trailing":{"type":"column","spacing":10,"items":[
+  {"type":"text","runs":[{"text":"{{behind}} points","color":"#FF6482"},{"text":" behind {{rival}}"}],"size":16,"weight":"bold","color":"#FFFFFF","lines":2},
+  {"type":"column","spacing":6,"items":[
+   {"type":"shape","shape":"rect","h":10,"radius":5,"fill":"#8E8E93"},
+   {"type":"layer","h":10,"radius":5,"bg":"#2C2C2E","items":[
+    {"type":"shape","shape":"rect","at":"leading","fw":"share","h":10,"radius":5,"fill":"#FF6482"}]}]},
+  {"type":"row","items":[
+   {"type":"text","text":"Ends in","size":12,"color":"#A1A1A8"},
+   {"type":"timer","field":"ends","mode":"down","size":12,"weight":"semibold","mono":true,"color":"#FFFFFF"}]}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"text","text":"#{{rank}}","size":15,"weight":"heavy","color":"#FF6482"},
+ "compact_trailing":{"type":"text","text":"−{{behind}}","size":14,"weight":"bold","mono":true,"color":"#FF6482"},
+ "minimal":{"type":"text","text":"#{{rank}}","size":13,"weight":"heavy","color":"#FF6482"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#5C0F2B","items":[
+ {"type":"text","text":"#{{rank}}","size":30,"weight":"heavy","color":"#FF6482"},
+ {"type":"column","items":[
+  {"type":"text","text":"Behind {{rival}}","size":12,"weight":"bold","color":"#FFB3C4"},
+  {"type":"text","text":"{{behind}} pts","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{behind}} points behind {{rival}}","text":"You are #{{rank}} of {{total}}","chip":"#{{rank}}",
+ "progress":{"type":"progress","value":"share","color":"#FF6482"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Quiz contest","rank":4,"total":"1,206","behind":120,"rival":"Priya","share":0.82,"ends":"2026-11-18T18:42:15+05:30"}}

@@ -1,0 +1,47 @@
+{"name":"Support is typing","canvas":"SupportChat.dc.html",
+"fields":[{"name":"agent","kind":"text","max":12},{"name":"initials","kind":"text","max":2},{"name":"ticket","kind":"text","max":16},{"name":"wait","kind":"number"},{"name":"message","kind":"text","max":40}],
+"layout":{
+"defs":{
+"pill":{"type":"row","h":22,"pad":[0,9,0,9],"radius":11,"bg":"#1F3A5C","spacing":4,"items":[
+ {"type":"shape","shape":"circle","w":5,"h":5,"fill":"#FFFFFF"},
+ {"type":"shape","shape":"circle","w":5,"h":5,"fill":"#9CC8FF"},
+ {"type":"shape","shape":"circle","w":5,"h":5,"fill":"#5A8FCC"}]}},
+"lock":{"type":"column","h":160,"bg":"#DCEBFF","pad":[18,22,18,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"Support · {{ticket}}","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#0A4FB8","lines":1},
+  {"type":"spacer"},
+  {"type":"text","text":"Reply in about {{wait}} min","size":12,"weight":"heavy","color":"#0B1B2B"}]},
+ {"type":"spacer"},
+ {"type":"row","spacing":10,"align":"bottom","items":[
+  {"type":"text","text":"{{initials}}","w":44,"h":44,"radius":22,"bg":"#0A4FB8","size":15,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"column","spacing":6,"items":[
+   {"type":"text","text":"{{message}}","pad":[10,14,10,14],"radius":[18,18,18,6],"bg":"#FFFFFF","size":15,"weight":"semibold","color":"#0B1B2B","lines":1},
+   {"type":"row","h":30,"pad":[0,14,0,14],"radius":[15,15,15,6],"bg":"#FFFFFF","spacing":5,"items":[
+    {"type":"shape","shape":"circle","w":7,"h":7,"fill":"#0A4FB8"},
+    {"type":"shape","shape":"circle","w":7,"h":7,"fill":"#6C9AE0"},
+    {"type":"shape","shape":"circle","w":7,"h":7,"fill":"#B5CBEF"}]}]}]}]},
+"island":{
+ "leading":{"type":"layer","w":64,"h":64,"items":[
+  {"type":"text","text":"{{initials}}","w":64,"h":64,"radius":32,"bg":"#1F3A5C","size":20,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"shape","shape":"circle","at":"bottom_trailing","w":18,"h":18,"fill":"#30D158","stroke":"#000000","width":3}]},
+ "trailing":{"type":"column","spacing":7,"items":[
+  {"type":"text","text":"Support · {{ticket}}","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#6CB4FF","lines":1},
+  {"type":"row","spacing":10,"items":[
+   {"type":"text","text":"{{agent}} is typing","size":24,"weight":"heavy","tracking":-0.02,"color":"#FFFFFF","lines":1},
+   {"type":"row","h":26,"pad":[0,10,0,10],"radius":13,"bg":"#2C2C2E","spacing":4,"items":[
+    {"type":"shape","shape":"circle","w":6,"h":6,"fill":"#FFFFFF"},
+    {"type":"shape","shape":"circle","w":6,"h":6,"fill":"#A1A1A8"},
+    {"type":"shape","shape":"circle","w":6,"h":6,"fill":"#636366"}]}]},
+  {"type":"text","runs":[{"text":"Usually replies in ","color":"#A1A1A8"},{"text":"about {{wait}} min","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"pill","w":42,"h":22},
+ "compact_trailing":{"type":"text","text":"~{{wait}} min","size":14,"weight":"bold","mono":true,"color":"#6CB4FF"},
+ "minimal":{"type":"icon","name":"message","color":"#6CB4FF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#DCEBFF","items":[
+ {"type":"text","text":"{{initials}}","w":36,"h":36,"radius":18,"bg":"#0A4FB8","size":13,"weight":"heavy","color":"#FFFFFF"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{agent}} is typing","size":12,"weight":"bold","color":"#0A4FB8","lines":1},
+  {"type":"text","text":"~{{wait}} min","size":22,"weight":"heavy","mono":true,"color":"#0B1B2B"}]}]},
+"promoted":{"title":"{{agent}} is typing","text":"{{message}}","sub_text":"Support · {{ticket}}","chip":"~{{wait}} min"}},
+"state":{"title":"Support chat","agent":"Meera","initials":"MS","ticket":"Refund #4821","wait":3,"message":"Hi! Checking your refund right now"}}

@@ -1,0 +1,47 @@
+{"name":"Live class starting","canvas":"LiveClass.dc.html",
+"fields":[{"name":"subject","kind":"text","max":12},{"name":"starts","kind":"time"},{"name":"topic","kind":"text","max":12},{"name":"n","kind":"number"}],
+"layout":{
+"defs":{
+"atom":{"type":"layer","w":92,"h":92,"items":[
+ {"type":"shape","shape":"ellipse","w":90.5,"h":34.5,"stroke":"#FFFFFF","width":2.5},
+ {"type":"shape","shape":"ellipse","w":90.5,"h":34.5,"rotate":60,"stroke":"#FFFFFF","width":2.5},
+ {"type":"shape","shape":"ellipse","w":90.5,"h":34.5,"rotate":-60,"stroke":"#FFFFFF","width":2.5},
+ {"type":"shape","shape":"circle","w":14,"h":14,"fill":"#FFD23F"}]},
+"board":{"type":"layer","w":28,"h":20,"radius":4,"bg":"#1F5E46","border":{"color":"#A8703E","width":2},"items":[{"type":"use","ref":"atom","w":16,"h":16}]}},
+"lock":{"type":"layer","h":160,"radius":24,"bg":"#1F5E46","border":{"color":"#A8703E","width":7},"items":[
+ {"type":"layer","at":"top_trailing","offset":[-7,7],"w":170,"h":132,"view":[170,132],"items":[
+  {"type":"use","ref":"atom","at":"top_leading","offset":[58,8],"w":92,"h":92},
+  {"type":"path","d":"M40 112q10-6 20 0t20 0 20 0 20 0","stroke":"#CFEBD8","width":2.5},
+  {"type":"path","d":"M126 118h26v7h-26z","fill":"#FFFFFF"},
+  {"type":"path","d":"M96 118h16v7h-16z","fill":"#FF8FB1"}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[21,23,21,23],"items":[
+  {"type":"text","text":"{{subject}} · live class in","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#CFEBD8"},
+  {"type":"spacer"},
+  {"type":"timer","field":"starts","mode":"down","size":58,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Today: {{topic}} · {{n}} classmates in","size":13,"color":"#CFEBD8"}]}]},
+"island":{
+ "leading":{"type":"layer","w":160,"h":112,"radius":14,"bg":"#1F5E46","border":{"color":"#A8703E","width":6},"clip":true,"items":[
+  {"type":"text","text":"{{topic}}","at":"top_leading","offset":[20,16],"size":26,"weight":"bold","color":"#FFFFFF"},
+  {"type":"use","ref":"atom","at":"top_leading","offset":[93,39],"w":50,"h":50},
+  {"type":"layer","at":"top_leading","offset":[6,6],"w":148,"h":100,"view":[148,100],"items":[
+   {"type":"path","d":"M14 52q10-6 20 0t20 0 20 0","stroke":"#CFEBD8","width":2.5},
+   {"type":"path","d":"M14 84h22v6h-22z","fill":"#FFFFFF"},
+   {"type":"path","d":"M42 84h14v6h-14z","fill":"#FF8FB1"}]}]},
+ "trailing":{"type":"column","items":[
+  {"type":"text","text":"{{subject}} starts in","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#7BE3A9"},
+  {"type":"timer","field":"starts","mode":"down","size":44,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"{{n}}","color":"#FFFFFF","weight":"semibold"},{"text":" classmates in","color":"#A1A1A8"}],"size":13}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"board","w":28,"h":20},
+ "compact_trailing":{"type":"timer","field":"starts","mode":"down","size":14,"weight":"bold","mono":true,"color":"#7BE3A9"},
+ "minimal":{"type":"use","ref":"board","w":24,"h":17}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1F5E46","items":[
+ {"type":"use","ref":"board","w":42,"h":30},
+ {"type":"column","items":[
+  {"type":"text","text":"{{subject}} starts in","size":12,"weight":"bold","color":"#CFEBD8"},
+  {"type":"timer","field":"starts","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{subject}} live class starts soon","text":"Today: {{topic}} · {{n}} classmates in","chip":"Class",
+ "timer":{"type":"timer","field":"starts","mode":"down"}}},
+"state":{"title":"Physics live class","subject":"Physics","starts":"2026-11-18T18:04:10+05:30","topic":"F = ma","n":86}}

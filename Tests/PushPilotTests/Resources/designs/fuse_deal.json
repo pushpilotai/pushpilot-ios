@@ -1,0 +1,44 @@
+{"name":"Festival fuse","canvas":"FuseDeal.dc.html",
+"fields":[{"name":"event","kind":"text","max":12},{"name":"off","kind":"number"},{"name":"ends","kind":"time"},{"name":"left","kind":"number"}],
+"layout":{
+"defs":{
+"fuse":{"type":"layer","w":324,"h":46,"items":[
+ {"type":"path","d":"M6 26C40 2 70 50 112 26S196 50 246 24","view":[324,46],"stroke":"$a","width":3,"dash":[2,7]},
+ {"type":"path","d":"M246 24C196 50 154 2 112 26S40 2 6 26","view":[324,46],"stroke":"$b","width":3.5,"trim":"left",
+  "marker":{"type":"layer","w":38,"h":38,"items":[
+   {"type":"shape","shape":"circle","w":26,"h":26,"fill":"$c"},
+   {"type":"shape","shape":"circle","w":12,"h":12,"fill":"#FFD23F"},
+   {"type":"path","d":"M19 1v5M19 32v5M1 19h5M32 19h5M6.5 6.5l3.5 3.5M28 28l3.5 3.5M31.5 6.5 28 10M10 28l-3.5 3.5","view":[38,38],"stroke":"#FFD23F","width":2.5}]}},
+ {"type":"shape","shape":"rect","at":"top_leading","offset":[244,9],"w":72,"h":30,"radius":7,"fill":"#FF453A"},
+ {"type":"path","d":"M258 9h7v30h-7ZM295 9h7v30h-7Z","view":[324,46],"fill":"#FFD23F"}]}},
+"lock":{"type":"column","h":160,"bg":"#1B1140","pad":[18,22,18,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"{{event}} fuse deal","upper":true,"size":11,"weight":"heavy","tracking":0.08,"color":"#FFD23F"},
+  {"type":"spacer"},
+  {"type":"text","text":"Burns out in","size":12,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"timer","field":"ends","mode":"down","size":12,"weight":"heavy","mono":true,"color":"#FFFFFF"}]},
+ {"type":"spacer"},
+ {"type":"text","text":"{{off}}% off","size":54,"weight":"heavy","tracking":-0.04,"color":"#FFFFFF"},
+ {"type":"spacer"},
+ {"type":"use","ref":"fuse","w":332,"h":46,"colors":{"a":"#4A3F7A","b":"#E0BE8A","c":"#57471F"}}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"{{event}} fuse deal","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F"},
+  {"type":"text","text":"{{off}}% off","size":44,"weight":"heavy","tracking":-0.03,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","spacing":2,"align":"trailing","items":[
+  {"type":"text","text":"burns out in","size":11,"color":"#A1A1A8"},
+  {"type":"timer","field":"ends","mode":"down","size":28,"weight":"heavy","mono":true,"color":"#FFD23F"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"use","ref":"fuse","w":324,"h":46,"colors":{"a":"#48484A","b":"#C9A26B","c":"#5C4A0A"}},
+ "compact_leading":{"type":"icon","name":"bolt","color":"#FFD23F"},
+ "compact_trailing":{"type":"timer","field":"ends","mode":"down","size":14,"weight":"bold","mono":true,"color":"#FFD23F"},
+ "minimal":{"type":"icon","name":"bolt","color":"#FFD23F"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1B1140","items":[
+ {"type":"icon","name":"bolt","color":"#FFD23F","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Burns out in","size":12,"weight":"bold","color":"#FFD23F"},
+  {"type":"timer","field":"ends","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{off}}% off · {{event}} fuse deal","text":"The deal burns out when the fuse does","chip":"{{off}}%",
+ "progress":{"type":"progress","value":"left","color":"#FFD23F"},
+ "timer":{"type":"timer","field":"ends","mode":"down"}}},
+"state":{"title":"Diwali fuse deal","event":"Diwali","off":40,"ends":"2026-11-18T18:03:20+05:30","left":0.56}}

@@ -1,0 +1,48 @@
+{"name":"Campfire wind-down","canvas":"Campfire.dc.html",
+"fields":[{"name":"out","kind":"time"}],
+"layout":{
+"defs":{
+"flame":{"type":"layer","view":[16,22],"items":[
+ {"type":"path","d":"M8 1C14 8 16 14 12 21L4 21C0 14 3 8 8 1Z","fill":"#FF7A1A"},
+ {"type":"path","d":"M8 10C11 14 12 17 10 21L6 21C4 17 5 14 8 10Z","fill":"#FFD23F"}]},
+"scene":{"type":"layer","view":[376,160],"items":[
+ {"type":"path","d":"M34 26h.1M90 48h.1M140 22h.1M196 40h.1M236 18h.1M286 48h.1","stroke":"#FFFFFF","width":2.4},
+ {"type":"path","d":"M170 74h.1","stroke":"$s","width":2},
+ {"type":"path","d":"M329 30C329 23 335 17 342 17S355 23 355 30 349 43 342 43 329 37 329 30Z","fill":"#F4E9C9"},
+ {"type":"path","d":"M170 136L186 82 202 136ZM192 136L205 96 218 136ZM344 136L358 86 372 136Z","fill":"#0F0918"},
+ {"type":"path","d":"M286 134L318 90 350 134Z","fill":"#3A2A5C"},
+ {"type":"path","d":"M286 134L318 90 310 134Z","fill":"#4A3873"},
+ {"type":"path","d":"M311 134L318 110 325 134Z","fill":"#1A1026"},
+ {"type":"path","d":"M0 132H376V160H0Z","fill":"#0D0814"},
+ {"type":"path","d":"M214 128C214 109 229 94 248 94S282 109 282 128 267 162 248 162 214 147 214 128Z","fill":"#5C2C12","stroke":"#3A1F12","width":16},
+ {"type":"path","d":"M248 86C268 106 272 122 261 134L235 134C224 122 232 106 248 86Z","fill":"#FF7A1A"},
+ {"type":"path","d":"M248 106C258 118 260 127 254 134L242 134C237 127 240 118 248 106Z","fill":"#FFD23F"},
+ {"type":"path","d":"M229.7 132.6L266.3 138.4","stroke":"#8A5A33","width":7},
+ {"type":"path","d":"M229.7 138.4L266.3 132.6","stroke":"#6B4423","width":7},
+ {"type":"path","d":"M238 78h.1M260 70h.1M252 58h.1","stroke":"#FFB36B","width":3}]}},
+"lock":{"type":"layer","h":160,"bg":"#1A1026","items":[
+ {"type":"use","ref":"scene","colors":{"s":"#00000000"}},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":4,"align":"leading","items":[
+  {"type":"text","text":"WIND-DOWN","size":11,"weight":"heavy","tracking":0.06,"color":"#FF9F45"},
+  {"type":"timer","field":"out","mode":"down","size":56,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"till the fire burns out","size":13,"weight":"semibold","color":"#E3D6F5"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#1A1026","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[
+   {"type":"use","ref":"scene","colors":{"s":"#FFFFFF"}}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"WIND-DOWN","size":11,"weight":"bold","tracking":0.08,"color":"#FF9F45"},
+  {"type":"timer","field":"out","mode":"down","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"till the fire is out","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"flame","w":16,"h":22},
+ "compact_trailing":{"type":"timer","field":"out","mode":"down","size":14,"weight":"bold","mono":true,"color":"#FF9F45"},
+ "minimal":{"type":"use","ref":"flame","w":16,"h":22}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1A1026","items":[
+ {"type":"use","ref":"flame","w":24,"h":33},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Wind-down","size":12,"weight":"bold","color":"#FF9F45"},
+  {"type":"timer","field":"out","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Wind-down","text":"Till the fire burns out","chip":"Unwind","timer":{"type":"timer","field":"out","mode":"down"}}},
+"state":{"title":"Campfire wind-down","out":"2026-11-18T22:18:00+05:30"}}

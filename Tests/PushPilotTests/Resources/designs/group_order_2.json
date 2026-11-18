@@ -1,0 +1,39 @@
+{"name":"Group order, v2","canvas":"GroupOrder2.dc.html",
+"fields":[{"name":"closes","kind":"time"},{"name":"joined","kind":"number"},{"name":"size","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"defs":{
+"head":{"type":"shape","shape":"circle","w":20,"h":20,"radius":10,"fill":"#63E6BE","border":{"color":"#000000","width":2}}},
+"lock":{"type":"row","h":160,"bg":"#63E6BE","pad":[20,22,20,22],"spacing":10,"align":"center","items":[
+ {"type":"column","h":120,"align":"leading","items":[
+  {"type":"text","text":"TEAM LUNCH CLOSES IN","size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"timer","field":"closes","mode":"down","style":"number","size":56,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"Add your dish before it locks","size":13,"weight":"bold","color":"#000000"}]},
+ {"type":"spacer"},
+ {"type":"grid","w":126,"h":82,"cols":3,"count":6,"filled":"joined","gap":6,
+  "tile":{"type":"shape","shape":"circle","fill":"#000000"},
+  "empty":{"type":"text","text":"+","size":16,"weight":"heavy","color":"#0F4435","radius":19,"border":{"color":"#1F6B55","width":2,"dash":[4,3]}}}]},
+"island":{
+ "leading":{"type":"column","spacing":4,"align":"leading","items":[
+  {"type":"text","text":"Team lunch closes in","size":12,"color":"#A1A1A8"},
+  {"type":"timer","field":"closes","mode":"down","style":"number","size":40,"color":"#63E6BE"}]},
+ "trailing":{"type":"column","spacing":3,"align":"trailing","items":[
+  {"type":"text","text":"{{joined}} of {{size}} in","size":16,"weight":"bold","color":"#FFFFFF"},
+  {"type":"text","text":"Waiting on you","size":12,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"grid","w":288,"h":40,"cols":6,"count":6,"filled":"joined","gap":8,
+  "tile":{"type":"shape","shape":"circle","fill":"#63E6BE"},
+  "empty":{"type":"text","text":"+","size":16,"weight":"heavy","color":"#A1A1A8","radius":20,"border":{"color":"#636366","width":2,"dash":[4,3]}}},
+ "compact_leading":{"type":"row","spacing":-8,"items":[{"type":"use","ref":"head"},{"type":"use","ref":"head"},{"type":"use","ref":"head"}]},
+ "compact_trailing":{"type":"timer","field":"closes","mode":"down","style":"caption","color":"#63E6BE"},
+ "minimal":{"type":"arc","w":22,"h":22,"value":"share","segments":6,"gap":12,"width":3,"color":"#63E6BE","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#63E6BE","items":[
+ {"type":"row","spacing":-8,"items":[{"type":"use","ref":"head"},{"type":"use","ref":"head"},{"type":"use","ref":"head"}]},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Closes in","size":12,"weight":"bold","color":"#000000"},
+  {"type":"timer","field":"closes","mode":"down","style":"headline","color":"#000000"}]}]},
+"promoted":{"title":"Team lunch closes soon","text":"{{joined}} of {{size}} in · waiting on you","chip":"{{joined}}/{{size}}",
+ "progress":{"type":"progress","value":"share","segments":6,"color":"#1F6B55"},
+ "timer":{"type":"timer","field":"closes","mode":"down"}}},
+"state":{"title":"Team lunch","closes":"2026-11-18T12:38:30+05:30","joined":4,"size":6,"share":0.667}}

@@ -14,6 +14,9 @@
 		AA0000000000000000000006 /* PushPilotNotificationService in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000003 /* PushPilotNotificationService */; };
 		AA0000000000000000000008 /* PushPilotNotificationService in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000004 /* PushPilotNotificationService */; };
 		AA0000000000000000000007 /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000008 /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		AA0000000000000000000009 /* LiveActivityWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000009 /* LiveActivityWidgets.swift */; };
+		AA0000000000000000000010 /* PushPilotLive in Frameworks */ = {isa = PBXBuildFile; productRef = AD0000000000000000000005 /* PushPilotLive */; };
+		AA0000000000000000000011 /* LiveActivity.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = AF0000000000000000000010 /* LiveActivity.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +26,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = AE0000000000000000000002;
 			remoteInfo = NotificationService;
+		};
+		B10000000000000000000002 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A80000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE0000000000000000000003;
+			remoteInfo = LiveActivity;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -34,6 +44,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				AA0000000000000000000007 /* NotificationService.appex in Embed Foundation Extensions */,
+				AA0000000000000000000011 /* LiveActivity.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -48,6 +59,13 @@
 		AF0000000000000000000006 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		AF0000000000000000000007 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AF0000000000000000000008 /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0000000000000000000009 /* LiveActivityWidgets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveActivityWidgets.swift; sourceTree = "<group>"; };
+		AF0000000000000000000010 /* LiveActivity.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LiveActivity.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF0000000000000000000011 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF0000000000000000000012 /* LiveActivity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveActivity.entitlements; sourceTree = "<group>"; };
+		AF0000000000000000000013 /* LiveActivity.appgroup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveActivity.appgroup.entitlements; sourceTree = "<group>"; };
+		AF0000000000000000000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF0000000000000000000015 /* PushPilotExample.appgroup.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PushPilotExample.appgroup.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +86,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB0000000000000000000008 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000010 /* PushPilotLive in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -76,6 +102,7 @@
 			children = (
 				AC0000000000000000000002 /* PushPilotExample */,
 				AC0000000000000000000004 /* NotificationService */,
+				AC0000000000000000000005 /* LiveActivity */,
 				AC0000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +113,8 @@
 				AF0000000000000000000001 /* ExampleApp.swift */,
 				AF0000000000000000000002 /* ContentView.swift */,
 				AF0000000000000000000003 /* PushPilotExample.entitlements */,
+				AF0000000000000000000015 /* PushPilotExample.appgroup.entitlements */,
+				AF0000000000000000000014 /* Info.plist */,
 			);
 			path = PushPilotExample;
 			sourceTree = "<group>";
@@ -95,6 +124,7 @@
 			children = (
 				AF0000000000000000000004 /* PushPilotExample.app */,
 				AF0000000000000000000008 /* NotificationService.appex */,
+				AF0000000000000000000010 /* LiveActivity.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -106,6 +136,17 @@
 				AF0000000000000000000007 /* Info.plist */,
 			);
 			path = NotificationService;
+			sourceTree = "<group>";
+		};
+		AC0000000000000000000005 /* LiveActivity */ = {
+			isa = PBXGroup;
+			children = (
+				AF0000000000000000000009 /* LiveActivityWidgets.swift */,
+				AF0000000000000000000011 /* Info.plist */,
+				AF0000000000000000000012 /* LiveActivity.entitlements */,
+				AF0000000000000000000013 /* LiveActivity.appgroup.entitlements */,
+			);
+			path = LiveActivity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,6 +165,7 @@
 			);
 			dependencies = (
 				B20000000000000000000001 /* PBXTargetDependency */,
+				B20000000000000000000002 /* PBXTargetDependency */,
 			);
 			name = PushPilotExample;
 			packageProductDependencies = (
@@ -151,6 +193,25 @@
 			);
 			productName = NotificationService;
 			productReference = AF0000000000000000000008 /* NotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		AE0000000000000000000003 /* LiveActivity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A90000000000000000000004 /* Build configuration list for PBXNativeTarget "LiveActivity" */;
+			buildPhases = (
+				AB0000000000000000000007 /* Sources */,
+				AB0000000000000000000008 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LiveActivity;
+			packageProductDependencies = (
+				AD0000000000000000000005 /* PushPilotLive */,
+			);
+			productName = LiveActivity;
+			productReference = AF0000000000000000000010 /* LiveActivity.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -181,6 +242,7 @@
 			targets = (
 				AE0000000000000000000001 /* PushPilotExample */,
 				AE0000000000000000000002 /* NotificationService */,
+				AE0000000000000000000003 /* LiveActivity */,
 			);
 		};
 /* End PBXProject section */
@@ -213,6 +275,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AB0000000000000000000007 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA0000000000000000000009 /* LiveActivityWidgets.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -220,6 +290,11 @@
 			isa = PBXTargetDependency;
 			target = AE0000000000000000000002 /* NotificationService */;
 			targetProxy = B10000000000000000000001 /* PBXContainerItemProxy */;
+		};
+		B20000000000000000000002 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE0000000000000000000003 /* LiveActivity */;
+			targetProxy = B10000000000000000000002 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -236,6 +311,10 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
+				PUSHPILOT_APP_GROUP = "";
+				PUSHPILOT_BASE_URL = "https://pushpilot.ai";
+				PUSHPILOT_BUNDLE_ID = ai.pushpilot.example;
+				PUSHPILOT_SDK_KEY = pp_sdk_REPLACE_ME;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -255,6 +334,10 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
+				PUSHPILOT_APP_GROUP = "";
+				PUSHPILOT_BASE_URL = "https://pushpilot.ai";
+				PUSHPILOT_BUNDLE_ID = ai.pushpilot.example;
+				PUSHPILOT_SDK_KEY = pp_sdk_REPLACE_ME;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_VERSION = 5.0;
@@ -266,16 +349,18 @@
 		A60000000000000000000003 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PushPilotExample/PushPilotExample.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(NO_APP_GROUP_ENTITLEMENTS_$(PUSHPILOT_APP_GROUP):default=PushPilotExample/PushPilotExample.appgroup.entitlements)";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushPilotExample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pushpilot.example;
+				NO_APP_GROUP_ENTITLEMENTS_ = PushPilotExample/PushPilotExample.entitlements;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -283,16 +368,18 @@
 		A60000000000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_ENTITLEMENTS = PushPilotExample/PushPilotExample.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "$(NO_APP_GROUP_ENTITLEMENTS_$(PUSHPILOT_APP_GROUP):default=PushPilotExample/PushPilotExample.appgroup.entitlements)";
 				CODE_SIGN_STYLE = Automatic;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PushPilotExample/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pushpilot.example;
+				NO_APP_GROUP_ENTITLEMENTS_ = PushPilotExample/PushPilotExample.entitlements;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -310,7 +397,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pushpilot.example.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID).NotificationService";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -329,7 +416,51 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ai.pushpilot.example.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID).NotificationService";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		A60000000000000000000007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "$(NO_APP_GROUP_ENTITLEMENTS_$(PUSHPILOT_APP_GROUP):default=LiveActivity/LiveActivity.appgroup.entitlements)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LiveActivity;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				NO_APP_GROUP_ENTITLEMENTS_ = LiveActivity/LiveActivity.entitlements;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID).LiveActivity";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A60000000000000000000008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = "$(NO_APP_GROUP_ENTITLEMENTS_$(PUSHPILOT_APP_GROUP):default=LiveActivity/LiveActivity.appgroup.entitlements)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LiveActivity/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LiveActivity;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				NO_APP_GROUP_ENTITLEMENTS_ = LiveActivity/LiveActivity.entitlements;
+				PRODUCT_BUNDLE_IDENTIFIER = "$(PUSHPILOT_BUNDLE_ID).LiveActivity";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -365,6 +496,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		A90000000000000000000004 /* Build configuration list for PBXNativeTarget "LiveActivity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A60000000000000000000007 /* Debug */,
+				A60000000000000000000008 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
@@ -386,6 +526,10 @@
 		AD0000000000000000000004 /* PushPilotNotificationService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PushPilotNotificationService;
+		};
+		AD0000000000000000000005 /* PushPilotLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PushPilotLive;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -1,0 +1,40 @@
+{"name":"High tide countdown","canvas":"TideWaves.dc.html",
+"fields":[{"name":"high","kind":"time"},{"name":"surf","kind":"text","max":7},{"name":"trend","kind":"text","max":8}],
+"layout":{
+"defs":{
+"scene":{"type":"layer","view":[376,160],"items":[
+ {"type":"path","d":"M298.5 38C298.5 24 310 12.5 324 12.5S349.5 24 349.5 38 338 63.5 324 63.5 298.5 52 298.5 38Z","fill":"#FFD23F","stroke":"#FFF1B8","width":13},
+ {"type":"path","d":"M214 42q7-8 14 0q7-8 14 0M196 26q5-6 10 0q5-6 10 0","stroke":"#0B2E3F","width":2.5},
+ {"type":"path","d":"M262 52h12v100h-12Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M262 52h12v14h-12ZM262 80h12v14h-12ZM262 108h12v14h-12Z","fill":"#E5352B"},
+ {"type":"path","d":"M0 114Q23.5 100 47 114T94 114T141 114T188 114T235 114T282 114T329 114T376 114V160H0Z","fill":"#5CC4DE"},
+ {"type":"path","d":"M-24 128Q-.5 114 23 128T70 128T117 128T164 128T211 128T258 128T305 128T352 128T399 128V160H-24Z","fill":"#2496BC"},
+ {"type":"path","d":"M0 144Q23.5 132 47 144T94 144T141 144T188 144T235 144T282 144T329 144T376 144V160H0Z","fill":"#0E5F86"},
+ {"type":"path","d":"M296 100V74M286 84L296 74 306 84","stroke":"#0A5F86","width":4}]},
+"glyph":{"type":"path","d":"M1 9Q4.5 2 8 9T15 9T22 9T29 9","view":[28,14],"stroke":"#5CD3F2","width":3}},
+"lock":{"type":"layer","h":160,"bg":"#CDEFF7","items":[
+ {"type":"use","ref":"scene"},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":3,"align":"leading","items":[
+  {"type":"text","text":"HIGH TIDE IN","size":11,"weight":"heavy","tracking":0.06,"color":"#0A5F86"},
+  {"type":"timer","field":"high","mode":"down","size":44,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#0B2E3F","format":"hours"},
+  {"type":"text","text":"Surf {{surf}} · {{trend}}","size":13,"weight":"bold","color":"#0B2E3F"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#CDEFF7","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[
+   {"type":"use","ref":"scene"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"HIGH TIDE IN","size":11,"weight":"bold","tracking":0.08,"color":"#5CD3F2"},
+  {"type":"timer","field":"high","mode":"down","size":36,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF","format":"hours"},
+  {"type":"text","text":"Surf {{surf}} · {{trend}}","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph","w":28,"h":14},
+ "compact_trailing":{"type":"timer","field":"high","mode":"down","size":14,"weight":"bold","mono":true,"color":"#5CD3F2","format":"hours"},
+ "minimal":{"type":"use","ref":"glyph","w":22,"h":11}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#CDEFF7","items":[
+ {"type":"use","ref":"glyph","w":32,"h":16},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"High tide in","size":12,"weight":"bold","color":"#0A5F86"},
+  {"type":"timer","field":"high","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#0B2E3F","format":"hours"}]}]},
+"promoted":{"title":"High tide soon","text":"Surf {{surf}} · {{trend}}","chip":"{{surf}}","timer":{"type":"timer","field":"high","mode":"down"}}},
+"state":{"title":"High tide","high":"2026-11-18T17:20:00+05:30","surf":"1.5 m","trend":"rising"}}

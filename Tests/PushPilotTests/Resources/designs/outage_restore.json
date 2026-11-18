@@ -1,0 +1,46 @@
+{"name":"Power back soon","canvas":"OutageRestore.dc.html",
+"fields":[{"name":"back","kind":"time"},{"name":"note","kind":"text","max":30},{"name":"lit","kind":"number"},{"name":"step","kind":"number"}],
+"layout":{
+"defs":{
+"bulb":{"type":"layer","w":80,"h":110,"view":[80,110],"items":[
+ {"type":"path","d":"M40 6A30 30 0 0 1 58 60Q54 64 54 70H26Q26 64 22 60A30 30 0 0 1 40 6Z","fill":"$glass"},
+ {"type":"layer","at":"top_leading","offset":[10,6],"w":60,"h":64,"items":[
+  {"type":"layer","at":"bottom","fh":"lit","clip":true,"items":[
+   {"type":"path","at":"bottom","w":60,"h":64,"d":"M30 0A30 30 0 0 1 48 54Q44 58 44 64H16Q16 58 12 54A30 30 0 0 1 30 0Z","view":[60,64],"fill":"#FFD23F"}]}]},
+ {"type":"path","d":"M40 6A30 30 0 0 1 58 60Q54 64 54 70H26Q26 64 22 60A30 30 0 0 1 40 6Z","stroke":"#FFFFFF","width":3},
+ {"type":"path","d":"M32 68V50L40 42 48 50V68","stroke":"$ink","width":3},
+ {"type":"path","d":"M30 76H50a4.5 4.5 0 0 1 0 9H30a4.5 4.5 0 0 1 0-9ZM34 89H46a4.5 4.5 0 0 1 0 9H34a4.5 4.5 0 0 1 0-9Z","fill":"$base"}]},
+"glyph":{"type":"layer","view":[80,110],"items":[
+ {"type":"path","d":"M40 6A30 30 0 0 1 58 60Q54 64 54 70H26Q26 64 22 60A30 30 0 0 1 40 6Z","stroke":"#FFD23F","width":8},
+ {"type":"path","d":"M30 78H50a4.5 4.5 0 0 1 0 9H30a4.5 4.5 0 0 1 0-9ZM34 92H46a4.5 4.5 0 0 1 0 9H34a4.5 4.5 0 0 1 0-9Z","fill":"#FFD23F"}]},
+"steps":{"type":"grid","w":142,"h":6,"cols":3,"count":3,"filled":"step","gap":5,
+ "tile":{"type":"shape","shape":"capsule","fill":"#FFD23F"},"empty":{"type":"shape","shape":"capsule","fill":"#3A3A3C"}}},
+"lock":{"type":"layer","h":160,"bg":"#111827","items":[
+ {"type":"shape","shape":"circle","at":"top_trailing","offset":[24,-28],"w":190,"h":190,"fill":"#2B2610"},
+ {"type":"use","ref":"bulb","at":"top_trailing","offset":[-22,12],"w":100,"h":138,"colors":{"glass":"#374151","ink":"#111827","base":"#9CA3AF"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"POWER BACK BY","size":11,"weight":"heavy","tracking":0.06,"color":"#FFD23F"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{back}}","size":56,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{note}}","size":13,"weight":"semibold","color":"#E5E7EB"}]}]},
+"island":{
+ "leading":{"type":"use","ref":"bulb","w":80,"h":110,"colors":{"glass":"#2C2C2E","ink":"#000000","base":"#8E8E93"}},
+ "trailing":{"type":"column","spacing":6,"items":[
+  {"type":"text","text":"POWER BACK BY","size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F"},
+  {"type":"text","text":"{{back}}","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"use","ref":"steps"},
+  {"type":"text","text":"{{note}}","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph","w":16,"h":22},
+ "compact_trailing":{"type":"text","text":"Back by {{back}}","size":14,"weight":"bold","mono":true,"color":"#FFD23F"},
+ "minimal":{"type":"use","ref":"glyph","w":16,"h":22}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#111827","items":[
+ {"type":"use","ref":"bulb","w":32,"h":44,"colors":{"glass":"#374151","ink":"#111827","base":"#9CA3AF"}},
+ {"type":"column","items":[
+  {"type":"text","text":"Power back by","size":12,"weight":"bold","color":"#FFD23F"},
+  {"type":"text","text":"{{back}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Power back by {{back}}","text":"{{note}}","chip":"{{back}}",
+ "progress":{"type":"progress","value":"lit","segments":3,"color":"#FFD23F"}}},
+"state":{"title":"Power outage","back":"2026-11-18T15:30:00+05:30","note":"Crew is on site in Sector 21","lit":0.69,"step":2}}

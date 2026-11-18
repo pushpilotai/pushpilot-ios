@@ -1,0 +1,44 @@
+{"name":"Ski lift line","canvas":"SkiLift.dc.html",
+"fields":[{"name":"lift","kind":"text","max":12},{"name":"wait","kind":"text","max":7},{"name":"snow","kind":"text","max":7}],
+"layout":{
+"defs":{
+"cab":{"type":"layer","w":20,"h":16,"radius":5,"bg":"#E5352B","items":[
+ {"type":"shape","shape":"rect","at":"top","offset":[0,4],"w":12,"h":6,"radius":2,"fill":"#FFFFFF"}]},
+"scene":{"type":"layer","view":[376,160],"items":[
+ {"type":"path","d":"M155 34a15 15 0 1 0 30 0a15 15 0 1 0-30 0","fill":"$u"},
+ {"type":"path","d":"M150 160L236 60 322 160Z","fill":"#DCEBF7"},
+ {"type":"path","d":"M236 60L222 78 232 84 238 76 246 86 254 80ZM120 160L376 44V160Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M230 160L376 96V160Z","fill":"#E3EEF8"},
+ {"type":"path","d":"M206 152L215 124 224 152ZM300 152L309 126 318 152Z","fill":"#1F5E46"},
+ {"type":"path","d":"M240 148L250 116 260 148ZM334 126L344 94 354 126Z","fill":"#17493A"},
+ {"type":"path","d":"M176 120L380 18M204 106V115M278 69V78M352 32V41","stroke":"#24364D","width":2,"cap":"butt"},
+ {"type":"path","d":"M232 92V112M322 47V70","stroke":"#24364D","width":4},
+ {"type":"use","ref":"cab","copies":[[204,122],[278,85],[352,48]]}]}},
+"lock":{"type":"layer","h":160,"bg":"#BFE3F7","items":[
+ {"type":"use","ref":"scene","colors":{"u":"#00000000"}},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":3,"align":"leading","items":[
+  {"type":"text","text":"{{lift}} line","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#0A4FB8"},
+  {"type":"text","text":"{{wait}}","size":52,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#0B2440"},
+  {"type":"text","text":"{{snow}} fresh powder","size":13,"weight":"bold","color":"#0B2440"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#BFE3F7","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[
+   {"type":"use","ref":"scene","colors":{"u":"#FFE27A"}}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"{{lift}} line","upper":true,"size":11,"weight":"bold","tracking":0.08,"color":"#9CC8FF"},
+  {"type":"text","text":"{{wait}}","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{snow}} fresh powder","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"layer","w":24,"h":20,"items":[
+  {"type":"path","d":"M1 8L23 2M12 5V9","view":[24,20],"stroke":"#9CC8FF","width":1.5,"cap":"butt"},
+  {"type":"use","ref":"cab","at":"bottom","offset":[0,-1],"w":12,"h":10}]},
+ "compact_trailing":{"type":"text","text":"{{wait}} line","size":14,"weight":"bold","mono":true,"color":"#9CC8FF"},
+ "minimal":{"type":"use","ref":"cab","w":18,"h":15}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#BFE3F7","items":[
+ {"type":"use","ref":"cab","w":30,"h":24},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"{{lift}} line","size":12,"weight":"bold","color":"#0A4FB8"},
+  {"type":"text","text":"{{wait}}","size":24,"weight":"heavy","mono":true,"color":"#0B2440"}]}]},
+"promoted":{"title":"{{wait}} wait for {{lift}}","text":"{{snow}} fresh powder","chip":"{{wait}}"}},
+"state":{"title":"Ski lift line","lift":"Gondola 2","wait":"4 min","snow":"20 cm"}}

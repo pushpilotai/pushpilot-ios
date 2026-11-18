@@ -1,0 +1,45 @@
+{"name":"Check-in open","canvas":"CheckInOpen.dc.html",
+"fields":[{"name":"from","kind":"text","max":4},{"name":"to","kind":"text","max":4},{"name":"seat","kind":"text","max":4},{"name":"closes","kind":"time"}],
+"layout":{
+"defs":{
+"pass":{"type":"column","w":156,"h":116,"radius":14,"bg":"#FFFFFF","clip":true,"spacing":0,"items":[
+  {"type":"row","h":36,"pad":[0,12,0,12],"bg":"$head","items":[
+   {"type":"text","text":"{{from}}","size":16,"weight":"heavy","color":"#FFFFFF"},
+   {"type":"spacer"},
+   {"type":"icon","name":"plane","color":"#FFFFFF"},
+   {"type":"spacer"},
+   {"type":"text","text":"{{to}}","size":16,"weight":"heavy","color":"#FFFFFF"}]},
+  {"type":"row","h":80,"pad":[8,12,8,12],"items":[
+   {"type":"column","spacing":0,"items":[
+    {"type":"text","text":"SEAT","size":11,"weight":"bold","color":"#55565C"},
+    {"type":"text","text":"{{seat}}","size":30,"weight":"heavy","color":"#0B1B2B"}]},
+   {"type":"spacer"},
+   {"type":"use","ref":"code","w":43,"h":44}]}]},
+"code":{"type":"path","d":"M0 0h3v44h-3zm5 0h1v44h-1zm3 0h2v44h-2zm4 0h1v44h-1zm3 0h4v44h-4zm6 0h2v44h-2zm4 0h1v44h-1zm3 0h3v44h-3zm5 0h1v44h-1zm3 0h2v44h-2zm4 0h3v44h-3z","view":[43,44],"fill":"#0B1B2B"}},
+"lock":{"type":"layer","h":160,"bg":"#0A4FB8","items":[
+ {"type":"use","ref":"pass","at":"top_trailing","offset":[-14,22],"rotate":6,"w":156,"h":116,"colors":{"head":"#0B1B2B"}},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"CHECK-IN CLOSES IN","size":11,"weight":"heavy","tracking":0.06,"color":"#BFDBFF"},
+  {"type":"spacer"},
+  {"type":"timer","field":"closes","mode":"down","format":"hours","size":46,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"Seat {{seat}} is held","size":13,"weight":"bold","color":"#FFFFFF"}]}]},
+"island":{
+ "leading":{"type":"use","ref":"pass","rotate":-4,"w":150,"h":112,"colors":{"head":"#0A4FB8"}},
+ "trailing":{"type":"column","spacing":5,"items":[
+  {"type":"text","text":"CHECK-IN CLOSES IN","size":11,"weight":"bold","tracking":0.08,"color":"#5CD3F2"},
+  {"type":"timer","field":"closes","mode":"down","format":"hours","size":36,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"Seat {{seat}} is held","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"text","text":"Check in","size":13,"weight":"heavy","color":"#5CD3F2"},
+ "compact_trailing":{"type":"timer","field":"closes","mode":"down","format":"hours","size":14,"weight":"bold","mono":true,"color":"#5CD3F2"},
+ "minimal":{"type":"icon","name":"plane_departure","color":"#5CD3F2"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0A4FB8","items":[
+ {"type":"icon","name":"ticket","color":"#FFFFFF","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Check-in closes in","size":12,"weight":"bold","color":"#BFDBFF"},
+  {"type":"timer","field":"closes","mode":"down","format":"hours","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Check-in closes soon","text":"{{from}} to {{to}} · seat {{seat}} is held","chip":"{{seat}}",
+ "timer":{"type":"timer","field":"closes","mode":"down"}}},
+"state":{"title":"Flight to Bengaluru","from":"DEL","to":"BLR","seat":"14C","closes":"2026-11-18T13:50:00+05:30"}}

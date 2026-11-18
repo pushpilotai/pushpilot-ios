@@ -1,0 +1,47 @@
+{"name":"Pizza in the oven","canvas":"PizzaOven.dc.html",
+"fields":[{"name":"eta","kind":"text","max":7},{"name":"baked","kind":"number"}],
+"layout":{
+"defs":{
+"pep":{"type":"shape","shape":"circle","w":12,"h":12,"fill":"#C8102E"},
+"basil":{"type":"shape","shape":"ellipse","w":8,"h":4,"fill":"#2A9150"},
+"pie":{"type":"layer","w":110,"h":110,"items":[
+ {"type":"shape","shape":"circle","w":84,"h":84,"fill":"#E0A04A"},
+ {"type":"shape","shape":"circle","w":72,"h":72,"fill":"#FFD36B"},
+ {"type":"use","ref":"pep","view":[110,110],"copies":[[55,34],[73,45],[71,67],[52,75],[36,63],[38,43],[55,55]]},
+ {"type":"use","ref":"basil","at":"top_leading","offset":[59,55],"w":8,"h":4,"rotate":30},
+ {"type":"use","ref":"basil","at":"top_leading","offset":[41,50],"w":8,"h":4,"rotate":-40},
+ {"type":"use","ref":"basil","at":"top_leading","offset":[56,41],"w":8,"h":4,"rotate":70}]}},
+"lock":{"type":"layer","h":160,"bg":"#A51C16","items":[
+ {"type":"layer","at":"top_trailing","offset":[52,-35],"w":230,"h":230,"items":[
+  {"type":"arc","w":224,"h":224,"value":"baked","width":10.5,"color":"#FFD23F","track":"#7A130F"},
+  {"type":"use","ref":"pie","w":230,"h":230}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"IN THE OVEN","size":11,"weight":"heavy","tracking":0.06,"color":"#FFD23F"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{eta}}","size":64,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"then out for delivery","size":13,"weight":"bold","color":"#FFFFFF"}]}]},
+"island":{
+ "leading":{"type":"layer","w":118,"h":118,"items":[
+  {"type":"arc","w":116,"h":116,"value":"baked","width":6.4,"color":"#FF8A3C","track":"#2C2C2E"},
+  {"type":"use","ref":"pie","w":118,"h":118}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"IN THE OVEN","size":11,"weight":"bold","tracking":0.08,"color":"#FF8A3C"},
+  {"type":"text","text":"{{eta}}","size":54,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"then out for delivery","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"pie","w":26,"h":26},
+ "compact_trailing":{"type":"text","text":"{{eta}}","size":14,"weight":"bold","mono":true,"color":"#FF8A3C"},
+ "minimal":{"type":"layer","w":24,"h":24,"items":[
+  {"type":"arc","value":"baked","width":2.5,"color":"#FF8A3C","track":"#2C2C2E"},
+  {"type":"use","ref":"pie","w":24,"h":24}]}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#A51C16","items":[
+ {"type":"layer","w":44,"h":44,"items":[
+  {"type":"arc","value":"baked","width":3.5,"color":"#FFD23F","track":"#7A130F"},
+  {"type":"use","ref":"pie","w":44,"h":44}]},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"In the oven","size":12,"weight":"bold","color":"#FFD23F"},
+  {"type":"text","text":"{{eta}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"In the oven: {{eta}}","text":"Then out for delivery","chip":"{{eta}}","progress":{"type":"progress","value":"baked","color":"#FF8A3C"}}},
+"state":{"title":"Pizza in the oven","eta":"6 min","baked":0.6}}

@@ -1,0 +1,38 @@
+{"name":"Savings goal","canvas":"SavingsGoal.dc.html",
+"fields":[{"name":"goal","kind":"text","max":16},{"name":"amount","kind":"text","max":10},{"name":"target","kind":"text","max":10},{"name":"last","kind":"text","max":8},{"name":"pct","kind":"number"},{"name":"saved","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#1D1A5C","items":[
+ {"type":"shape","shape":"rect","at":"leading","fw":"saved","fill":"#3B36B8"},
+ {"type":"column","at":"trailing","h":160,"pad":[20,22,20,22],"align":"trailing","items":[
+  {"type":"text","text":"{{pct}}%","size":26,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"+{{last}}","pad":[4,10,4,10],"radius":12,"bg":"#FFFFFF","size":12,"weight":"heavy","color":"#1D1A5C"}]},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"text","text":"{{goal}}","size":11,"weight":"bold","tracking":0.08,"color":"#D2D0FF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{amount}}","size":56,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"of {{target}} · round-ups doubled today","size":13,"weight":"semibold","color":"#D2D0FF","lines":1}]}]},
+"island":{
+ "leading":{"type":"layer","w":100,"h":100,"radius":50,"clip":true,"border":{"color":"#5E5CE6","width":4},"items":[
+  {"type":"shape","shape":"rect","at":"bottom","fh":"saved","fill":"#5E5CE6"},
+  {"type":"text","text":"{{pct}}%","size":26,"weight":"heavy","mono":true,"color":"#FFFFFF"}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"{{goal}}","size":11,"weight":"bold","tracking":0.08,"color":"#A7A5FF"},
+  {"type":"text","text":"{{amount}}","size":40,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","runs":[{"text":"of {{target}} · ","color":"#A1A1A8"},{"text":"+{{last}} just now","color":"#FFFFFF","weight":"semibold"}],"size":13,"lines":1}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"drop","color":"#A7A5FF"},
+ "compact_trailing":{"type":"text","text":"+{{last}}","size":14,"weight":"bold","mono":true,"color":"#A7A5FF"},
+ "minimal":{"type":"layer","w":22,"h":22,"radius":11,"clip":true,"border":{"color":"#5E5CE6","width":2},"items":[
+  {"type":"shape","shape":"rect","at":"bottom","fh":"saved","fill":"#5E5CE6"}]}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1D1A5C","items":[
+ {"type":"layer","w":40,"h":40,"radius":20,"clip":true,"border":{"color":"#5E5CE6","width":3},"items":[
+  {"type":"shape","shape":"rect","at":"bottom","fh":"saved","fill":"#5E5CE6"}]},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"{{goal}}","size":12,"weight":"bold","color":"#D2D0FF"},
+  {"type":"text","text":"{{amount}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{amount}} of {{target}}","text":"{{goal}} · +{{last}} just now","chip":"{{pct}}%",
+ "progress":{"type":"progress","value":"saved","color":"#5E5CE6"}}},
+"state":{"title":"Goa trip fund","goal":"GOA TRIP FUND","amount":"₹36,000","target":"₹50,000","last":"₹40","pct":72,"saved":0.72}}

@@ -1,0 +1,44 @@
+{"name":"Rain ends, rainbow next","canvas":"Rainbow.dc.html",
+"fields":[{"name":"ends","kind":"time"},{"name":"note","kind":"text","max":24}],
+"layout":{
+"defs":{
+"scene":{"type":"layer","view":[376,160],"items":[
+ {"type":"path","d":"M168 158A118 118 0 0 1 404 158","stroke":"#FF5A5F","width":10,"cap":"butt"},
+ {"type":"path","d":"M178 158A108 108 0 0 1 394 158","stroke":"#FF9F45","width":10,"cap":"butt"},
+ {"type":"path","d":"M188 158A98 98 0 0 1 384 158","stroke":"#FFD23F","width":10,"cap":"butt"},
+ {"type":"path","d":"M198 158A88 88 0 0 1 374 158","stroke":"#4AE37A","width":10,"cap":"butt"},
+ {"type":"path","d":"M208 158A78 78 0 0 1 364 158","stroke":"#4DA3FF","width":10,"cap":"butt"},
+ {"type":"path","d":"M218 158A68 68 0 0 1 354 158","stroke":"#9B6BFF","width":10,"cap":"butt"},
+ {"type":"path","d":"M0 150Q90 134 190 146T376 138V160H0Z","fill":"#2E7D4F"},
+ {"type":"path","d":"M155 138a15 15 0 1 1 30 0a15 15 0 1 1-30 0ZM171 130a19 19 0 1 1 38 0a19 19 0 1 1-38 0ZM197 138a15 15 0 1 1 30 0a15 15 0 1 1-30 0ZM330 132a16 16 0 1 1 32 0a16 16 0 1 1-32 0ZM347 124a19 19 0 1 1 38 0a19 19 0 1 1-38 0ZM174 138H208a8 8 0 0 1 0 16H174a8 8 0 0 1 0-16ZM344 134H378a8 8 0 0 1 0 16H344a8 8 0 0 1 0-16Z","fill":"#FFFFFF"},
+ {"type":"path","d":"M258 110L254 120M286 118L282 128M312 108L308 118","stroke":"#9CC8FF","width":2.5}]},
+"glyph":{"type":"layer","view":[26,15],"items":[
+ {"type":"path","d":"M2 14A11 11 0 0 1 24 14","stroke":"#FF5A5F","width":2.5,"cap":"butt"},
+ {"type":"path","d":"M5 14A8 8 0 0 1 21 14","stroke":"#FFD23F","width":2.5,"cap":"butt"},
+ {"type":"path","d":"M8 14A5 5 0 0 1 18 14","stroke":"#4DA3FF","width":2.5,"cap":"butt"}]}},
+"lock":{"type":"layer","h":160,"bg":"#36558C","items":[
+ {"type":"use","ref":"scene"},
+ {"type":"column","at":"top_leading","pad":[20,22,20,22],"spacing":4,"align":"leading","items":[
+  {"type":"text","text":"RAIN ENDS IN","size":11,"weight":"heavy","tracking":0.06,"color":"#FFD23F"},
+  {"type":"timer","field":"ends","mode":"down","format":"minutes","size":56,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{note}}","size":13,"weight":"semibold","color":"#D6E6FF"}]}]},
+"island":{
+ "leading":{"type":"layer","w":178,"h":120,"radius":24,"clip":true,"bg":"#36558C","items":[
+  {"type":"layer","w":282,"h":120,"at":"trailing","items":[{"type":"use","ref":"scene"}]}]},
+ "trailing":{"type":"column","spacing":5,"align":"leading","items":[
+  {"type":"text","text":"RAIN ENDS IN","size":11,"weight":"bold","tracking":0.08,"color":"#FFD23F"},
+  {"type":"timer","field":"ends","mode":"down","format":"minutes","size":42,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"{{note}}","size":13,"color":"#A1A1A8"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"use","ref":"glyph","w":26,"h":15},
+ "compact_trailing":{"type":"timer","field":"ends","mode":"down","format":"minutes","size":14,"weight":"bold","mono":true,"color":"#FFD23F"},
+ "minimal":{"type":"use","ref":"glyph","w":26,"h":15}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#36558C","items":[
+ {"type":"use","ref":"glyph","w":34,"h":20},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"Rain ends in","size":12,"weight":"bold","color":"#FFD23F"},
+  {"type":"timer","field":"ends","mode":"down","format":"minutes","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Rain ends soon","text":"{{note}}","chip":"Rain",
+ "timer":{"type":"timer","field":"ends","mode":"down","format":"minutes"}}},
+"state":{"title":"Rain ends, rainbow next","ends":"2026-11-18T16:06:00+05:30","note":"Rainbow likely after"}}

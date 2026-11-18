@@ -1,0 +1,49 @@
+{"name":"Match found","canvas":"MatchFound.dc.html",
+"fields":[{"name":"my_rank","kind":"text","max":10},{"name":"opp","kind":"text","max":10},{"name":"tag","kind":"text","max":3},{"name":"opp_rank","kind":"text","max":10},{"name":"found","kind":"time"},{"name":"deadline","kind":"time"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#1A2208","items":[
+ {"type":"row","spacing":0,"items":[
+  {"type":"column","fw":0.5,"h":160,"pad":[18,0,18,22],"bg":"#24330A","items":[
+   {"type":"text","text":"You · {{my_rank}}","upper":true,"size":11,"weight":"heavy","color":"#B8F04A"},
+   {"type":"spacer"},
+   {"type":"text","text":"You","w":76,"h":76,"radius":22,"bg":"#B8F04A","size":22,"weight":"heavy","color":"#000000"}]},
+  {"type":"column","fw":0.5,"h":160,"pad":[18,22,18,0],"bg":"#3A1216","align":"trailing","items":[
+   {"type":"text","text":"{{opp}} · {{opp_rank}}","upper":true,"size":11,"weight":"heavy","color":"#FF9A9E"},
+   {"type":"spacer"},
+   {"type":"text","text":"{{tag}}","w":76,"h":76,"radius":22,"bg":"#FF5A5F","size":22,"weight":"heavy","color":"#000000"}]}]},
+ {"type":"layer","w":104,"h":104,"radius":52,"bg":"#000000","items":[
+  {"type":"arc","w":97,"h":97,"from":"found","to":"deadline","width":7,"color":"#B8F04A","track":"#2C2C2E"},
+  {"type":"column","align":"center","items":[
+   {"type":"timer","field":"deadline","mode":"down","size":32,"weight":"heavy","mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"ACCEPT","size":11,"weight":"heavy","color":"#B8F04A"}]}]}]},
+"island":{
+ "leading":{"type":"spacer"},
+ "trailing":{"type":"spacer"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","align":"center","items":[
+  {"type":"text","text":"MATCH FOUND · ACCEPT IN","size":11,"weight":"bold","tracking":0.08,"color":"#B8F04A"},
+  {"type":"row","spacing":8,"items":[
+   {"type":"text","text":"You","w":60,"h":60,"radius":18,"bg":"#24330A","border":{"color":"#B8F04A","width":3},"size":16,"weight":"heavy","color":"#FFFFFF"},
+   {"type":"column","items":[
+    {"type":"text","text":"You","size":14,"weight":"bold","color":"#FFFFFF"},
+    {"type":"text","text":"{{my_rank}}","size":11,"color":"#A1A1A8"}]},
+   {"type":"spacer"},
+   {"type":"layer","w":72,"h":72,"items":[
+    {"type":"arc","w":69,"h":69,"from":"found","to":"deadline","width":7,"color":"#B8F04A","track":"#2C2C2E"},
+    {"type":"timer","field":"deadline","mode":"down","size":20,"weight":"heavy","mono":true,"color":"#FFFFFF"}]},
+   {"type":"spacer"},
+   {"type":"column","align":"trailing","items":[
+    {"type":"text","text":"{{opp}}","size":14,"weight":"bold","color":"#FFFFFF"},
+    {"type":"text","text":"{{opp_rank}}","size":11,"color":"#A1A1A8"}]},
+   {"type":"text","text":"{{tag}}","w":60,"h":60,"radius":18,"bg":"#3A1216","border":{"color":"#FF5A5F","width":3},"size":16,"weight":"heavy","color":"#FFFFFF"}]}]},
+ "compact_leading":{"type":"text","text":"Match found","size":13,"weight":"heavy","color":"#B8F04A"},
+ "compact_trailing":{"type":"timer","field":"deadline","mode":"down","size":14,"weight":"bold","mono":true,"color":"#B8F04A"},
+ "minimal":{"type":"arc","w":20,"h":20,"from":"found","to":"deadline","width":3,"color":"#B8F04A","track":"#3A3A3C"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#1A2208","items":[
+ {"type":"icon","name":"esports","color":"#B8F04A","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"Accept vs {{opp}}","size":12,"weight":"bold","color":"#B8F04A"},
+  {"type":"timer","field":"deadline","mode":"down","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"Match found: you vs {{opp}}","text":"{{my_rank}} vs {{opp_rank}} · accept now","chip":"Accept",
+ "timer":{"type":"timer","field":"deadline","mode":"down"}}},
+"state":{"title":"Ranked match","my_rank":"Gold II","opp":"Nyx","tag":"NX","opp_rank":"Gold I","found":"2026-11-18T21:00:00+05:30","deadline":"2026-11-18T21:00:30+05:30"}}

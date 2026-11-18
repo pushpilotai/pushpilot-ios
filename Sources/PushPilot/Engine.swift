@@ -60,6 +60,12 @@ struct State: Codable, Equatable {
     var pendingForgets: [String] = []
     /// Tracking events not yet accepted by the server, oldest first. Optional so state saved before v2 still loads.
     var events: [[String: JSONValue]]?
+    /// The `live` object of register and sync; nil until live activities are watched (iOS 17.2+).
+    var live: [String: JSONValue]?
+    /// Live activity update tokens (activity id to hex) not yet accepted by the server.
+    var liveTokens: [String: String]?
+    /// Start step ids already reported as `live_started`, newest last.
+    var liveStarted: [String]?
 }
 
 /// The sync engine. Not thread-safe: every method runs on the SDK's serial queue.
@@ -82,6 +88,8 @@ final class Engine {
     private let jitter: () -> Double
     private(set) var installationId: String
     private(set) var state: State
+    /// The outcome of the last register or sync request in this process, for `PushPilot.status`; nil before one.
+    private(set) var lastSyncResult: String?
     private var failures = 0
     /// A send is scheduled or in flight; new changes wait for it.
     private var busy = false
@@ -164,10 +172,41 @@ final class Engine {
     /// Queues a `clicked` event for a notification, with the button id when a button was tapped.
     /// Not a setter: it does not end the hold after `forget()`.
     func trackClick(notificationId: String, buttonId: String?) {
+        queueEvent("clicked", notificationId: notificationId, buttonId: buttonId)
+    }
+
+    /// Queues `live_started` (once per activity) or `live_dismissed` against the activity's start step.
+    func trackLive(_ type: String, notificationId: String) {
+        if type == "live_started" {
+            guard !(state.liveStarted ?? []).contains(notificationId) else { return }
+            state.liveStarted = Array(((state.liveStarted ?? []) + [notificationId]).suffix(100))
+        }
+        queueEvent(type, notificationId: notificationId, buttonId: nil)
+    }
+
+    /// Stores the `live` object and syncs when it changed. Not a setter: it does not end the hold after `forget()`.
+    func setLive(_ live: [String: JSONValue]) {
+        guard state.live != live else { return }
+        state.live = live
+        save()
+        requestSync()
+    }
+
+    /// Queues an activity's update token for `live/token`; a newer token for the same activity replaces it.
+    func setLiveToken(activityId: String, token: Data) {
+        var tokens = state.liveTokens ?? [:]
+        tokens[activityId] = Self.hex(token)
+        state.liveTokens = tokens
+        save()
+        requestSync()
+    }
+
+    /// Adds one event to the queue on disk and asks for a send.
+    private func queueEvent(_ type: String, notificationId: String, buttonId: String?) {
         var event: [String: JSONValue] = [
             "notification_id": .string(notificationId),
             "installation_id": .string(installationId),
-            "type": .string("clicked"),
+            "type": .string(type),
             "at": .string(ISO8601DateFormatter().string(from: clock.now)),
         ]
         if let buttonId { event["button_id"] = .string(buttonId) }
@@ -184,7 +223,8 @@ final class Engine {
         do { try storage.writeInstallationId(installationId) } catch {
             log.error("forget could not store the new installation id: \(error.localizedDescription, privacy: .public)")
         }
-        update { $0 = State(pendingForgets: $0.pendingForgets + [old]) }
+        // The device's live capability is not about the user, so it carries over to the new installation.
+        update { $0 = State(pendingForgets: $0.pendingForgets + [old], live: $0.live) }
         holdAfterForget = true
     }
 
@@ -223,6 +263,16 @@ final class Engine {
                 flush()
             }
         }
+        if let (activity, token) = state.liveTokens?.min(by: { $0.key < $1.key }) {
+            let body: [String: JSONValue] = ["installation_id": .string(installationId), "activity_id": .string(activity), "token": .string(token)]
+            // Accepted or rejected, this token is done unless a newer one replaced it meanwhile.
+            return post("live/token", body) { [self] reply in
+                if reply != nil { log.notice("Live activity update token sent") }
+                if state.liveTokens?[activity] == token { state.liveTokens?[activity] = nil }
+                save()
+                flush()
+            }
+        }
         if let events = state.events, !events.isEmpty {
             let batch = Array(events.prefix(Self.eventsPerRequest))
             // Accepted or rejected (4xx), the batch is done; 429, 5xx and network errors retry it.
@@ -239,6 +289,7 @@ final class Engine {
                 return finish()
             }
             let path = state.lastSent?["installation_id"] == payload["installation_id"] ? "sync" : "register"
+            syncPath = path
             post(path, payload) { [self] reply in record(payload, reply: reply) }
         }
     }
@@ -259,6 +310,7 @@ final class Engine {
         p["external_user_id"] = state.externalUserId.map(JSONValue.string) ?? .null
         if let topics = state.topics { p["topics"] = .array(topics.map(JSONValue.string)) }
         if !state.attributes.isEmpty { p["attributes"] = .object(state.attributes) }
+        if let live = state.live { p["live"] = .object(live) }
         return p
     }
 
@@ -284,6 +336,15 @@ final class Engine {
         finish()
     }
 
+    /// The register or sync request in flight, so its outcome is kept in `lastSyncResult`.
+    private var syncPath: String?
+
+    /// Keeps the outcome of a register or sync request; other requests leave it as it was.
+    private func noteSync(_ path: String, _ outcome: String) {
+        guard path == syncPath else { return }
+        lastSyncResult = "\(path): \(outcome)"
+    }
+
     /// Ends a pass and starts another if state changed meanwhile.
     private func finish() {
         busy = false
@@ -301,14 +362,18 @@ final class Engine {
         network.post(url, sdkKey: sdkKey, body: data) { [self] result in
             switch result {
             case .success(let reply) where (200..<300).contains(reply.status):
+                noteSync(path, "OK (HTTP \(reply.status))")
                 settled(reply.body)
             case .success(let reply) where reply.status != 429 && (400..<500).contains(reply.status):
                 log.error("PushPilot \(path, privacy: .public) rejected with HTTP \(reply.status); not retrying")
+                noteSync(path, "rejected (HTTP \(reply.status))")
                 settled(nil)
             case .success(let reply):
-                retry(after: reply.retryAfter, reason: "HTTP \(reply.status)")
+                noteSync(path, "failed (HTTP \(reply.status)), retrying")
+                retry(after: reply.retryAfter, reason: "\(path): HTTP \(reply.status)")
             case .failure(let error):
-                retry(after: nil, reason: error.localizedDescription)
+                noteSync(path, "failed (\(error.localizedDescription)), retrying")
+                retry(after: nil, reason: "\(path): \(error.localizedDescription)")
             }
         }
     }
@@ -318,7 +383,7 @@ final class Engine {
         failures += 1
         let backoff = min(Self.maxBackoff, pow(2, Double(failures - 1)) * jitter())
         let delay = max(retryAfter ?? 0, backoff)
-        log.info("Sync failed (\(reason, privacy: .public)); retrying in \(Int(delay)) s")
+        log.notice("Send failed (\(reason, privacy: .public)); retrying in \(Int(delay)) s")
         clock.schedule(after: delay) { [self] in flush() }
     }
 }

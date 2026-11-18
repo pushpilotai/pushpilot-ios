@@ -1,0 +1,47 @@
+{"name":"Touchdown drive offer","canvas":"GridironDrive.dc.html",
+"fields":[{"name":"score","kind":"text","max":18},{"name":"down","kind":"text","max":7},{"name":"spot","kind":"text","max":10},{"name":"togo","kind":"text","max":10},{"name":"start","kind":"number"},{"name":"gain","kind":"number"},{"name":"first","kind":"number"}],
+"layout":{
+"defs":{
+"ball":{"type":"layer","w":24,"h":16,"items":[
+ {"type":"shape","shape":"ellipse","fill":"#9A5B2A","stroke":"$o","width":1.5},
+ {"type":"path","d":"M7 8H17M10 6V10M14 6V10","view":[24,16],"stroke":"#FFFFFF","width":1.5}]},
+"field":{"type":"layer","bg":"#1E7A3C","view":[324,72],"items":[
+ {"type":"path","d":"M0 0H27V72H0Z","fill":"#17602F"},
+ {"type":"path","d":"M297 0H324V72H297Z","fill":"#C8102E"},
+ {"type":"path","d":"M54 0V72M81 0V72M108 0V72M135 0V72M189 0V72M216 0V72M243 0V72M270 0V72","stroke":"#5FA877","width":1.5,"cap":"butt"},
+ {"type":"path","d":"M162 0V72","stroke":"#BFE3CB","width":2,"cap":"butt"},
+ {"type":"path","d":"M27 0V72M297 0V72","stroke":"#FFFFFF","width":2.5,"cap":"butt"},
+ {"type":"shape","shape":"rect","w":2.5,"fh":1,"pos":["first",0.5],"fill":"#FFD23F"},
+ {"type":"row","spacing":0,"items":[
+  {"type":"spacer","fw":"start"},
+  {"type":"shape","shape":"capsule","fw":"gain","h":13,"fill":"#CFEBD8"},
+  {"type":"use","ref":"ball","offset":[-12,0],"colors":{"o":"#FFFFFF"}},
+  {"type":"spacer"}]}]}},
+"lock":{"type":"column","h":160,"bg":"#0E3D20","spacing":0,"items":[
+ {"type":"row","h":38,"pad":[0,22,0,22],"spacing":8,"items":[
+  {"type":"text","text":"LIVE","pad":[3,8,3,8],"radius":6,"bg":"#C8102E","size":11,"weight":"heavy","tracking":0.06,"color":"#FFFFFF"},
+  {"type":"text","text":"{{score}}","size":12,"weight":"bold","mono":true,"color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{down}}","size":12,"weight":"heavy","color":"#FFFFFF"}]},
+ {"type":"use","ref":"field","h":84},
+ {"type":"row","h":38,"pad":[0,22,0,22],"items":[
+  {"type":"text","text":"Touchdown = free wings","size":16,"weight":"heavy","color":"#FFFFFF"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{togo}} to go","size":12,"weight":"bold","color":"#BFE3CB"}]}]},
+"island":{
+ "leading":{"type":"text","text":"Touchdown = free wings","size":17,"weight":"heavy","tracking":-0.01,"color":"#FFFFFF","lines":1},
+ "trailing":{"type":"text","text":"{{score}}","size":12,"mono":true,"color":"#A1A1A8"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":10,"items":[
+  {"type":"use","ref":"field","h":72,"radius":12,"clip":true},
+  {"type":"text","runs":[{"text":"{{down}} at {{spot}} · ","color":"#A1A1A8"},{"text":"{{togo}} to go","color":"#FFFFFF","weight":"semibold"}],"size":12,"lines":1}]},
+ "compact_leading":{"type":"use","ref":"ball","colors":{"o":"#9A5B2A"}},
+ "compact_trailing":{"type":"text","text":"{{down}}","size":14,"weight":"bold","color":"#4AE37A"},
+ "minimal":{"type":"use","ref":"ball","colors":{"o":"#9A5B2A"}}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0E3D20","items":[
+ {"type":"use","ref":"ball","w":33,"h":22,"colors":{"o":"#9A5B2A"}},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"{{togo}} to go","size":12,"weight":"bold","color":"#BFE3CB"},
+  {"type":"text","text":"{{down}}","size":24,"weight":"heavy","color":"#FFFFFF"}]}]},
+"promoted":{"title":"Touchdown = free wings","text":"{{down}} at {{spot}} · {{togo}} to go","sub_text":"{{score}}","chip":"{{down}}"}},
+"state":{"title":"Touchdown drive offer","score":"CHI 17 · DET 14","down":"2nd & 6","spot":"the 30","togo":"30 yards","start":0.333,"gain":0.333,"first":0.716}}

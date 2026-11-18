@@ -1,0 +1,40 @@
+{"name":"Every six cuts the price, v2","canvas":"SixesSale2.dc.html",
+"fields":[{"name":"team","kind":"text","max":12},{"name":"code","kind":"text","max":4},{"name":"sixes","kind":"number"},{"name":"off","kind":"number"},{"name":"next","kind":"number"},{"name":"share","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#FFD60A","items":[
+ {"type":"text","text":"6","at":"top_trailing","offset":[-6,-46],"size":230,"weight":"heavy","color":"#F2C200"},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"align":"leading","items":[
+  {"type":"row","spacing":8,"align":"center","items":[
+   {"type":"text","text":"LIVE","pad":[3,8,3,8],"radius":6,"bg":"#000000","size":11,"weight":"bold","tracking":0.06,"color":"#FFD60A"},
+   {"type":"text","text":"{{team}} batting · {{sixes}} sixes","size":12,"weight":"bold","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"row","spacing":10,"align":"baseline","items":[
+   {"type":"text","text":"{{off}}%","size":64,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+   {"type":"text","text":"off","size":24,"weight":"heavy","color":"#000000"}]},
+  {"type":"spacer"},
+  {"type":"text","text":"Next six makes it {{next}}%","size":13,"weight":"semibold","color":"#000000"}]}]},
+"island":{
+ "leading":{"type":"column","spacing":8,"align":"leading","items":[
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{off}}%","size":64,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFD60A"},
+   {"type":"text","text":"off","size":20,"weight":"bold","color":"#FFFFFF"}]},
+  {"type":"text","text":"5% more with every six","size":13,"color":"#A1A1A8"}]},
+ "trailing":{"type":"column","spacing":10,"align":"trailing","items":[
+  {"type":"text","text":"{{code}} BATTING","pad":[3,8,3,8],"radius":6,"bg":"#D7263D","size":11,"weight":"bold","tracking":0.06,"color":"#FFFFFF"},
+  {"type":"grid","w":104,"h":38,"cols":5,"count":10,"filled":"sixes","gap":6,
+   "tile":{"type":"shape","shape":"circle","fill":"#FFD60A"},
+   "empty":{"type":"shape","shape":"circle","stroke":"#48484A","width":2}},
+  {"type":"text","runs":[{"text":"{{sixes}} sixes","color":"#FFFFFF","weight":"semibold"},{"text":" so far","color":"#A1A1A8"}],"size":12}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"spacer"},
+ "compact_leading":{"type":"icon","name":"cricket","color":"#FFD60A"},
+ "compact_trailing":{"type":"text","text":"{{off}}% off","size":14,"weight":"bold","mono":true,"color":"#FFD60A"},
+ "minimal":{"type":"icon","name":"cricket","color":"#FFD60A"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#FFD60A","items":[
+ {"type":"text","text":"6","w":40,"h":40,"radius":20,"bg":"#000000","size":26,"weight":"black","color":"#FFD60A"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"{{team}} batting","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{off}}% off","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{off}}% off, every six cuts the price","text":"{{team}} batting · {{sixes}} sixes · next six makes it {{next}}%","chip":"{{off}}%",
+ "progress":{"type":"progress","value":"share","segments":10,"color":"#000000"}}},
+"state":{"title":"Every six cuts the price","team":"India","code":"IND","sixes":7,"off":35,"next":40,"share":0.7}}

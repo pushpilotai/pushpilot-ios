@@ -1,0 +1,39 @@
+{"name":"While it rains","canvas":"RainOffer.dc.html",
+"fields":[{"name":"area","kind":"text","max":16},{"name":"stops","kind":"time"},{"name":"rain","kind":"numbers","max":12},{"name":"left","kind":"number"}],
+"layout":{
+"lock":{"type":"column","h":160,"bg":"#6CB4FF","pad":[20,22,20,22],"items":[
+ {"type":"row","spacing":6,"items":[
+  {"type":"icon","name":"rain","size":"s","color":"#0C2A4D"},
+  {"type":"text","text":"RAINING IN {{area}}","upper":true,"size":11,"weight":"heavy","tracking":0.08,"color":"#0C2A4D"}]},
+ {"type":"spacer"},
+ {"type":"text","text":"Free delivery","size":44,"weight":"heavy","tracking":-0.03,"color":"#000000"},
+ {"type":"text","text":"On chai and snacks while it lasts","size":13,"weight":"semibold","color":"#0C2A4D"},
+ {"type":"spacer"},
+ {"type":"row","align":"bottom","spacing":10,"items":[
+  {"type":"chart","kind":"bar","h":26,"values":"rain","min":0,"color":"#0C2A4D","rest":"#FFFFFF66","split":"left","gap":4},
+  {"type":"text","text":"till {{stops}}","size":13,"weight":"bold","color":"#000000"}]}]},
+"island":{
+ "leading":{"type":"row","spacing":12,"items":[
+  {"type":"icon","name":"rain","color":"#6CB4FF","w":40,"h":40,"radius":20,"bg":"#2C2C2E"},
+  {"type":"column","spacing":2,"items":[
+   {"type":"text","text":"Raining in {{area}}","size":15,"weight":"semibold","color":"#FFFFFF"},
+   {"type":"text","text":"Free delivery on chai and snacks while it lasts","size":12,"color":"#A1A1A8","lines":2}]}]},
+ "trailing":{"type":"spacer"},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":6,"items":[
+  {"type":"chart","kind":"bar","h":26,"values":"rain","min":0,"color":"#6CB4FF","rest":"#3A3A3C","split":"left","gap":4},
+  {"type":"row","items":[
+   {"type":"text","text":"Now","size":12,"color":"#A1A1A8"},
+   {"type":"spacer"},
+   {"type":"text","runs":[{"text":"Rain likely stops around ","color":"#A1A1A8"},{"text":"{{stops}}","color":"#FFFFFF","weight":"semibold"}],"size":12}]}]},
+ "compact_leading":{"type":"icon","name":"rain","color":"#6CB4FF"},
+ "compact_trailing":{"type":"text","text":"Free","size":14,"weight":"semibold","color":"#6CB4FF"},
+ "minimal":{"type":"icon","name":"rain","color":"#6CB4FF"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#6CB4FF","items":[
+ {"type":"icon","name":"rain","size":"l","color":"#0C2A4D"},
+ {"type":"column","items":[
+  {"type":"text","text":"Raining now","size":12,"weight":"bold","color":"#0C2A4D"},
+  {"type":"text","text":"Free delivery","size":17,"weight":"heavy","color":"#000000"}]}]},
+"promoted":{"title":"Free delivery while it rains","text":"Raining in {{area}} · likely stops around {{stops}}","chip":"Free",
+ "progress":{"type":"progress","value":"left","color":"#6CB4FF"}}},
+"state":{"title":"While it rains","area":"Indiranagar","stops":"2026-11-18T17:40:00+05:30","rain":[24,26,22,19,16,13,10,7,4,4,4,4],"left":0.667}}

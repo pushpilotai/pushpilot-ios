@@ -1,0 +1,49 @@
+{"name":"Payment on its way","canvas":"PaymentFlow.dc.html",
+"fields":[{"name":"amount","kind":"text","max":10},{"name":"name","kind":"text","max":12},{"name":"eta","kind":"text","max":7},{"name":"initials","kind":"text","max":2},{"name":"stage","kind":"number"},{"name":"done","kind":"number"}],
+"layout":{
+"defs":{
+"steps":{"type":"row","spacing":0,"items":[
+ {"type":"icon","name":"check","w":34,"h":34,"radius":17,"bg":"$a","color":"$ink"},
+ {"type":"shape","shape":"rect","h":4,"fill":"$a"},
+ {"type":"icon","name":"bank","w":38,"h":38,"radius":19,"border":{"color":"$a","width":3},"color":"$a","show":{"field":"stage","below":3}},
+ {"type":"icon","name":"check","w":38,"h":38,"radius":19,"bg":"$a","color":"$ink","show":{"field":"stage","above":2}},
+ {"type":"shape","shape":"line","h":4,"stroke":"$dot","width":4,"dash":[0,8],"show":{"field":"stage","below":3}},
+ {"type":"shape","shape":"rect","h":4,"fill":"$a","show":{"field":"stage","above":2}},
+ {"type":"text","text":"{{initials}}","w":34,"h":34,"radius":17,"bg":"$dim","size":12,"weight":"heavy","color":"#FFFFFF","show":{"field":"stage","below":3}},
+ {"type":"icon","name":"check","w":34,"h":34,"radius":17,"bg":"$a","color":"$ink","show":{"field":"stage","above":2}}]}},
+"lock":{"type":"column","h":160,"bg":"#0B3B33","pad":[20,22,20,22],"items":[
+ {"type":"row","items":[
+  {"type":"text","text":"PAYMENT IN PROGRESS","size":11,"weight":"heavy","tracking":0.06,"color":"#5EF2C6"},
+  {"type":"spacer"},
+  {"type":"text","text":"about {{eta}}","size":12,"weight":"bold","color":"#FFFFFF"}]},
+ {"type":"spacer"},
+ {"type":"row","align":"baseline","spacing":10,"items":[
+  {"type":"text","text":"{{amount}}","size":46,"weight":"heavy","tracking":-0.04,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"to {{name}}","size":16,"weight":"bold","color":"#C3EFE3"}]},
+ {"type":"spacer"},
+ {"type":"use","ref":"steps","colors":{"a":"#5EF2C6","ink":"#0B3B33","dot":"#2E7D6E","dim":"#17594E"}}]},
+"island":{
+ "leading":{"type":"row","align":"baseline","spacing":8,"items":[
+  {"type":"text","text":"{{amount}}","size":34,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#FFFFFF"},
+  {"type":"text","text":"to {{name}}","size":14,"weight":"semibold","color":"#FFFFFF"}]},
+ "trailing":{"type":"text","runs":[{"text":"about ","color":"#A1A1A8"},{"text":"{{eta}}","color":"#FFFFFF","weight":"semibold"}],"size":12},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"use","ref":"steps","colors":{"a":"#5EF2C6","ink":"#000000","dot":"#48484A","dim":"#2C2C2E"}},
+  {"type":"row","items":[
+   {"type":"text","text":"Sent","size":12,"color":"#A1A1A8"},
+   {"type":"spacer"},
+   {"type":"text","text":"With the bank","size":12,"weight":"semibold","color":"#FFFFFF"},
+   {"type":"spacer"},
+   {"type":"text","text":"Received","size":12,"color":"#A1A1A8"}]}]},
+ "compact_leading":{"type":"icon","name":"bank","color":"#5EF2C6"},
+ "compact_trailing":{"type":"text","text":"{{amount}}","size":14,"weight":"bold","mono":true,"color":"#5EF2C6"},
+ "minimal":{"type":"icon","name":"bank","color":"#5EF2C6"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#0B3B33","items":[
+ {"type":"icon","name":"bank","w":34,"h":34,"radius":17,"border":{"color":"#5EF2C6","width":3},"color":"#5EF2C6"},
+ {"type":"column","align":"leading","items":[
+  {"type":"text","text":"To {{name}}","size":12,"weight":"bold","color":"#5EF2C6"},
+  {"type":"text","text":"{{amount}}","size":24,"weight":"heavy","mono":true,"color":"#FFFFFF"}]}]},
+"promoted":{"title":"{{amount}} to {{name}}","text":"With the bank · about {{eta}}","chip":"{{eta}}",
+ "progress":{"type":"progress","value":"done","points":[0.5],"color":"#5EF2C6"}}},
+"state":{"title":"Payment to Asha","amount":"₹12,400","name":"Asha","eta":"2 min","initials":"AS","stage":2,"done":0.5}}

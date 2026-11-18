@@ -1,0 +1,41 @@
+{"name":"Falling price","canvas":"FallingPrice.dc.html",
+"fields":[{"name":"price","kind":"text","max":10},{"name":"was","kind":"text","max":10},{"name":"step","kind":"text","max":8},{"name":"drops","kind":"time"},{"name":"left","kind":"number"},{"name":"floor","kind":"text","max":10},{"name":"gone","kind":"number"},{"name":"at","kind":"number"}],
+"layout":{
+"lock":{"type":"layer","h":160,"bg":"#30D158","items":[
+ {"type":"chart","at":"bottom_trailing","offset":[-22,-22],"w":120,"h":96,"kind":"bar","values":[28,25,22,19,16,13,10,7],"min":0,"color":"#0B4D22","rest":"#00000026","split":"gone","highlight":"at","highlight_color":"#FFFFFF","gap":4,"round":true},
+ {"type":"column","at":"top_leading","h":160,"pad":[20,22,20,22],"items":[
+  {"type":"text","text":"Price right now","upper":true,"size":11,"weight":"heavy","tracking":0.06,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"text","text":"{{price}}","size":50,"weight":"heavy","tracking":-0.03,"mono":true,"color":"#000000"},
+  {"type":"spacer"},
+  {"type":"row","spacing":4,"items":[
+   {"type":"text","text":"{{was}}","size":13,"weight":"semibold","strike":true,"color":"#00000099"},
+   {"type":"text","text":"· drops {{step}} in","size":13,"weight":"semibold","color":"#000000"},
+   {"type":"timer","field":"drops","mode":"down","size":13,"weight":"heavy","mono":true,"color":"#000000"}]}]}]},
+"island":{
+ "leading":{"type":"column","items":[
+  {"type":"text","text":"Price right now","size":12,"color":"#A1A1A8"},
+  {"type":"row","spacing":8,"align":"baseline","items":[
+   {"type":"text","text":"{{price}}","size":30,"weight":"bold","mono":true,"color":"#FFFFFF"},
+   {"type":"text","text":"{{was}}","size":13,"strike":true,"mono":true,"color":"#A1A1A8"}]}]},
+ "trailing":{"type":"column","align":"trailing","items":[
+  {"type":"text","text":"Drops {{step}} in","size":12,"color":"#A1A1A8"},
+  {"type":"timer","field":"drops","mode":"down","size":22,"weight":"bold","mono":true,"color":"#30D158"}]},
+ "center":{"type":"spacer"},
+ "bottom":{"type":"column","spacing":12,"items":[
+  {"type":"chart","h":28,"kind":"bar","values":[28,25,22,19,16,13,10,7],"min":0,"color":"#1F7A3A","rest":"#3A3A3C","split":"gone","highlight":"at","highlight_color":"#FFFFFF","gap":4},
+  {"type":"row","items":[
+   {"type":"text","runs":[{"text":"{{left}} left","color":"#FFFFFF","weight":"semibold"},{"text":" · wait or grab it","color":"#A1A1A8"}],"size":12},
+   {"type":"spacer"},
+   {"type":"text","text":"Lowest it goes: {{floor}}","size":12,"color":"#A1A1A8"}]}]},
+ "compact_leading":{"type":"icon","name":"trend_down","color":"#30D158"},
+ "compact_trailing":{"type":"text","text":"{{price}}","size":14,"weight":"semibold","mono":true,"color":"#30D158"},
+ "minimal":{"type":"icon","name":"trend_down","color":"#30D158"}},
+"small":{"type":"row","spacing":8,"pad":10,"bg":"#30D158","items":[
+ {"type":"icon","name":"trend_down","color":"#000000","size":"l"},
+ {"type":"column","items":[
+  {"type":"text","text":"{{left}} left · was {{was}}","size":12,"weight":"bold","color":"#000000"},
+  {"type":"text","text":"{{price}}","size":24,"weight":"heavy","mono":true,"color":"#000000"}]}]},
+"promoted":{"title":"{{price}} now, was {{was}}","text":"Drops {{step}} soon · {{left}} left · lowest {{floor}}","chip":"{{price}}",
+ "timer":{"type":"timer","field":"drops","mode":"down"}}},
+"state":{"title":"Falling price: running shoes","price":"₹1,840","was":"₹2,080","step":"₹60","drops":"2026-11-18T20:00:42+05:30","left":3,"floor":"₹1,660","gone":0.5,"at":4}}
