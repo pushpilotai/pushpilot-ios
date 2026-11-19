@@ -6,6 +6,7 @@ import UserNotifications
 /// Buttons for each SDK call, so the integration can be tried by hand.
 struct ContentView: View {
     @State private var userId = "user-1"
+    @State private var inAppName = "checkout"
     @State private var status = ""
     @State private var sdk: PushPilotStatus?
 
@@ -56,6 +57,15 @@ struct ContentView: View {
                     Button("Forget this device", role: .destructive) {
                         PushPilot.forget()
                         status = "Device forgotten"
+                    }
+                }
+                Section("In-app") {
+                    // Shows a cached message whose trigger is this showInApp name; messages are fetched on foreground.
+                    TextField("showInApp name", text: $inAppName)
+                        .disableAutocorrection(true)
+                        .textInputAutocapitalization(.never)
+                    Button("Show in-app") {
+                        status = PushPilot.showInApp(inAppName) ? "In-app message shown" : "No eligible in-app message cached"
                     }
                 }
                 Section("Debug") {
