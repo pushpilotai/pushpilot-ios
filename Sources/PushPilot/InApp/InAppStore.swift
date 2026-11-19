@@ -66,6 +66,8 @@ struct InAppStore {
         guard let url = parts.url else { return nil }
         var request = URLRequest(url: url, timeoutInterval: 30)
         request.setValue(sdkKey, forHTTPHeaderField: "X-SDK-Key")
+        // An ephemeral session still caches in memory; without this a running app keeps its first answer.
+        request.cachePolicy = .reloadIgnoringLocalCacheData
         guard let (data, response) = await load(request) else { return nil }
         guard response.statusCode == 200 else {
             log.error("In-app fetch failed with HTTP \(response.statusCode)")
