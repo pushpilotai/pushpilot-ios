@@ -2,7 +2,7 @@
 # Extension ships through Swift Package Manager. Flutter's CocoaPods route depends on this pod.
 Pod::Spec.new do |s|
   s.name             = 'PushPilot'
-  s.version          = '2.1.1'
+  s.version          = '2.2.0'
   s.summary          = 'Registers an iOS app installation with PushPilot and handles its pushes and taps.'
   s.description      = 'Forwards the APNs device token to PushPilot, records taps on PushPilot pushes and opens their links. No Firebase.'
   s.homepage         = 'https://github.com/pushpilotai/pushpilot-ios'

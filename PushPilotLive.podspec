@@ -2,7 +2,7 @@
 # Widget Extension. The PushPilot pod depends on it, so `import PushPilotLive` works with either package manager.
 Pod::Spec.new do |s|
   s.name             = 'PushPilotLive'
-  s.version          = '2.1.1'
+  s.version          = '2.2.0'
   s.summary          = 'PushPilot live activities: ActivityKit attributes, layout renderer and the default widget.'
   s.description      = 'Draws PushPilot live activities started by push in a Widget Extension, on the Lock Screen and in the Dynamic Island.'
   s.homepage         = 'https://github.com/pushpilotai/pushpilot-ios'

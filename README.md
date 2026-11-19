@@ -4,6 +4,7 @@ Swift package that registers your app's installation with PushPilot and forwards
 
 - iOS 15 or later, Swift Package Manager, no third-party dependencies.
 - Never asks for notification permission, never registers for remote notifications on its own, never swizzles methods, collects no IDFA, IDFV or hardware identifier.
+- In-app messages (2.2.0): HTML messages from the dashboard, shown over your app on foreground or at `showInApp("<name>")`.
 - Two libraries: `PushPilot` for your app, and `PushPilotNotificationService` for an optional Notification Service Extension that shows images and buttons.
 
 ## Install
@@ -11,7 +12,7 @@ Swift package that registers your app's installation with PushPilot and forwards
 In Xcode choose **File › Add Package Dependencies…**, enter `https://github.com/pushpilotai/pushpilot-ios`, add the `PushPilot` library to your app target and, if you want images or buttons, the `PushPilotNotificationService` library to your Notification Service Extension target. In a `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/pushpilotai/pushpilot-ios", from: "2.0.0")
+.package(url: "https://github.com/pushpilotai/pushpilot-ios", from: "2.2.0")
 // app target:
 .product(name: "PushPilot", package: "pushpilot-ios")
 // Notification Service Extension target:
@@ -176,6 +177,31 @@ The SDK watches PushPilot activities while the app runs: it reports the push-to-
 
 **Logs.** The token path logs to the unified log under subsystem `ai.pushpilot.sdk`: "Live activity observed", "Live activity update token received (n bytes)", "Live activity update token sent", and "Send failed (live/token: …)" before a retry. None of them includes a token. Read them in Console.app with the device selected.
 
+### In-app messages
+
+From 2.2.0, messages you publish in the dashboard's in-app section show over your app: a modal, full screen, bottom sheet, top banner, slide-up card, carousel or a coach mark pointing at one of your views. Each is an HTML page drawn in a transparent full-screen web view above your app.
+
+1. **Nothing to add for app-open messages.** With `initialize` called, the SDK fetches the messages this installation may see each time the app comes to the foreground (at most once a minute, after the installation's first sync), downloads each page and its images and fonts, and shows the first cached `app_open` message on the next foreground. A message shows only once everything it needs is on the device, so it never waits on the network.
+2. **Named moments.** For a message whose trigger is an in-app call, call `showInApp` with its name where it should appear. It uses the cache only and returns whether a message is now on screen:
+
+   ```swift
+   PushPilot.showInApp("checkout")
+   ```
+
+   It is main-actor only. Nothing shows while another in-app message is on screen, past the message's cap per device, or outside its dates on the device's clock.
+3. **Coach marks.** Name the view a coach mark points at with the same name the message's target uses in the dashboard:
+
+   ```swift
+   PushPilot.markView(composeButton, name: "compose")
+   ```
+
+   The SDK holds the view weakly; a later view with the same name replaces it, and `unmarkView(name:)` forgets it. The coach mark shows only while that view is in a window, visible and wholly on screen; otherwise it waits for a later moment.
+4. **Links.** When the page opens a link (a button's deep link or web link), the message closes and the link goes to your link handler (`setLinkHandler`), exactly like a tapped push's link; without a handler the system opens it. `javascript:`, `data:`, `file:` and `blob:` links are refused.
+
+The web view is locked down: JavaScript runs, but every navigation is cancelled, no new windows open, it keeps no cookies or storage (non-persistent data store), camera, microphone and geolocation are denied, and a content security policy allows only inline scripts and styles, embedded images, fonts and media, and network calls to the origins you allow for the app in the dashboard. On phones with less than 3 GB of memory the SDK picks a message's lighter page when it has one. The page gets the safe-area insets, the Dynamic Island's frame on iPhones that have one, a coach mark's target frame, and the device posture (always `flat` with the window size on iOS for now).
+
+The SDK reports `shown` when a page is on screen, `clicked` with the button id for each button the page tracks, and `dismissed` when a message closes without any tracked button.
+
 ## API
 
 All `PushPilot` methods are static, callable from any thread, and return at once; disk and network work runs on a private background queue.
@@ -194,6 +220,8 @@ All `PushPilot` methods are static, callable from any thread, and return at once
 | `handleNotificationTap(userInfo:actionIdentifier:) -> Bool` | The same, from the notification's `userInfo` and the action identifier. |
 | `setLinkHandler(_:)` | Routes PushPilot links to your closure instead of the system. Pass `nil` to go back to the system. |
 | `handleLiveActivityURL(_:) -> URL?` | For a URL opened by a PushPilot live activity tap: records the click once and returns the activity's own link without PushPilot's marker, or nil when it has none. Any other URL comes back unchanged. |
+| `showInApp(_:) -> Bool` | Main actor. Shows the first eligible cached in-app message whose trigger is this name; returns whether one is now shown. No network call. |
+| `markView(_:name:)`, `unmarkView(name:)` | Main actor. Names a view (held weakly) for coach-mark messages, or forgets it. |
 | `status(_:)` | Calls back on the main queue with a `PushPilotStatus` for a status or debug screen: the installation id, the base URL, the live flags the SDK reports (supported, on, App Group), whether the server accepted a push-to-start token, and the last sync. It holds no token or key. |
 
 `PushPilotServiceExtension` (in `PushPilotNotificationService`) has `didReceive(_:withContentHandler:) -> Bool` and `serviceExtensionTimeWillExpire()`, described above.
@@ -202,7 +230,7 @@ Invalid values (an empty user id, an unsupported attribute type, a bad topic nam
 
 ## What the SDK sends, and when
 
-Every request goes to `POST {baseUrl}/api/sdk/v1/register/`, `/sync/`, `/forget/` or `/events/` over HTTPS, authenticated with your public SDK key in the `X-SDK-Key` header.
+Every request goes to `POST {baseUrl}/api/sdk/v1/register/`, `/sync/`, `/forget/`, `/events/` or `/in-app/events/`, or `GET /in-app/?installation_id=…`, over HTTPS, authenticated with your public SDK key in the `X-SDK-Key` header.
 
 | Field | Value | Source |
 |---|---|---|
@@ -232,6 +260,8 @@ Every request goes to `POST {baseUrl}/api/sdk/v1/register/`, `/sync/`, `/forget/
 | `button_id` | The tapped button's id; absent for a tap on the push itself |
 | `at` | When it happened, RFC 3339 in UTC |
 
+**In-app events** go to `/in-app/events/` the same way, up to 100 per request, each `{"message_id", "installation_id", "type", "button_id", "at"}` with `type` `shown`, `clicked` (with the button id) or `dismissed`. They are queued on disk and retried like push events. The in-app list is fetched with `GET /in-app/` at most once a minute when the app comes to the foreground; the pages and their assets are downloaded from the URLs it names and kept in `Application Support/PushPilot/in-app/`, with this device's shown count per message.
+
 Each live activity's update token goes to `/live/token/` as `{"installation_id", "activity_id", "token"}`, retried like events.
 
 Only taps and live activity starts and removals are tracked. Swiping a push away is not, and delivery is not either (reporting it would need an App Group shared between the app and the extension, which is not done yet). Nothing else is sent: no IDFA, IDFV, hardware identifier, location, email, phone, or other usage. The Notification Service Extension helper sends nothing to PushPilot; it only downloads the image URL in the push and registers the button category on the device.
@@ -255,14 +285,14 @@ Both libraries ship a `PrivacyInfo.xcprivacy` manifest that Xcode merges into yo
 
 - **Identifiers › Device ID**: collected, used for *App Functionality*, linked to the user (when you set an external user id), not used for tracking.
 - **Identifiers › User ID**: collected only if you call `setExternalUserId`; *App Functionality*, linked to the user, not used for tracking.
-- **Usage Data › Product Interaction**: taps on notifications, their buttons and live activities, and whether live activities appeared or were removed; *Analytics*, linked to the user (through the installation), not used for tracking.
+- **Usage Data › Product Interaction**: taps on notifications, their buttons and live activities, whether live activities appeared or were removed, and in-app messages shown, tapped or dismissed; *Analytics*, linked to the user (through the installation), not used for tracking.
 - Anything you put in **custom attributes**: declare it under the matching Apple category yourself, as only your app knows what it contains.
 
 The extension helper collects no data. PushPilot does not track users across apps, so no App Tracking Transparency prompt is needed for it. Neither library uses any of Apple's required-reason APIs (state is a file, not `UserDefaults`).
 
 ## Example app
 
-`Example/PushPilotExample.xcodeproj` is a SwiftUI app with two extensions: a Notification Service Extension and a `LiveActivity` Widget Extension that returns `PushPilotLiveActivityWidget`. The app initialises PushPilot at launch and sets a link handler that logs and opens links. It registers for remote notifications once permission is granted and forwards the device token, taps and opened live activity URLs (`handleLiveActivityURL`). It has buttons for permission, set user id, set topics, logout and forget.
+`Example/PushPilotExample.xcodeproj` is a SwiftUI app with two extensions: a Notification Service Extension and a `LiveActivity` Widget Extension that returns `PushPilotLiveActivityWidget`. The app initialises PushPilot at launch and sets a link handler that logs and opens links. It registers for remote notifications once permission is granted and forwards the device token, taps and opened live activity URLs (`handleLiveActivityURL`). It has buttons for permission, set user id, set topics, logout and forget, and an **In-app** section whose **Show in-app** button calls `showInApp` with the name typed above it.
 
 Its **Status** section shows what a tester needs, from `PushPilot.status`: the server, the installation id, whether Live Activities are supported and on, whether a push-to-start token was reported, the App Group (or "none") and the last sync. The app targets iOS 15 and the widget iOS 16.1. Live activities started by push need iOS 17.2.
 
