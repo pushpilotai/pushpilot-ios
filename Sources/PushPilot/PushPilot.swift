@@ -153,6 +153,14 @@ public enum PushPilot {
         queue.async { linkHandler = handler }
     }
 
+    /// Hands a link from an in-app message to the app's link handler, or to the system when none is set, on the main thread.
+    static func openLink(_ url: URL) {
+        queue.async {
+            let open = linkHandler ?? systemOpen
+            DispatchQueue.main.async { open(url) }
+        }
+    }
+
     /// Uses `given` from now on: starts the engine, or points an engine started from the saved values at it.
     private static func configure(_ given: SavedConfig) {
         config = given
@@ -169,6 +177,9 @@ public enum PushPilot {
                 queue.async { start(); engine?.requestSync() }
             }
         }
+        #endif
+        #if canImport(UIKit) && canImport(WebKit)
+        Task { @MainActor in InAppController.shared.start() }
         #endif
         start()
     }
