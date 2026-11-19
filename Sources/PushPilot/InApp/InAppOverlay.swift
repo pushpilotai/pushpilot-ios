@@ -144,11 +144,15 @@ final class InAppOverlay: NSObject, WKNavigationDelegate, WKScriptMessageHandler
         onEvent(event)
     }
 
-    /// The page failed to load; nothing was shown.
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) { close() }
+    /// The page failed to load; nothing was shown. A failure after it showed (a cancelled link) keeps it open.
+    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        if showing.shownAt == nil { close() }
+    }
 
-    /// The page failed to load; nothing was shown.
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) { close() }
+    /// The page failed to load; nothing was shown. A failure after it showed (a cancelled link) keeps it open.
+    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        if showing.shownAt == nil { close() }
+    }
 
     /// The web content process ended, leaving a blank window; close it.
     func webViewWebContentProcessDidTerminate(_ webView: WKWebView) { close() }
