@@ -66,6 +66,8 @@ struct State: Codable, Equatable {
     var liveTokens: [String: String]?
     /// Start step ids already reported as `live_started`, newest last.
     var liveStarted: [String]?
+    /// In-app message events (IN-APP-SDK.md section 7) not yet accepted by the server, oldest first.
+    var inAppEvents: [[String: JSONValue]]?
 }
 
 /// The sync engine. Not thread-safe: every method runs on the SDK's serial queue.
@@ -201,6 +203,22 @@ final class Engine {
         requestSync()
     }
 
+    /// Queues an in-app `shown`, `clicked` or `dismissed` event; `at` is the moment it happened.
+    /// Not a setter: it does not end the hold after `forget()`.
+    func trackInApp(_ type: String, messageId: String, buttonId: String?, at: Date) {
+        var event: [String: JSONValue] = [
+            "message_id": .string(messageId),
+            "installation_id": .string(installationId),
+            "type": .string(type),
+            // Fractional seconds, so two showings in one second stay two showings on the server.
+            "at": .string(InAppDates.format(at)),
+        ]
+        if let buttonId { event["button_id"] = .string(buttonId) }
+        state.inAppEvents = Array(((state.inAppEvents ?? []) + [event]).suffix(Self.maxQueuedEvents))
+        save()
+        requestSync()
+    }
+
     /// Adds one event to the queue on disk and asks for a send.
     private func queueEvent(_ type: String, notificationId: String, buttonId: String?) {
         var event: [String: JSONValue] = [
@@ -278,6 +296,15 @@ final class Engine {
             // Accepted or rejected (4xx), the batch is done; 429, 5xx and network errors retry it.
             return post("events", ["events": .array(batch.map(JSONValue.object))]) { [self] _ in
                 state.events?.removeAll { batch.contains($0) }
+                save()
+                flush()
+            }
+        }
+        if let events = state.inAppEvents, !events.isEmpty {
+            let batch = Array(events.prefix(Self.eventsPerRequest))
+            // Same rules as push events: done when accepted or rejected, the same batch again after a failure.
+            return post("in-app/events", ["events": .array(batch.map(JSONValue.object))]) { [self] _ in
+                state.inAppEvents?.removeAll { batch.contains($0) }
                 save()
                 flush()
             }
